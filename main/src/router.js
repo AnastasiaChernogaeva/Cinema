@@ -17,16 +17,16 @@ const router = createRouter({
     history: createWebHistory(),
     routes:[
         {path:"/admin", component:TheAdmin, children:[
-            {path:"/login", component:LoginAdmin},
-            {path:"/adding", component:AddingNew},
-            {path:"/allInfo", component:AllInfo},
+            {path:"login", component:LoginAdmin},
+            {path:"adding", component:AddingNew},
+            {path:"allInfo", component:AllInfo},
 
 
 
         ]},
 
         {path:"/cinema", component:TheClientsView, alias:'/', children:[
-            {path:"/main", component:Main, alias:'/',},
+            {path:"main", component:Main, alias:'/',},
         ],},
         {path:"/:notFound(.*)", component:TheNotFound,},
 
