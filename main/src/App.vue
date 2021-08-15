@@ -1,10 +1,14 @@
 <template>
 
-  <keep-alive>
+  <!-- <keep-alive>
       <component :is="showThePage">
 
       </component>
-  </keep-alive>
+  </keep-alive> -->
+
+  <!-- <the-not-found></the-not-found> -->
+
+  <router-view>  </router-view>
       
 </template>
 
@@ -16,13 +20,13 @@ import TheClientsView from './tabs/Clients_Interface/components/TheClientsView.v
 
 
 export default {
-      setup(){
-        const showThePage = ref(null)
-        showThePage = "/"
-        return{
-          showThePage
-        }
-      },
+      // setup(){
+      //   const showThePage = ref(null)
+      //   showThePage = "/"
+      //   return{
+      //     showThePage
+      //   }
+      // },
       components:{
         TheAdmin,
         TheClientsView,
