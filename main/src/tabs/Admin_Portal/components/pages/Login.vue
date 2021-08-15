@@ -1,7 +1,7 @@
 <template>
     <div>  
         <h1>Войти в аккаунт</h1>
-        <form @submit.prevent="submitHandler">
+        <!-- <form @submit.prevent="submitHandler">
             <div>
                 <label for="login">Логин</label>
                 <input
@@ -12,6 +12,8 @@
                 >
                 <small v-if="errors.login">{{errors.login}}</small>
 
+                <br/>
+
                 <label for="password">Пароль</label>
                 <input
                     type="password"
@@ -20,6 +22,25 @@
                     v-model.trim="password"
                 >
                 <small v-if="errors.password">{{errors.password}}</small>
+                <br/>
+            </div> -->
+
+                    <form >
+            <div>
+                <label for="login">Логин</label>
+                <input
+                    type="text"
+                    id="login"
+                    placeholder="Введите логин"
+                >
+                <br/>
+
+                <label for="password">Пароль</label>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Введите пароль"
+                >
             </div>
 
             <button>Войти</button>
