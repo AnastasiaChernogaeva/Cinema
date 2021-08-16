@@ -1,33 +1,36 @@
 <template>
-    <form class="card" @submit.prevent="authentification" >  
+    <form class="card" @submit.prevent="onSubmit" >  
         <h1>Войдите в система</h1>
-        <div class='form-control'>
+        <div :class="['form-control', {'invalid':eError},]">
                 <label for="Email">Email</label>
                 <input
                     type="email"
                     id="email"
                     placeholder="Введите почту"
-                    v-model.trim="email"
+                    v-model="email"
+                    @blur="eBlur"
                 >
-                <!-- <small v-if="errors.login">{{errors.login}}</small> -->
+                <small v-if="eError">{{eError}}</small>
         </div>
-        <div class='form-control'>
+        <div :class="['form-control', {'invalid':pError},]">
                 <label for="password">Пароль</label>
                 <input
                     type="password"
                     id="password"
                     placeholder="Введите пароль"
-                    v-model.trim="password"
+                    v-model="password"
+                    @blur="pBlur"
                 >
-                <!-- <small v-if="errors.password">{{errors.password}}</small> -->
+                <small v-if="pError">{{pError}}</small>
                 <br/>
 
          </div>
 
          
 
-            <button class="btn primary" type="submit" >Войти</button>
-         
+            <button class="btn primary" type="submit" :disabled="isSubmitting || tooManyAttemptsAmount" >Войти</button>
+
+            <p class="text-danger" v-if="tooManyAttemptsAmount">Большое количество попыток войти в систему. Попробуйте позже.</p>         
 
         </form> 
            <!-- <button @click="forgottenPassword" class="btn danger">Забыли пароль?</button>     -->
@@ -37,44 +40,19 @@
 </template>
 
 <script>
-import { ref } from "vue";
-import {  useRouter, useRoute} from "vue-router";
-// import { mapActions } from "vuex";
+import {  useLoginForm} from "../use/login-form";
+
 
 export default {
     setup() {
+        return {...useLoginForm()}
 
-        const router = useRouter()
-        const route = useRoute()
-        // const store = useStore()
-
-        const login = ref('')
-        const password = ref('')
-
-    //   const authentification = mapActions('TheAdminModule',['authentification'])
-
-        // const authentification = () => store.dispatch('authentification')
-
-         const authentification = () => console.log('authentification')
-  
-
-
-        const forgottenPassword = () => router.push(route.value+'forgottenPassword')
-
-                // const forgottenPassword = () => console.log(route.value)
-
-        return {
-            // currentRoute: computed(()=> route.value),
-            login,
-            password,
-            authentification,
-            forgottenPassword,
-        }
     }
     
 
 }
 </script>
+
 
 <style>
 

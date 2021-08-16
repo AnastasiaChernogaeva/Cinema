@@ -1,5 +1,5 @@
 import  {createRouter, createWebHistory,} from "vue-router";
-import { useStore } from "vuex";
+import store from "../store";
 import TheNotFound from "../components_for_total/TheNotFound";
 
 //админская часть
@@ -22,11 +22,10 @@ const router = createRouter({
     routes:[
         {   path:"/admin",
             component:TheAdmin, 
-            alias:'',
             children:[
               
 
-                {   path:"main_admin", 
+                {   path:"", 
                     component:MainAdmin, 
                     children:[
                         { 
@@ -40,6 +39,7 @@ const router = createRouter({
                     ],
                     meta:{
                         layout:'main-admin',
+                        authAdmin:true,
                     },
                 },
 
@@ -52,12 +52,13 @@ const router = createRouter({
                             component:Auth, 
                             alias:'',
                         },
-                        {
-                            path:"/forgottenPassword", component:ForgottenPassword,
-                        },
+                        // {
+                        //     path:"/forgottenPassword", component:ForgottenPassword,
+                        // },
                     ],
                     meta:{
                         layout:'login',
+                        authAdmin:false,
                     },
                 },
 
@@ -83,18 +84,23 @@ const router = createRouter({
     linkExactActiveClass:'active',
 });
 
-// router.beforeEach((to, from, next)=>{
-//     // const store = useStore()
-//     if(to.matched.some(record => record.meta.layout==='mainAd')){
-//         if(!this.$store.auth){
-//             next('/admin/login')
-//         }else{
-//             next()
-//         }
-//     }
-//     else{
-//         next()
-//     }
-// })
+router.beforeEach((to, from, next)=>{
+    if(/^\/admin/.test(to.path)){
+        const requireAuthAdmin = to.meta.authAdmin
+        if(requireAuthAdmin && store.getters['authAdmin/isAuthenticated']){
+            next()
+        }else if(requireAuthAdmin && !store.getters['authAdmin/isAuthenticated'])
+        {
+            next('/admin/login?message=login')
+
+        } else{
+            next()
+        }    
+    }else{
+        next()
+    }
+    
+   
+})
 
 export default router;

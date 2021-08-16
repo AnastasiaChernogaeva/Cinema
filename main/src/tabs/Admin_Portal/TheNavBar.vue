@@ -12,15 +12,27 @@
                 <router-link to="/login">Выйти</router-link>
             </li> -->
              <li>
-                <router-link to="#">Выйти</router-link>
+                <router-link to="#" @click.prevent="logout">Выйти</router-link>
             </li>
         </ul>
     </nav>
 </template>
 
 <script>
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 export default {
+    setup(){
+        const router = useRouter()
+        const store = useStore()
 
+        return{
+            logout:() =>{
+                store.commit('authAdmin/logout')
+                router.push('/admin/login')
+            }
+        }
+    }
 }
 </script>
 

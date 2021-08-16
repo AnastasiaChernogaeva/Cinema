@@ -1,11 +1,21 @@
-import { createStore } from "vuex";
-import AdminModule from "./modules/TheAdminModule";
-import ClientsModule from "./modules/TheClientsModule";
+import { createStore, createLogger } from "vuex";
+import adminModule from "./modules/Admin/TheAdminModule";
+import clientsModule from "./modules/Client/TheClientsModule";
+import authAdmin from "./modules/Admin/auth.module";
+
+// const plugins = []
+
+// if(ProcessingInstruction.env.NODE_ENV === 'development'){
+//     plugins.push(createLogger())
+// }
+
 
 const store = createStore({
 
     modules:{
-        AdminModule,ClientsModule,
+        adminModule,
+        clientsModule,
+        authAdmin,
     },
 
     // state(){
