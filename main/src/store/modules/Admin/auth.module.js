@@ -19,7 +19,21 @@ export default{
     },
     actions:{
         async login({commit}, payload){
-            commit('setToken', "TEST TOKEN")
+            // console.log(payload);//payload - это тело, которое мы должны отправить на сервер
+            // commit('setToken', "TEST TOKEN")
+
+            console.log(payload, process.env.VUE_APP_FB_KEY);
+               
+
+    //  const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]`,{
+    //     method:'POST',
+    //     headers:{
+    //       'Content-Type':'application/json',
+    //     },
+    //     body:JSON.stringify({
+    //       firstName:this.name,
+    //     })
+    //   })
         },
 
     },

@@ -3,11 +3,11 @@ import adminModule from "./modules/Admin/TheAdminModule";
 import clientsModule from "./modules/Client/TheClientsModule";
 import authAdmin from "./modules/Admin/auth.module";
 
-// const plugins = []
+const plugins = []
 
-// if(ProcessingInstruction.env.NODE_ENV === 'development'){
-//     plugins.push(createLogger())
-// }
+if(process.env.NODE_ENV === 'development'){
+    plugins.push(createLogger())
+}
 
 
 const store = createStore({
