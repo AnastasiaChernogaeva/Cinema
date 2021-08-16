@@ -2,17 +2,25 @@ export default{
     
     state(){
         return{
+            auth:true,
+            // auth:false,
             isStarted:false,
         }
     },
     mutations:{
-        ideas(state){
-            state.isStarted=true
-        }
+
+    },
+    action:{
+        authentification(state, payload){
+           setTimeout(()=>{
+               state.auth=true
+               console.log("LogIn")
+        }, 500) 
+        },
 
     },
     getters:{
-        val(state){
+        fn(state){
             return state.isStarted
         }
     },
