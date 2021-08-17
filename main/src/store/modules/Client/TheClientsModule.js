@@ -1,5 +1,5 @@
 export default{
-    
+    namespaced:true,
     state(){
         return{
             isStarted:false,

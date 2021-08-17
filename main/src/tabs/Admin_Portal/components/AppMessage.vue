@@ -18,10 +18,13 @@ export default {
     setup(){
         const store = useStore()
 
-        const message =  computed(()=> store.state.message)
-        const closeMessage = store.commit('adminModule/clearMessage')
+        const message =  computed(()=> store.getters['admin/message'])
+        const closeMessage = store.commit('admin/clearMessage')
 
-        return{message, closeMessage}
+        return{
+            message, 
+            closeMessage,
+            }
     }
 }
 </script>

@@ -13,20 +13,20 @@ export default{
             state.message = null
         }
     },
-    action:{
-        setMess({commit}, message){
-            commit('setMessage', message)
-            setTimeout(()=>{
-                commit('clearMessage')
-            }
-            ,5000)
+    actions:{
+        setMess(state, message){
+            state.commit('setMessage', message)
+            // setTimeout(()=>{
+            //     state.commit('clearMessage')
+            // }
+            // ,5000)
         },
 
     },
     getters:{
-        fn(state){
-            return state.isStarted
-        }
+        message(state){
+            return state.message
+        },
     },
 
 }

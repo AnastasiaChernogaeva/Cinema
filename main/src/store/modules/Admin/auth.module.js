@@ -1,4 +1,5 @@
 import axios from "axios";
+import store from "../..";
 import {error} from "../../../tabs/Admin_Portal/utils/error";
 
 const TOKEN_KEY = 'jwt-token'
@@ -36,12 +37,17 @@ export default{
                 //     body:JSON.stringify(payload)
                 // })
 
+                // const data = await response.json()
+
                 // if(response.ok){
-                //             const data = await response.json()
                 //             console.log(data)
+                //             commit('setToken', data.idToken)
                 // }
                 // else{
-                //     console.log('Error:', response)
+                //     const err = data.error.message
+                //     console.log('Error:', err)
+                //        dispatch('admin/setMess',{value:error(err), type:'danger',}, {root:true,});
+                //     throw new Error()
                 //     }
 
                 try{
@@ -49,11 +55,9 @@ export default{
                 // console.log(data.idToken)
                 commit('setToken', data.idToken)
                 } catch(e){
-                    console.log(error(e.response.data.error.message));
-                    dispatch('adminModule/setMess',{
-                        value:error(e.response.data.error.message),
-                        type:'danger',
-                    }, {root:true,})
+                    // console.log(store._modules.root._children.admin.action.setMess)
+                    dispatch('admin/setMess',{value:error(e.response.data.error.message), type:'danger',}, {root:true,})
+                    // console.log(error(e.response.data.error.message));
                     throw new Error()
                 }
         },
