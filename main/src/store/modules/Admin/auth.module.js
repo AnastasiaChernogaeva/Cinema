@@ -1,3 +1,6 @@
+import axios from "axios";
+import {error} from "../../../tabs/Admin_Portal/utils/error";
+
 const TOKEN_KEY = 'jwt-token'
 
 export default{
@@ -24,20 +27,30 @@ export default{
 
             // console.log(payload, process.env.VUE_APP_FB_KEY);
                
-        try{
-     const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.VUE_APP_FB_KEY}`,{
-        method:'POST',
-        headers:{
-          'Content-Type':'application/json',
-        },
-        body:JSON.stringify(payload)
-      })
-      const data = await response.json()
-    //   console.log(data)
-    }
-    catch(e){
-        console.log('Error:', e.message)
-    }
+                
+                // const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.VUE_APP_FB_KEY}`,{
+                //     method:'POST',
+                //     headers:{
+                //     'Content-Type':'application/json',
+                //     },
+                //     body:JSON.stringify(payload)
+                // })
+
+                // if(response.ok){
+                //             const data = await response.json()
+                //             console.log(data)
+                // }
+                // else{
+                //     console.log('Error:', response)
+                //     }
+
+                try{
+                const {data} = await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.VUE_APP_FB_KEY}`, {...payload, returnSecureToken:true,})
+                // console.log(data.idToken)
+                commit('setToken', data.idToken)
+                } catch(e){
+                    console.log(error(e.response.data.error.message));
+                }
         },
 
     },
