@@ -1,21 +1,25 @@
 export default{
-    
+    namespaced:true,
     state(){
         return{
-            auth:true,
-            // auth:false,
-            isStarted:false,
+            message:null,
         }
     },
     mutations:{
-
+        setMessage(state, message){
+            state.message = message
+        },
+        clearMessage(state){
+            state.message = null
+        }
     },
     action:{
-        authentification(state, payload){
-           setTimeout(()=>{
-               state.auth=true
-               console.log("LogIn")
-        }, 500) 
+        setMess({commit}, message){
+            commit('setMessage', message)
+            setTimeout(()=>{
+                commit('clearMessage')
+            }
+            ,5000)
         },
 
     },

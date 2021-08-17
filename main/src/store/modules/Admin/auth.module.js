@@ -21,7 +21,7 @@ export default{
         },
     },
     actions:{
-        async login({commit}, payload){
+        async login({commit, dispatch,}, payload){
             // console.log(payload);//payload - это тело, которое мы должны отправить на сервер
             // commit('setToken', "TEST TOKEN")
 
@@ -50,6 +50,11 @@ export default{
                 commit('setToken', data.idToken)
                 } catch(e){
                     console.log(error(e.response.data.error.message));
+                    dispatch('adminModule/setMess',{
+                        value:error(e.response.data.error.message),
+                        type:'danger',
+                    }, {root:true,})
+                    throw new Error()
                 }
         },
 

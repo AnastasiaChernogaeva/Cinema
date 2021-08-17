@@ -13,9 +13,9 @@ if(process.env.NODE_ENV === 'development'){
 const store = createStore({
 
     modules:{
-        adminModule,
-        clientsModule,
-        authAdmin,
+        adminModule:adminModule,
+        clientsModule:clientsModule,
+        authAdmin:authAdmin,
     },
 
     // state(){

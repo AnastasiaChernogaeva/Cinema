@@ -67,7 +67,7 @@ const router = createRouter({
 
         {   path:"/cinema",
             component:TheClientsView, 
-            alias:'/', 
+            alias:'', 
             children:[
                 {   path:"main", 
                     component:Main, 

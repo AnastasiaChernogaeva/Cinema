@@ -23,12 +23,14 @@ export function useLoginForm(){
             .required('Это обязательное поле! Пожалуйста, введите пароль.')
             .min(passwordMinLength, `Пароль не может быть меньше ${passwordMinLength} символ`))
 
-        const tooManyAttemptsAmount = computed(()=> submitCount.value>=3)
+        const tooManyAttemptsAmount = computed(()=> submitCount.value>=4)
 
         const onSubmit = handleSubmit(async (values) =>{
-           console.log(values)
-           await  store.dispatch('authAdmin/login', values)
-           router.push('/admin')
+        //    console.log(values)
+            try{
+                await  store.dispatch('authAdmin/login', values)
+                router.push('/admin')
+            } catch(error){}
         })
 
         watch(tooManyAttemptsAmount, valAtt=>{
