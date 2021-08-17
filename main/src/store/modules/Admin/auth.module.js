@@ -57,7 +57,9 @@ export default{
                 commit('admin/clearMessage', null, {root:true,})
                 } catch(e){
                     // console.log(store._modules.root._children.admin.action.setMess)
-                    dispatch('admin/setMess',{value:error(e.response.data.error.message), type:'danger',}, {root:true,})
+                    const resER = error(e.response.data.error.message)
+                    const body_D = {value:resER, type:'danger',}
+                    dispatch('admin/setMess', body_D , {root:true,})
                     // console.log(error(e.response.data.error.message));
                     throw new Error()
                 }

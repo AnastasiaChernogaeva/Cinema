@@ -51,7 +51,9 @@ export default {
         const route = useRoute()
         const store = useStore()
         if(route.query.message){
-            store.dispatch('admin/setMess', { value:error(route.query.message), type:'warning',}, {root:true,})
+            const resER = error(route.query.message)
+            const body_D = { value:resER, type:'warning',}
+            store.dispatch('admin/setMess', body_D, {root:true,})
         }
 
         return {...useLoginForm()}

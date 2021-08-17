@@ -1,17 +1,17 @@
 <template>
         
     <div class="container">
-        <app-message/>
+        <err-message ></err-message>
         <router-view></router-view>
     </div>
     
 </template>
 
 <script>
-import AppMessage from "../components/AppMessage.vue";
+import ErrMessage from "../ErrMessage.vue";
 export default {
     components:{
-        AppMessage,
+        ErrMessage,
     },
 
 }

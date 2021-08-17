@@ -1,6 +1,5 @@
 <template>
   <div :class="['alert', message.type,]" v-if="message">
-      <!-- <pre>{{message}}</pre> -->
       <p class="alert-title">
          {{title}}
       </p>
@@ -9,6 +8,7 @@
           &times;
       </span>
   </div>
+
 </template>
 
 <script>
