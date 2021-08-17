@@ -54,6 +54,7 @@ export default{
                 const {data} = await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.VUE_APP_FB_KEY}`, {...payload, returnSecureToken:true,})
                 // console.log(data.idToken)
                 commit('setToken', data.idToken)
+                commit('admin/clearMessage', null, {root:true,})
                 } catch(e){
                     // console.log(store._modules.root._children.admin.action.setMess)
                     dispatch('admin/setMess',{value:error(e.response.data.error.message), type:'danger',}, {root:true,})

@@ -1,9 +1,10 @@
 <template>
-
+        
     <div class="container">
         <app-message/>
         <router-view></router-view>
     </div>
+    
 </template>
 
 <script>

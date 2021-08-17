@@ -23,7 +23,7 @@ export function useLoginForm(){
             .required('Это обязательное поле! Пожалуйста, введите пароль.')
             .min(passwordMinLength, `Пароль не может быть меньше ${passwordMinLength} символ`))
 
-        const tooManyAttemptsAmount = computed(()=> submitCount.value>=4)
+        const tooManyAttemptsAmount = computed(()=> submitCount.value>=6)
 
         const onSubmit = handleSubmit(async (values) =>{
         //    console.log(values)

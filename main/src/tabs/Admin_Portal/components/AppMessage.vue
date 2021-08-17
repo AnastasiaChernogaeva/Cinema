@@ -23,7 +23,6 @@ export default {
             warning: 'Внимание!'
         }
         const message =  computed(()=> store.getters['admin/message'])
-        // const closeMessage = store.commit('admin/clearMessage')
         const title = computed(()=>message.value?TITLE_MAP[message.value.type]:null)
 
         return{
