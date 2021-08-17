@@ -2,7 +2,9 @@
 
     <div class="with-nav">
         <the-nav-bar></the-nav-bar>
-        <router-view/>
+        <!-- <main-page></main-page> -->
+        
+        <router-view></router-view>
     </div>
   
   
@@ -10,9 +12,11 @@
 
 <script>
 import TheNavBar from "../TheNavBar.vue";
+import MainPage from "../pages/MainPage.vue";
 export default {
         components:{
                 TheNavBar,
+                MainPage,
 
         }
 }

@@ -29,7 +29,7 @@ const router = createRouter({
             children:[
               
 
-                {   path:"", 
+                {   path:"",
                     component:MainAdmin, 
                     children:[
                         { 

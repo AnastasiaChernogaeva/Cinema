@@ -1,5 +1,7 @@
 <template>
-  
+  <div class="card">
+      Cinemas
+  </div>
 </template>
 
 <script>

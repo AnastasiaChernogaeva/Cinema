@@ -47,7 +47,7 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import {  useLoginForm} from "../use/login-form";
 import {error} from '../utils/error'
-import ErrMessage from "../ErrMessage.vue";
+import ErrMessage from "../ui/ErrMessage.vue";
 
 
 export default {
