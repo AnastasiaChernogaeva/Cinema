@@ -1,5 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
+
+    .portal small {
+        box-shadow: none;
+        padding: -5.8em;
+        z-index: 27;
+        width: 150px;
+        position: absolute;
+        left: 14%;
+        top: 3%;
+        background: transparent;
+    }
+
 * {
     box-sizing: border-box;
 }

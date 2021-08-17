@@ -6,14 +6,18 @@ import TheNotFound from "../components_for_total/TheNotFound";
 const TheAdmin = () => import ('../tabs/Admin_Portal/TheAdmin');
 const LoginAdmin = () => import ('../tabs/Admin_Portal/layout/Login');
 const MainAdmin = () => import ('../tabs/Admin_Portal/layout/Main');
-const ForgottenPassword = () => import ('../tabs/Admin_Portal/components/ForgottenPassword');
 const Auth = () => import ('../tabs/Admin_Portal/pages/Auth');
 const AddingNew = () => import ('../tabs/Admin_Portal/components/Adding');
-const AllInfo = () => import ('../tabs/Admin_Portal/components/All_Info');
+const Films = () => import ('../tabs/Admin_Portal/components/Films');
+const Cinemas = () => import ('../tabs/Admin_Portal/components/Cinemas');
+const Sessions = () => import ('../tabs/Admin_Portal/components/Sessions');
+const AdditionalServices = () => import ('../tabs/Admin_Portal/components/AdditionalServices');
 
 //клиентская часть
 const TheClientsView = () => import ('../tabs/Clients_Interface/components/TheClientsView');
 const Main = () => import ('../tabs/Clients_Interface/components/pages/Main');
+const ForgottenPassword = () => import ('../tabs/Clients_Interface/components/ForgottenPassword');
+
 
 
 
@@ -33,8 +37,20 @@ const router = createRouter({
                             component:AddingNew,
                         },
                         {
-                            path:"allInfo",
-                            component:AllInfo,
+                            path:"films",
+                            component:Films,
+                        },
+                        {
+                            path:"cinemas",
+                            component:Cinemas,
+                        },
+                        {
+                            path:"sessions",
+                            component:Sessions,
+                        },
+                        {
+                            path:"add_services",
+                            component:AdditionalServices,
                         },
                     ],
                     meta:{
@@ -52,9 +68,6 @@ const router = createRouter({
                             component:Auth, 
                             alias:'',
                         },
-                        // {
-                        //     path:"/forgottenPassword", component:ForgottenPassword,
-                        // },
                     ],
                     meta:{
                         layout:'login',
@@ -73,6 +86,9 @@ const router = createRouter({
                     component:Main, 
                     alias:'/',
                 },
+            // {
+                 //     path:"/forgottenPassword", component:ForgottenPassword,
+            // },
             ],
         },
 

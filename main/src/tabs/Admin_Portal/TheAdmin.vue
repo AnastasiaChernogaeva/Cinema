@@ -1,6 +1,6 @@
 <template>
-        <div class="card">
-        <h1>Админский портал </h1>
+        <div class="card portal">
+        <small>Админский портал </small>
         <component :is="layout" v-if="layout"></component>
         </div>
 </template>

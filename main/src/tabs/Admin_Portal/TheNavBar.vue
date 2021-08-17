@@ -3,16 +3,22 @@
         <h3>Movie Time</h3>
         <ul class="navbar-menu">
             <li>
-                <router-link to="/admin/allInfo">Все фильмы</router-link>
+                <router-link to="/admin/films">Фильмы</router-link>
+            </li>
+            <li>
+                <router-link to="/admin/cinemas">Кинотеатры</router-link>
+            </li>
+            <li>
+                <router-link to="/admin/sessions">Сеансы</router-link>
+            </li>
+            <li>
+                <router-link to="/admin/add_services">Дополнительные услуги</router-link>
             </li>
              <li>
                 <router-link to="/admin/adding">Добавить</router-link>
             </li>
-             <!-- <li>
-                <router-link to="/login">Выйти</router-link>
-            </li> -->
              <li>
-                <router-link to="#" @click.prevent="logout">Выйти</router-link>
+                <a href="#" @click.prevent="logout">Выйти</a>
             </li>
         </ul>
     </nav>
