@@ -1,10 +1,10 @@
 <template>
-  <div :class="['alert',  'danger',]">
-      <pre>{{message}}</pre>
+  <div :class="['alert', message.type,]" v-if="message">
+      <!-- <pre>{{message}}</pre> -->
       <p class="alert-title">
-          Title
+         {{title}}
       </p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem numquam blanditiis illum dolore beatae eum officiis laboriosam, eos incidunt ipsam in et nisi aperiam nam, repellendus at, impedit distinctio similique.</p>
+      <p>{{message.value}}</p>
       <span class="alert-close" @click="closeMessage">
           &times;
       </span>
@@ -17,13 +17,19 @@ import { useStore } from 'vuex'
 export default {
     setup(){
         const store = useStore()
-
+        const TITLE_MAP = {
+            primary: 'Успешно!',
+            danger: 'Ошибка!',
+            warning: 'Внимание!'
+        }
         const message =  computed(()=> store.getters['admin/message'])
-        const closeMessage = store.commit('admin/clearMessage')
+        // const closeMessage = store.commit('admin/clearMessage')
+        const title = computed(()=>message.value?TITLE_MAP[message.value.type]:null)
 
         return{
+            title,
             message, 
-            closeMessage,
+            closeMessage: ()=>store.commit('admin/clearMessage'),
             }
     }
 }

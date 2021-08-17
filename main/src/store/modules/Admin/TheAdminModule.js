@@ -16,10 +16,10 @@ export default{
     actions:{
         setMess(state, message){
             state.commit('setMessage', message)
-            // setTimeout(()=>{
-            //     state.commit('clearMessage')
-            // }
-            // ,5000)
+            setTimeout(()=>{
+                state.commit('clearMessage')
+            }
+            ,5000)
         },
 
     },
