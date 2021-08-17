@@ -1,4 +1,7 @@
 <template>
+    <div>
+    
+    <err-message></err-message>
     <form class="card" @submit.prevent="onSubmit" >  
         <h1>Войдите в система</h1>
         <div :class="['form-control', {'invalid':eError},]">
@@ -35,7 +38,7 @@
         </form> 
            <!-- <button @click="forgottenPassword" class="btn danger">Забыли пароль?</button>     -->
    
-        
+        </div>
 
 </template>
 
@@ -44,9 +47,13 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import {  useLoginForm} from "../use/login-form";
 import {error} from '../utils/error'
+import ErrMessage from "../ErrMessage.vue";
 
 
 export default {
+    components:{
+        ErrMessage,
+    },
     setup() {
         const route = useRoute()
         const store = useStore()
