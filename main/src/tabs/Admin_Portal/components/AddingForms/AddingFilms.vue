@@ -1,5 +1,5 @@
 <template>
-         <form class="card" @submit.prevent=""  >  
+         <form class="card" @submit.prevent="onSubmit"  >  
         <div :class="['form-control', {'invalid':fnError},]"> 
                 <label for="filmName">Название</label>
                 <input
@@ -51,50 +51,20 @@
 
          
 
-            <button class="btn primary" type="submit" :disabled="isSubmitting || tooManyAttemptsAmount" >Добавить</button>      
+            <button class="btn primary" type="submit" :disabled="isSubmitting" >Добавить</button>      
 
         </form> 
 </template>
 <script>
-import { computed, watch } from "vue";
-import * as yup from 'yup';
-import { useField, useForm } from "vee-validate";
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
+import { useFilmsForm } from "../../use/films-forms";
 
 export default {
     setup(){
-        const store = useStore()
-        const router = useRouter()
-        const {handleSubmit, isSubmitting, submitCount} = useForm()
 
-          const {value:filmName, errorMessage:fnError, handleBlur:fnBlur} = useField('filmName',yup
-            .string()
-            .trim()
-            .required('Это обязательное поле! Пожалуйста, введите название фильма.'))
-
-        const {value:filmDescription, errorMessage:descError, handleBlur:descBlur} = useField('filmDescription', yup
-            .string()
-            .trim()
-            .required('Это обязательное поле! Пожалуйста, введите описание фильма.'))
-
-        const {value:startTime, errorMessage:stimeError, handleBlur:stimeBlur} = useField('startTime',yup
-            .string()
-            .trim()
-            .required('Это обязательное поле! Пожалуйста, введите начала показа.'))
-
-        const {value:finishTime, errorMessage:ftimeError, handleBlur:ftimeBlur} = useField('finishTime', yup
-            .string()
-            .trim()
-            .required('Это обязательное поле! Пожалуйста, введите окончание показа.'))
-
-
-            return{
-                finishTime, ftimeError, ftimeBlur,
-                startTime, stimeError, stimeBlur,
-                filmDescription, descError, descBlur,
-                filmName, fnError, fnBlur,
-            }
+        return{
+            ...useFilmsForm()
+        }
+    
     }
 
 }

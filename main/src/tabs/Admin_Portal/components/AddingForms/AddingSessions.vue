@@ -1,6 +1,6 @@
 
 <template>
-         <form class="card" @submit.prevent=""  > 
+         <form class="card" @submit.prevent="onSubmit"  > 
 
 
 
@@ -78,16 +78,18 @@
         <div :class="['form-control', {'invalid':startSessionTimeError},]"> 
                 <label for="startSessionTime">Время начала сеанса</label>
                 <input
+                    min="10:00" max="22:00"
                     type="time"
                     id="startSessionTime"
                     v-model="startSessionTime"
                     @blur="startSessionTimeBlur"
                 >
+                <small class >Учтите время работы кинотеатра( рабочие часы: 10:00 - 24:00 )</small>
                 <small v-if="startSessionTimeError">{{startSessionTimeError}}</small>
   </div>
 
   
-        <div :class="['form-control', {'invalid':finishSessionTimeError},]"> 
+        <!-- <div :class="['form-control', {'invalid':finishSessionTimeError},]"> 
                 <label for="finishSessionTime">Время окончания сеанса</label>
                 <input
                     type="time"
@@ -96,64 +98,24 @@
                     @blur="finishSessionTimeBlur"
                 >
                 <small v-if="finishSessionTimeBlur">{{finishSessionTimeBlur}}</small>
-  </div>
+  </div> -->
 
   
 
          
 
-            <button class="btn primary" type="submit" :disabled="isSubmitting || tooManyAttemptsAmount" >Добавить</button>      
+            <button class="btn primary" type="submit" :disabled="isSubmitting" >Добавить</button>      
 
         </form> 
 </template>
 <script>
-import { computed, watch } from "vue";
-import * as yup from 'yup';
-import { useField, useForm } from "vee-validate";
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
+import { useSessionsForm} from "../../use/sessions-forms";
 
 export default {
     setup(){
-        const store = useStore()
-        const router = useRouter()
-        const {handleSubmit, isSubmitting, submitCount} = useForm()
-
-          const {value:chosenCinemaName,} = useField('chosenCinemaName',yup.string()
-          )
-          const {value:cityName,} = useField('cityName',yup.string()
-          )
-
-         const {value:sessionFilmName,} = useField('sessionFilmName',yup.string()
-          )
-
-         const {value:chosenAddServices,} = useField('chosenAddServices',yup.string()
-          )
-        const {value:hallnumber,} = useField('hallnumber',yup.string()
-          )
-          
-        const {value:places,} = useField('places',yup.string()
-          )
-        const {value:startSessionTime, errorMessage:startSessionTimeError, handleBlur:startSessionTimeBlur} = useField('startSessionTime', yup
-            .string()
-            .trim()
-            .required('Это обязательное поле! Пожалуйста, введите время начала сеанса.'))
-
-        
-        const {value:finishSessionTime, errorMessage:finishSessionTimeError, handleBlur:finishSessionTimBlur} = useField('startSessionTime', yup
-            .string()
-            .trim()
-            .required('Это обязательное поле! Пожалуйста, введите время окончания сеанса.'))
-
-      
-
-
-            return{
-                chosenCinemaName,
-                cityName, sessionFilmName, chosenAddServices,
-                hallnumber, places, finishSessionTime,
-                startSessionTime, startSessionTimeBlur, startSessionTimeError, finishSessionTimeError,finishSessionTimBlur,
-            }
+     return{
+        ...useSessionsForm()
+     }
     }
 
 }

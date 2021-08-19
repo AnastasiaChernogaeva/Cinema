@@ -34,7 +34,7 @@
                 <small v-if="hallamountError">{{hallamountError}}</small>
   </div>
 
-          <!-- <div :class="['form-control', {'invalid':ftimeError},]"> 
+          <div :class="['form-control',]" v-if="hallamount > 0"> 
                 <label for="finishTime">План зала(ов)</label>
                 <input
                     type="date"
@@ -43,7 +43,7 @@
                     @blur="ftimeBlur"
                 >
                 <small v-if="ftimeError">{{ftimeError}}</small>
-      </div> -->
+      </div>
 
   
 
@@ -66,7 +66,7 @@ export default {
     setup(){
         const store = useStore()
         const router = useRouter()
-        const {handleSubmit, isSubmitting, submitCount} = useForm()
+        const {handleSubmit, isSubmitting, } = useForm()
 
           const {value:city, errorMessage:cityError, handleBlur:cityBlur} = useField('city',yup
             .string()
@@ -81,7 +81,9 @@ export default {
         const {value:hallamount, errorMessage:hallamountError, handleBlur:hallamountBlur} = useField('hallamount',yup
             .string()
             .trim()
-            .required('Это обязательное поле! Пожалуйста, введите количество залов.'))
+            .required('Это обязательное поле! Пожалуйста, введите количество залов.')
+            .min(0,'Введите количество залов')
+            )
 
             // Добавить план залов(количество рядов, мест, виды мест и т.д.)
 

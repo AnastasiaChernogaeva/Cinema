@@ -1,5 +1,5 @@
 <template>
-      <form class="card" @submit.prevent=""  >  
+      <form class="card" @submit.prevent="onSubmit"  >  
         <div :class="['form-control', {'invalid':asError},]"> 
                 <label for="addServices">Название</label>
                 <input
@@ -16,7 +16,7 @@
 
   
   <div :class="['form-control', {'invalid':priceError},]"> 
-                <label for="addServicesPrice">Цена</label>
+                <label for="addServicesPrice">Цена в бел.рублях</label>
                 <input
                     type="number"
                     id="addServicesPrice"
@@ -32,42 +32,20 @@
 
          
 
-            <button class="btn primary" type="submit" :disabled="isSubmitting || tooManyAttemptsAmount" >Добавить</button>      
+            <button class="btn primary" type="submit" :disabled="isSubmitting" >Добавить</button>      
 
         </form> 
 </template>
 
 <script>
-import { computed, watch } from "vue";
-import * as yup from 'yup';
-import { useField, useForm } from "vee-validate";
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
+import { useServicesForm } from "../../use/services-forms";
 
 export default {
     setup(){
-        const store = useStore()
-        const router = useRouter()
-        const {handleSubmit, isSubmitting, submitCount} = useForm()
-
-          const {value:addServices, errorMessage:asError, handleBlur:asBlur} = useField('addServices',yup
-            .string()
-            .trim()
-            .required('Это обязательное поле! Пожалуйста, введите название услуги.'))
-
-        const {value:addServicesPrice, errorMessage:priceError, handleBlur:priceBlur} = useField('addServicesPrice', yup
-            .string()
-            .trim()
-            .required('Это обязательное поле! Пожалуйста, введите цену.'))
 
 
             return{
-                addServicesPrice,
-                priceError,
-                priceBlur,
-                addServices,
-                asError,
-                asBlur,
+                ...useServicesForm()    
             }
     }
 
