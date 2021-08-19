@@ -1,8 +1,11 @@
 <template>
+<div class="container">
         <div class="card portal">
-        <small>Админский портал </small>
-        <component :is="layout" v-if="layout"></component>
+        <small class="admin">Админский портал </small>
         </div>
+        
+        <component :is="layout" v-if="layout"></component>
+</div>
 </template>
 
 <script>

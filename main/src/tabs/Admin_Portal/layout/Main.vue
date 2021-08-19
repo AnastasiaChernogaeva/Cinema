@@ -1,27 +1,48 @@
 <template>
 
-    <div class="with-nav">
-        <the-nav-bar></the-nav-bar>
-        <!-- <main-page></main-page> -->
-        
-        <router-view></router-view>
-    </div>
+   <div class="with-nav">
+        <the-nav-bar></the-nav-bar> 
+        <router-view></router-view> 
+  </div>
   
   
 </template>
 
-<script>
+<script> 
+
 import TheNavBar from "../TheNavBar.vue";
-import MainPage from "../pages/MainPage.vue";
 export default {
         components:{
-                TheNavBar,
-                MainPage,
+                TheNavBar, 
 
-        }
+        },
+//          setup(){
+//       const route = useRoute()
+//       const SUBTITLES_MAP = {
+//           films:'Фильмы',
+//           cinemas:'Кинотеатры',
+//           sessions:'Сеансы',
+//           add_services:'Дополнительные услуги',
+//           adding:'Добавить',
+
+//       }
+      
+//       const subtitleWeNeed = computed(()=> {
+//           let englishName = route.path.split('/')[route.path.split('/').length-1]
+//            return (englishName!=='admin'|| '')?SUBTITLES_MAP[englishName]:'Фильмы'
+//           }) 
+
+
+
+//         //   console.log(subtitleWeNeed)
+
+// //    console.log(route.path.split('/')[route.path.split('/').length-1]);
+
+//       return{
+//         //   giveSubtitle:computed(()=> route.path.split('/')[route.path.split('/').length-1]) ,
+//         subtitleWeNeed,
+//       }
+
+//   },
 }
 </script>
-
-<style>
-
-</style>

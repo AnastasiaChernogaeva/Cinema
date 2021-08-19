@@ -31,7 +31,12 @@ export default {
            return (englishName!=='admin'|| '')?SUBTITLES_MAP[englishName]:'Фильмы'
           }) 
 
+          console.log(subtitleWeNeed)
+
+//    console.log(route.path.split('/')[route.path.split('/').length-1]);
+
       return{
+        //   giveSubtitle:computed(()=> route.path.split('/')[route.path.split('/').length-1]) ,
         subtitleWeNeed,
       }
 
