@@ -33,10 +33,10 @@ const router = createRouter({
                 {   path:"",
                     component:MainPage, 
                     children:[
-                                { 
-                                    path:"adding", 
-                                    component:AddingNew,
-                                },
+                                // { 
+                                //     path:"adding", 
+                                //     component:AddingNew,
+                                // },
                                 {
                                     path:"films",
                                     component:Films,
@@ -51,7 +51,8 @@ const router = createRouter({
                                     component:Sessions,
                                 },
                                 {
-                                    path:"add_services",
+                                    // path:"add_services",
+                                    path:"services",
                                     component:AdditionalServices,
                                 },
                     ],

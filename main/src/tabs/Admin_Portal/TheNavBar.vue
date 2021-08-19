@@ -12,11 +12,11 @@
                 <router-link to="/admin/sessions">Сеансы</router-link>
             </li>
             <li>
-                <router-link to="/admin/add_services">Дополнительные услуги</router-link>
+                <router-link to="/admin/services">Дополнительные услуги</router-link>
             </li>
-             <li>
+             <!-- <li>
                 <router-link to="/admin/adding">Добавить</router-link>
-            </li>
+            </li> -->
              <li>
                 <a href="#" @click.prevent="logout">Выйти</a>
             </li>
