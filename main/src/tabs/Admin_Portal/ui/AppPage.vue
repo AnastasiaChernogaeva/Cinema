@@ -1,17 +1,20 @@
 <template>
     <div class="container">
-        <div class="card">
+         <div class="card">
         <h1 class="card-title">
            {{subtitle}}
+           <router-link to="/admin/adding" v-if="$route.path!='/admin/adding'">
+               <button class="btn primary">Добавить</button>
+           </router-link>
         </h1>
-        </div>
-        <!-- <router-view></router-view> -->
-        <slot/>
+         </div>
+            <div class="card">
+             <slot/>
+            </div>
      </div>
  </template>
 
 <script> 
- import { computed } from "vue";
 
  export default {
      props:{
@@ -22,7 +25,6 @@
      },
 
      setup(props){
-         console.log(props.subtitle);
          document.title = `${props.subtitle} | Админский портал`
      }
  }

@@ -1,21 +1,23 @@
 <template>
    <app-page :subtitle="subtitleWeNeed">
-        
-         <router-view></router-view> 
+         <router-view :films="[]"></router-view> 
         
    </app-page> 
   
 </template>
 
  <script> 
-import AppPage from "../ui/AppPage.vue";
 import { useRoute } from "vue-router";
-import { computed } from "vue";
+import { computed,} from "vue";
+import AppPage from "../ui/AppPage.vue";
+
 export default {
   components:{
       AppPage,
   },
   setup(){
+
+
       const route = useRoute()
       const SUBTITLES_MAP = {
           films:'Фильмы',

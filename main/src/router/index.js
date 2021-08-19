@@ -16,7 +16,7 @@ const AdditionalServices = () => import ('../tabs/Admin_Portal/components/Additi
 
 //клиентская часть
 const TheClientsView = () => import ('../tabs/Clients_Interface/components/TheClientsView');
-const Main = () => import ('../tabs/Clients_Interface/components/pages/Main');
+const Main = () => import ('../tabs/Clients_Interface/pages/Main');
 const ForgottenPassword = () => import ('../tabs/Clients_Interface/components/ForgottenPassword');
 
 

@@ -1,15 +1,32 @@
 <template>
-<div class="container">
-     <div class="card">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem accusantium reiciendis rerum neque quod, numquam laboriosam ipsum eveniet sint itaque nobis tempora earum qui expedita fugit sequi autem unde recusandae.
-  </div>
-</div>
-
+  <h4 v-if="films.length === 0" class="text-center">Фильмов пока нет</h4>
+    <table v-else class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Название</th>
+          <th>Описание</th>
+          <th>Начало показа</th>
+          <th>Окончание показа</th>
+          <th>Статус</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
 </template>
 
 <script>
-
 export default {
+  props:['films']
 }
 </script>
 
