@@ -24,7 +24,7 @@
 
   
   <div :class="['form-control', {'invalid':stimeError},]"> 
-                <label for="startTime">Описание</label>
+                <label for="startTime">Начало показа</label>
                 <input
                     type="date"
                     id="startTime"
@@ -35,7 +35,7 @@
   </div>
 
           <div :class="['form-control', {'invalid':ftimeError},]"> 
-                <label for="finishTime">Название</label>
+                <label for="finishTime">Окончание показа</label>
                 <input
                     type="date"
                     id="finishTime"
