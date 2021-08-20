@@ -183,6 +183,10 @@ h3 {
     border-color: #e53935;
 }
 
+.form-control.invalid textarea {
+    border-color: #e53935;
+}
+
 .form-checkbox {
     margin-bottom: 1rem;
 }
@@ -204,7 +208,9 @@ h3 {
 }
 
 .form-control input:active,
-.form-control input:focus {
+.form-control input:focus,
+.form-control textarea:active,
+.form-control textarea:focus {
     transition: border 0.22s;
     border: 2px solid #42b983;
 }

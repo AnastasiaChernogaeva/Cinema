@@ -28,7 +28,7 @@
                 <input
                     type="number"
                     id="hallamount"
-                    v-model="hallamount"
+                    v-model.number="hallamount"
                     @blur="hallamountBlur"
                 >
                 <small v-if="hallamountError">{{hallamountError}}</small>
@@ -59,9 +59,15 @@
 import { useCinemasForms } from "../../use/cinemas-forms";
 
 export default {
-    setup(){
+    emits:['added'],
+    setup( _, {emit},){
+        const submit = async values =>{
+            emit('added')
+            console.log(values);
+            
+        }
         return{
-            ...useCinemasForms()
+            ...useCinemasForms(submit)
         }
        
     }

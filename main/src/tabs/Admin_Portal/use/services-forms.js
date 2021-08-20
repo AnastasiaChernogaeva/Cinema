@@ -4,7 +4,7 @@ import { useField, useForm } from "vee-validate";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
-export function useServicesForms(){
+export function useServicesForms(func){
 
     const store = useStore()
     const router = useRouter()
@@ -26,13 +26,7 @@ export function useServicesForms(){
           )
         )
 
-        const onSubmit = handleSubmit(async (values) =>{
-               console.log(values)
-                // try{
-                //     await  store.dispatch('authAdmin/login', values)
-                //     router.push('/admin')
-                // } catch(error){}
-            })
+        const onSubmit = handleSubmit(func)
 
 
         return{
@@ -43,6 +37,7 @@ export function useServicesForms(){
             asError,
             asBlur,
             onSubmit,
+            isSubmitting
         }
 
 };

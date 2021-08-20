@@ -5,11 +5,11 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
 
-export function useFilmsForms(){
+export function useFilmsForms(func){
 
     const store = useStore()
     const router = useRouter()
-    const {handleSubmit, isSubmitting, submitCount} = useForm()
+    const {handleSubmit, isSubmitting} = useForm()
 
       const {value:filmName, errorMessage:fnError, handleBlur:fnBlur} = useField('filmName',yup
         .string()
@@ -31,14 +31,13 @@ export function useFilmsForms(){
         .trim()
         .required('Это обязательное поле! Пожалуйста, введите окончание показа.'))
 
+    const {value:movieposter, errorMessage:mpError, handleBlur:mpBlur} = useField('movieposter', yup
+        .string()
+        .trim()
+        .required('Это обязательное поле! Пожалуйста, введите url картинки.'))
+
         
-        const onSubmit = handleSubmit(async (values) =>{
-            console.log(values)
-             // try{
-             //     await  store.dispatch('authAdmin/login', values)
-             //     router.push('/admin')
-             // } catch(error){}
-         })
+        const onSubmit = handleSubmit(func)
 
 
         return{
@@ -46,7 +45,8 @@ export function useFilmsForms(){
             startTime, stimeError, stimeBlur,
             filmDescription, descError, descBlur,
             filmName, fnError, fnBlur,
-            onSubmit,
+            movieposter, mpError, mpBlur,
+            onSubmit,isSubmitting
         }
 
 };

@@ -1,9 +1,6 @@
 
 <template>
          <form class="card" @submit.prevent="onSubmit"  > 
-
-
-
         <div :class="['form-control', ]"> 
                 <label for="cityName">Город</label>
                 <select  id="cityName" v-model="cityName">
@@ -44,8 +41,8 @@
       <div :class="['form-control', ]"> 
                 <label for="hallnumber">Номер зала</label>
                 <select  id="hallnumber" v-model="hallnumber">
-                  <option value="wlf">Wolf</option>
-                  <option value="msk">Москва</option>
+                  <option value=1>1</option>
+                  <option value=2>2</option>
                        <!-- <option v-for="film of films" value="film.value" >{{film.name}}</option> -->
                 </select>
 
@@ -71,27 +68,27 @@
 
       </div> --> 
 
-<div class="form-checkbox">
+<!-- <div class="form-checkbox">
 
-  <span class="label">Дополнительные услуги</span>
+  <span class="label">Дополнительные услуги</span> -->
 
    <!-- <div class="checkbox" v-for>
     <label><input type="checkbox" name="skills" v-model="skills" value="Vuex"/> pop-corn</label>
   </div> -->
-
+<!-- 
   <div class="checkbox">
-    <label><input type="checkbox" name="chosenAddServices" v-model="chosenAddServices" value="Vuex"/> pop-corn</label>
+    <label><input type="checkbox" name="AddServices" v-model="chosenAddServices" value="Vuex"/> pop-corn</label>
   </div>
 
   <div class="checkbox">
-    <label><input type="checkbox" name="chosenAddServices" v-model="chosenAddServices" value="vue CLI"/> coca</label>
+    <label><input type="checkbox" name="AddServices" v-model="chosenAddServices" value="vue CLI"/> coca</label>
   </div>
 
   <div class="checkbox">
-    <label><input type="checkbox" name="chosenAddServices" v-model="chosenAddServices" value="Vue router"/> sprite</label>
+    <label><input type="checkbox" name="AddServices" v-model="chosenAddServices" value="Vue router"/> sprite</label>
   </div>
 
-</div>
+</div> -->
 
 
 
@@ -121,21 +118,25 @@
   </div> -->
 
   
-
-         
-
-            <button class="btn primary" type="submit" :disabled="isSubmitting" >Добавить</button>      
+  <button class="btn primary" type="submit" :disabled="isSubmitting" >Добавить</button>      
 
         </form> 
 </template>
 <script>
-import { useSessionsForms} from "../../use/sessions-forms";
+import { useSessionsForms } from "../../use/sessions-forms";
 
 export default {
-    setup(){
-     return{
-        ...useSessionsForms()
-     }
+    emits:['added'],
+    setup( _, {emit},){
+        const submit = async values =>{
+            emit('added')
+            console.log(values);
+        }
+
+        return{
+            ...useSessionsForms(submit)
+        }
+    
     }
 
 }

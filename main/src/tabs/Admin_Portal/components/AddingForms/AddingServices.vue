@@ -20,7 +20,7 @@
                 <input
                     type="number"
                     id="addServicesPrice"
-                    v-model="addServicesPrice"
+                    v-model.number="addServicesPrice"
                     @blur="priceBlur"
                 >
                 
@@ -41,11 +41,15 @@
 import { useServicesForms } from "../../use/services-forms";
 
 export default {
-    setup(){
-
-
+    emits:['added'],
+    setup( _, {emit},){
+        const submit = async values =>{
+            emit('added')
+            console.log(values);
+            
+        }
             return{
-                ...useServicesForms()    
+                ...useServicesForms(submit)    
             }
     }
 

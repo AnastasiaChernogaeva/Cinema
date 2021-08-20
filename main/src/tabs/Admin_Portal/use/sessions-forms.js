@@ -5,10 +5,15 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
 
-export function useSessionsForms(){
+export function useSessionsForms(func){
 
     const store = useStore()
     const router = useRouter()
+    // const {handleSubmit, isSubmitting, } = useForm({
+    //   initialErrors:{
+
+    //   }
+    // })
     const {handleSubmit, isSubmitting, } = useForm()
 
       const {value:chosenCinemaName,} = useField('chosenCinemaName',yup.string()
@@ -34,6 +39,7 @@ export function useSessionsForms(){
         // .max("22:00",'Последний сеанс может начаться не позже 22:00')
         )
       const chosenAddServices = []
+      console.log(chosenAddServices);
 
     
     // const {value:finishSessionTime, errorMessage:finishSessionTimeError, handleBlur:finishSessionTimBlur} = useField('startSessionTime', yup
@@ -44,20 +50,16 @@ export function useSessionsForms(){
     //     .max("00:00",'Последний сеанс может заканчиваться до 00:00')
     //     )
 
-        const onSubmit = handleSubmit(async (values) =>{
-            console.log(values)
-             // try{
-             //     await  store.dispatch('authAdmin/login', values)
-             //     router.push('/admin')
-             // } catch(error){}
-         })
+        const onSubmit = handleSubmit(func)
 
 
         return{
             chosenCinemaName,
-            cityName, sessionFilmName, chosenAddServices,
-            hallnumber, places, onSubmit,
+            cityName, sessionFilmName,
+            // chosenAddServices,
+            hallnumber, places, onSubmit,isSubmitting,
             startSessionTime, startSessionTimeBlur, startSessionTimeError, 
+            
             // finishSessionTimBlur,finishSessionTime,finishSessionTimeError,
         }
 };

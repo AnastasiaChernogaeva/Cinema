@@ -45,6 +45,17 @@
                 <small v-if="ftimeError">{{ftimeError}}</small>
       </div>
 
+  <div :class="['form-control', {'invalid':mpError},]"> 
+                <label for="movieposter">Афиша</label>
+                <input
+                    type="text"
+                    id="movieposter"
+                    v-model="movieposter"
+                    @blur="mpBlur"
+                >
+                <small v-if="mpError">{{mpError}}</small>
+  </div>
+
   
 
 
@@ -59,10 +70,16 @@
 import { useFilmsForms } from "../../use/films-forms";
 
 export default {
-    setup(){
+    emits:['added'],
+    setup( _, {emit},){
+        const submit = async values =>{
+            emit('added')
+            console.log(values);
+            
+        }
 
         return{
-            ...useFilmsForms()
+            ...useFilmsForms(submit)
         }
     
     }

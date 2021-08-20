@@ -5,7 +5,7 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
 
-export function useCinemasForms(){
+export function useCinemasForms(func){
 
     const store = useStore()
     const router = useRouter()
@@ -36,19 +36,13 @@ export function useCinemasForms(){
     //     .required('Это обязательное поле! Пожалуйста, введите окончание показа.'))
 
 
-    const onSubmit = handleSubmit(async (values) =>{
-        console.log(values)
-         // try{
-         //     await  store.dispatch('authAdmin/login', values)
-         //     router.push('/admin')
-         // } catch(error){}
-     })
+    const onSubmit = handleSubmit(func)
 
 
         return{
             city, cityError, cityBlur,
             cinemaName, cinemaError, cinemaBlur,
-            hallamount, hallamountError, hallamountBlur, onSubmit,
+            hallamount, hallamountError, hallamountBlur, onSubmit,isSubmitting
             // filmName, fnError, fnBlur,
         }
 

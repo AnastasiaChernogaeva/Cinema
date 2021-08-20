@@ -10,7 +10,9 @@
         
 
         <app-modal v-if="modal" @close="modal = false" >
-               <slot name="insidecontent"/>
+               <!-- <slot name="insidecontent"/> -->
+
+             <component :is="'adding-'+shareName" @click.stop @added="modal = false"></component>
            
         </app-modal>
 
@@ -18,10 +20,14 @@
  </template>
 
 <script> 
-import {ref} from "vue";
+import {ref, computed,} from "vue";
+import { useRoute } from "vue-router";
 import AppModal from "../ui/AppModal.vue"
 
-
+import AddingServices from "../components/AddingForms/AddingServices"
+import AddingSessions from "../components/AddingForms/AddingSessions"
+import AddingCinemas from "../components/AddingForms/AddingCinemas"
+import AddingFilms from "../components/AddingForms/AddingFilms"
 
  export default {
      props:{
@@ -32,13 +38,21 @@ import AppModal from "../ui/AppModal.vue"
      },
      components:{
          AppModal,
+      AddingServices,
+      AddingFilms,
+      AddingCinemas,
+      AddingSessions,
      },
      setup(props){
          document.title = `${props.subtitle} | Админский портал`
-            const modal = ref(false)
+        const modal = ref(false)
+
+      const route = useRoute()
+      const shareName = computed(()=> route.path.split('/')[route.path.split('/').length-1])
+
 
         return{
-            modal,
+            modal, shareName,
         }
 
      }
