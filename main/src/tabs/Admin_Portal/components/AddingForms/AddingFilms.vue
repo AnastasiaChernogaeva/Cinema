@@ -13,12 +13,12 @@
 
         <div :class="['form-control', {'invalid':descError},]"> 
                 <label for="filmDescription">Описание</label>
-                <input
+                <textarea
                     type="text"
                     id="filmDescription"
                     v-model="filmDescription"
                     @blur="descBlur"
-                >
+                ></textarea>
                 <small v-if="descError">{{descError}}</small>
   </div>
 
@@ -56,13 +56,13 @@
         </form> 
 </template>
 <script>
-import { useFilmsForm } from "../../use/films-forms";
+import { useFilmsForms } from "../../use/films-forms";
 
 export default {
     setup(){
 
         return{
-            ...useFilmsForm()
+            ...useFilmsForms()
         }
     
     }

@@ -38,14 +38,14 @@
 </template>
 
 <script>
-import { useServicesForm } from "../../use/services-forms";
+import { useServicesForms } from "../../use/services-forms";
 
 export default {
     setup(){
 
 
             return{
-                ...useServicesForm()    
+                ...useServicesForms()    
             }
     }
 

@@ -5,7 +5,7 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
 
-export function useFilmsForm(){
+export function useFilmsForms(){
 
     const store = useStore()
     const router = useRouter()

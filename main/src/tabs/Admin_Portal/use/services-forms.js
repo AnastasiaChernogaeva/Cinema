@@ -4,7 +4,7 @@ import { useField, useForm } from "vee-validate";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
-export function useServicesForm(){
+export function useServicesForms(){
 
     const store = useStore()
     const router = useRouter()

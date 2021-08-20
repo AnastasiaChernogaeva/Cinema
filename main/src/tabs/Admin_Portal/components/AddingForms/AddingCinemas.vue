@@ -1,5 +1,5 @@
 <template>
-         <form class="card" @submit.prevent=""  >  
+         <form class="card" @submit.prevent="onSubmit"  >  
         <div :class="['form-control', {'invalid':cityError},]"> 
                 <label for="filmName">Город</label>
                 <input
@@ -34,18 +34,18 @@
                 <small v-if="hallamountError">{{hallamountError}}</small>
   </div>
 
-          <div :class="['form-control',]" v-if="hallamount > 0"> 
-                <label for="finishTime">План зала(ов)</label>
+<!-- <div  v-if="hallamount > 0">
+          <div :class="['form-control',]" v-for="n in hallamount " > 
+                <label for="`places${n}`">План зала {{n}}</label>
                 <input
-                    type="date"
-                    id="finishTime"
-                    v-model="finishTime"
-                    @blur="ftimeBlur"
+                    type="text"
+                    id="`places${n}`"
+                    v-model="place"
+                    @blur="placesBlur"
                 >
-                <small v-if="ftimeError">{{ftimeError}}</small>
+                <small v-if="placesError">{{placesError}}</small>
       </div>
-
-  
+</div> -->
 
 
 
@@ -56,49 +56,14 @@
         </form> 
 </template>
 <script>
-import { computed, watch } from "vue";
-import * as yup from 'yup';
-import { useField, useForm } from "vee-validate";
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
+import { useCinemasForms } from "../../use/cinemas-forms";
 
 export default {
     setup(){
-        const store = useStore()
-        const router = useRouter()
-        const {handleSubmit, isSubmitting, } = useForm()
-
-          const {value:city, errorMessage:cityError, handleBlur:cityBlur} = useField('city',yup
-            .string()
-            .trim()
-            .required('Это обязательное поле! Пожалуйста, введите название города.'))
-
-        const {value:cinemaName, errorMessage:cinemaError, handleBlur:cinemaBlur} = useField('cinemaName', yup
-            .string()
-            .trim()
-            .required('Это обязательное поле! Пожалуйста, введите название кинотеатра.'))
-
-        const {value:hallamount, errorMessage:hallamountError, handleBlur:hallamountBlur} = useField('hallamount',yup
-            .string()
-            .trim()
-            .required('Это обязательное поле! Пожалуйста, введите количество залов.')
-            .min(0,'Введите количество залов')
-            )
-
-            // Добавить план залов(количество рядов, мест, виды мест и т.д.)
-
-        // const {value:finishTime, errorMessage:ftimeError, handleBlur:ftimeBlur} = useField('finishTime', yup
-        //     .string()
-        //     .trim()
-        //     .required('Это обязательное поле! Пожалуйста, введите окончание показа.'))
-
-
-            return{
-                city, cityError, cityBlur,
-                cinemaName, cinemaError, cinemaBlur,
-                hallamount, hallamountError, hallamountBlur,
-                // filmName, fnError, fnBlur,
-            }
+        return{
+            ...useCinemasForms()
+        }
+       
     }
 
 }

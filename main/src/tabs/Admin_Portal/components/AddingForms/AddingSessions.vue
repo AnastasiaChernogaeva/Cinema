@@ -61,17 +61,37 @@
 
       </div>
 
-            <div :class="['form-control', ]"> 
+            <!-- <div :class="['form-control', ]"> 
                 <label for="chosenAddServices">Дополнительные услуги</label>
                 <select  id="chosenAddServices" v-model="chosenAddServices">
                   <option value="chosenAddServices">chosenAddServices</option>
                   <option value="msk">Москва</option>
-                       <!-- <option v-for="service of services" value="service.value" >{{service.name}}</option> -->
-                </select>
+                       <option v-for="service of services" value="service.value" >{{service.name}}</option> -->
+                <!-- </select>
 
-      </div>
+      </div> --> 
 
+<div class="form-checkbox">
 
+  <span class="label">Дополнительные услуги</span>
+
+   <!-- <div class="checkbox" v-for>
+    <label><input type="checkbox" name="skills" v-model="skills" value="Vuex"/> pop-corn</label>
+  </div> -->
+
+  <div class="checkbox">
+    <label><input type="checkbox" name="chosenAddServices" v-model="chosenAddServices" value="Vuex"/> pop-corn</label>
+  </div>
+
+  <div class="checkbox">
+    <label><input type="checkbox" name="chosenAddServices" v-model="chosenAddServices" value="vue CLI"/> coca</label>
+  </div>
+
+  <div class="checkbox">
+    <label><input type="checkbox" name="chosenAddServices" v-model="chosenAddServices" value="Vue router"/> sprite</label>
+  </div>
+
+</div>
 
 
 
@@ -84,7 +104,7 @@
                     v-model="startSessionTime"
                     @blur="startSessionTimeBlur"
                 >
-                <small class >Учтите время работы кинотеатра( рабочие часы: 10:00 - 24:00 )</small>
+                <small style="color:green;" >Учтите время работы кинотеатра( рабочие часы: 10:00 - 24:00 )</small>
                 <small v-if="startSessionTimeError">{{startSessionTimeError}}</small>
   </div>
 
@@ -109,12 +129,12 @@
         </form> 
 </template>
 <script>
-import { useSessionsForm} from "../../use/sessions-forms";
+import { useSessionsForms} from "../../use/sessions-forms";
 
 export default {
     setup(){
      return{
-        ...useSessionsForm()
+        ...useSessionsForms()
      }
     }
 

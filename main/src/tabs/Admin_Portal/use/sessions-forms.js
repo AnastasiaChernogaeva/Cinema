@@ -5,7 +5,7 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
 
-export function useSessionsForm(){
+export function useSessionsForms(){
 
     const store = useStore()
     const router = useRouter()
@@ -19,8 +19,8 @@ export function useSessionsForm(){
      const {value:sessionFilmName,} = useField('sessionFilmName',yup.string()
       )
 
-     const {value:chosenAddServices,} = useField('chosenAddServices',yup.string()
-      )
+    //  const {value:chosenAddServices,} = useField('chosenAddServices',yup.string()
+    //   )
     const {value:hallnumber,} = useField('hallnumber',yup.number()
       )
       
@@ -33,6 +33,7 @@ export function useSessionsForm(){
         // .min("10:00",'Раньше 10 утра кинотеатр не откроется.')
         // .max("22:00",'Последний сеанс может начаться не позже 22:00')
         )
+      const chosenAddServices = []
 
     
     // const {value:finishSessionTime, errorMessage:finishSessionTimeError, handleBlur:finishSessionTimBlur} = useField('startSessionTime', yup
