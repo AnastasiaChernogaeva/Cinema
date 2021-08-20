@@ -56,16 +56,18 @@
         </form> 
 </template>
 <script>
+import { useStore } from 'vuex';
 import { useCinemasForms } from "../../use/cinemas-forms";
 
 export default {
     emits:['added'],
     setup( _, {emit},){
+        const store = useStore()
         const submit = async values =>{
-            emit('added')
+            await store.dispatch('requests/create', {'value':values, 'rType':'cinemas',});
             console.log(values);
-            
-        }
+            emit('added')
+        }  
         return{
             ...useCinemasForms(submit)
         }

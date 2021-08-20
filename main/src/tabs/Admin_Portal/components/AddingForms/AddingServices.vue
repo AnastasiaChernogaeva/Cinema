@@ -38,14 +38,18 @@
 </template>
 
 <script>
+import { useStore } from 'vuex';
 import { useServicesForms } from "../../use/services-forms";
 
 export default {
     emits:['added'],
     setup( _, {emit},){
+        const store = useStore()
         const submit = async values =>{
-            emit('added')
+            await store.dispatch('requests/create',{'value':values, 'rType':'addServices',} );
             console.log(values);
+            emit('added')
+            
             
         }
             return{

@@ -123,22 +123,24 @@
         </form> 
 </template>
 <script>
+import { useStore } from 'vuex';
 import { useSessionsForms } from "../../use/sessions-forms";
 
 export default {
     emits:['added'],
     setup( _, {emit},){
+        const store = useStore()
         const submit = async values =>{
-            emit('added')
+            await store.dispatch('requests/create',{'value':values, 'rType':'sessions',});
             console.log(values);
-        }
+            emit('added')
+        }  
 
         return{
             ...useSessionsForms(submit)
         }
     
     }
-
 }
 </script>
 

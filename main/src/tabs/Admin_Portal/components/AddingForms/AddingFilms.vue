@@ -67,14 +67,19 @@
         </form> 
 </template>
 <script>
+import { useStore } from 'vuex';
 import { useFilmsForms } from "../../use/films-forms";
 
 export default {
     emits:['added'],
     setup( _, {emit},){
+
+        const store = useStore()
         const submit = async values =>{
-            emit('added')
+            await store.dispatch('requests/create', {'value':values, 'rType':'films',});
             console.log(values);
+            emit('added')
+            
             
         }
 
