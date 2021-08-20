@@ -12,6 +12,11 @@
         background: transparent;
     }
 
+    img {
+        width: 250px;
+        height: auto;
+    }
+
 * {
     box-sizing: border-box;
 }

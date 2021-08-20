@@ -3,7 +3,7 @@
     
     <err-message></err-message>
     <form class="card" @submit.prevent="onSubmit" >  
-        <h1>Войдите в система</h1>
+        <h1>Войдите в систему</h1>
         <div :class="['form-control', {'invalid':eError},]">
                 <label for="Email">Email</label>
                 <input

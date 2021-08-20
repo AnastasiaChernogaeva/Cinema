@@ -5,7 +5,10 @@ export default {
     namespaced:true,
     state(){
         return{
-            requests:[]
+            films:[],
+            cinemas:[],
+            sessions:[],
+            addServices:[],
         }
     },
     mutations:{
@@ -13,7 +16,7 @@ export default {
             state.requests = requests
         },
         addRequest(state, request){
-            state.requests.push(request)
+            state[request.rType].push(request.value)
         },
 
     },
@@ -24,7 +27,8 @@ export default {
                 const token = store.getters['authAdmin/token']
                 console.log(token);
                 const {data} = await axios.post(`/${payload.rType}.json?auth=${token}`,payload.value)
-                console.log(payload);
+                console.log(data.name);
+                commit('addRequest',{...payload, id:data.name});
                     const body_D = {value:'Добавление прошло успешно', type:'primary',}
                     dispatch('admin/setMess', body_D , {root:true,})
            }catch(e){
@@ -34,10 +38,19 @@ export default {
         },
         
     },
-    // mutations:{
-    //     add(state, requests){
-    //         state.requests = requests
-    //     },
+    getters:{
+        films(state){
+          return  state.films
+        },
+        cinemas(state){
+            return  state.cinemas
+          },
+        sessions(state){
+            return  state.sessions
+          },
+        addServices(state){
+            return  state.addServices
+          },
         
-    // }
+    }
 }

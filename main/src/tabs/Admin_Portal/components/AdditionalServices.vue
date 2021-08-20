@@ -5,14 +5,14 @@
         <tr>
           <th>#</th>
           <th>Название</th>
-          <th>Цена</th>
+          <th>Цена в бел.рублях</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
+        <tr v-for="(service,idx) in additionalServices" :key="idx">
+          <td>{{idx + 1}}</td>
+          <td>{{service.addServices}}</td>
+          <td>{{service.addServicesPrice}}</td>
         </tr>
       </tbody>
     </table>

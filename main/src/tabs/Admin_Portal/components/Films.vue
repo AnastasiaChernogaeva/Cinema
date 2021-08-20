@@ -8,17 +8,20 @@
           <th>Описание</th>
           <th>Начало показа</th>
           <th>Окончание показа</th>
+          <th>Постер</th>
           <th>Статус</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+        <tr v-for="(film,idx) in films" :key="idx">
+          <td>{{ idx + 1}}</td>
+          <td>{{film.filmName}}</td>
+          <td>{{film.filmDescription}}</td>
+          <td>{{film.startTime.toLocalDateString()}}</td>
+          <td>{{film.finishTime.toLocalDateString()}}</td>
+          <td><img :alt="film.filmName" :src="film.movieposter" ></td>
+          <!-- {{film.movieposter}} -->
+          <!-- <td>{{film.finishTime.getTime()>getTime()?"В прокате":"Показ завершен"}}</td> -->
         </tr>
       </tbody>
     </table>
@@ -26,7 +29,7 @@
 
 <script>
 export default {
-  props:['films']
+  props:['films'],
 }
 </script>
 
