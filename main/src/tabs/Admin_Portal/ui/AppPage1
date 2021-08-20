@@ -20,14 +20,14 @@
  </template>
 
 <script> 
-        import {ref, computed,} from "vue";
-        import { useRoute } from "vue-router";
-        import AppModal from "../ui/AppModal.vue"
+import {ref, computed,} from "vue";
+import { useRoute } from "vue-router";
+import AppModal from "../ui/AppModal.vue"
 
-        import AddingServices from "../components/AddingForms/AddingServices"
-        import AddingSessions from "../components/AddingForms/AddingSessions"
-        import AddingCinemas from "../components/AddingForms/AddingCinemas"
-        import AddingFilms from "../components/AddingForms/AddingFilms"
+import AddingServices from "../components/AddingForms/AddingServices"
+import AddingSessions from "../components/AddingForms/AddingSessions"
+import AddingCinemas from "../components/AddingForms/AddingCinemas"
+import AddingFilms from "../components/AddingForms/AddingFilms"
 
  export default {
      props:{

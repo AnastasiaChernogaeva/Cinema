@@ -36,6 +36,14 @@ export default {
             dispatch('admin/setMess', body_D , {root:true,})
            }
         },
+        async load({commit, dispatch},){
+           try{
+                const token = store.getters['authAdmin/token']
+                const {data} = await axios.get(`/${payload.rType}.json?auth=${token}`)
+                // commit('setRequests',{...payload, id:data.name});
+           }catch(e){
+           }
+        },
         
     },
     getters:{

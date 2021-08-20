@@ -1,5 +1,7 @@
 <template>
-   <app-page :subtitle="subtitleWeNeed">
+    <div class="container">
+    <app-loader v-if="loading"></app-loader>
+   <app-page v-else :subtitle="subtitleWeNeed" >
             <div class="card">
               <router-view :films="films" :additionalServices="addServices" :cinemas="cinemas" :sessions="sessions"></router-view> 
             </div>
@@ -7,16 +9,17 @@
              <component :is="'adding-'+shareName" @click.stop></component>
         </template> -->
    </app-page> 
-  
+  </div>
 </template>
 
  <script> 
 
 import { useStore } from 'vuex';
 import { useRoute } from "vue-router";
-import { computed,} from "vue";
+import { ref, computed, onMounted} from "vue";
 import {subtitles} from '../utils/titles'
 import AppPage from "../ui/AppPage.vue";
+import AppLoader from "../ui/AppLoader.vue";
 // import AddingServices from "../components/AddingForms/AddingServices"
 // import AddingSessions from "../components/AddingForms/AddingSessions"
 // import AddingCinemas from "../components/AddingForms/AddingCinemas"
@@ -25,6 +28,7 @@ import AppPage from "../ui/AppPage.vue";
 export default {
   components:{
       AppPage,
+      AppLoader,
       // AddingServices,
       // AddingFilms,
       // AddingCinemas,
@@ -44,6 +48,14 @@ export default {
       // }
 
       // const shareName = computed(()=> route.path.split('/')[route.path.split('/').length-1])
+
+      const loading = ref(false)
+
+      onMounted(async()=>{
+        loading.value = true
+        await store.dispatch('requests/load')
+        loading.value = false
+      })
       
       const subtitleWeNeed = computed(()=> {
            const englishName = route.path.split('/')[route.path.split('/').length-1]
@@ -61,6 +73,7 @@ export default {
       return{
         subtitleWeNeed,
         films,cinemas,sessions,addServices,
+        loading,
         // shareName,
       }
 

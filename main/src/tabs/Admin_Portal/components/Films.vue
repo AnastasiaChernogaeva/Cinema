@@ -17,11 +17,11 @@
           <td>{{ idx + 1}}</td>
           <td>{{film.filmName}}</td>
           <td>{{film.filmDescription}}</td>
-          <td>{{film.startTime.toLocalDateString()}}</td>
-          <td>{{film.finishTime.toLocalDateString()}}</td>
+          <td>{{film.startTime}}</td>
+          <td>{{film.finishTime}}</td>
           <td><img :alt="film.filmName" :src="film.movieposter" ></td>
           <!-- {{film.movieposter}} -->
-          <!-- <td>{{film.finishTime.getTime()>getTime()?"В прокате":"Показ завершен"}}</td> -->
+          <td>{{Date.parse(film.finishTime)>Date.parse(new Date())?"В прокате":"Показ завершен"}}</td>
         </tr>
       </tbody>
     </table>
