@@ -63,9 +63,12 @@ import { onMounted, onUpdated} from "vue";
       }
 
         onMounted(
-             load()
+             computed(() =>load())
         )
 
+        onUpdated(
+             computed(() =>load())
+        )
 
       
 

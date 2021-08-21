@@ -13,8 +13,6 @@ export default {
     },
     mutations:{
         setRequests(state, requests){
-            console.log(requests.rType)
-            console.log(requests.info)
             state[requests.rType=='services'?'addServices':requests.rType] = requests.info
         },
         addRequest(state, request){
@@ -27,9 +25,7 @@ export default {
            try{
                console.log(store);
                 const token = store.getters['authAdmin/token']
-                console.log(token);
                 const {data} = await axios.post(`/${payload.rType}.json?auth=${token}`,payload.value)
-                console.log(data.name);
                 commit('addRequest',{...payload, id:data.name});
                     const body_D = {value:'Добавление прошло успешно', type:'primary',}
                     dispatch('admin/setMess', body_D , {root:true,})

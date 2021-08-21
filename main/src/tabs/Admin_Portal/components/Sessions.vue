@@ -1,6 +1,7 @@
 <template>
   <h4 v-if="sessions.length === 0" class="text-center">Сеансов пока нет</h4>
-    <table v-else class="table">
+   <div v-else >
+    <table  class="table">
       <thead>
         <tr>
           <th>#</th>
@@ -24,6 +25,9 @@
         </tr>
       </tbody>
     </table>
+        <hr/>
+    <small>Нажмите на сеанс для получения дополнительной информации</small>
+    </div>
 </template>
 
 <script>

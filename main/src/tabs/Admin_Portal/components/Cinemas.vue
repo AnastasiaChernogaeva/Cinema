@@ -1,6 +1,8 @@
 <template>
+
   <h4 v-if="cinemas.length === 0" class="text-center">Кинотеатров пока нет</h4>
-    <table v-else class="table">
+   <div v-else >
+    <table  class="table">
       <thead>
         <tr>
           <th>#</th>
@@ -20,6 +22,9 @@
         </tr>
       </tbody>
     </table>
+    <hr/>
+    <small>Нажмите на кинотеатр для получения дополнительной информации</small>
+    </div>
 </template>
 
 <script>

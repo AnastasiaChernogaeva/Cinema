@@ -13,7 +13,7 @@
     }
 
     img {
-        width: 250px;
+        width: 100px;
         height: auto;
     }
 
@@ -488,6 +488,7 @@ h3 {
 }
 
 .table tbody td {
+    width: 13%;
     text-align: center;
 }
 

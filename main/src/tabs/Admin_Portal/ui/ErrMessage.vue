@@ -25,8 +25,6 @@ export default {
         const message =  computed(()=> store.getters['admin/message'])
         const title = computed(()=>message.value?TITLE_MAP[message.value.type]:null)
 
-        console.log('I was called');
-
         return{
             title,
             message, 
