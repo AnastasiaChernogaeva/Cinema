@@ -1,7 +1,7 @@
 <template>
-    <div class="container">
-    <app-loader v-if="loading"></app-loader>
-   <app-page v-else >
+ <div class="container">
+  <!-- <app-loader v-if="loading"/> -->
+  <app-page>
             <div class="card">
               <router-view :films="films" :additionalServices="addServices" :cinemas="cinemas" :sessions="sessions"></router-view> 
             </div>
@@ -9,7 +9,7 @@
              <component :is="'adding-'+shareName" @click.stop></component>
         </template> -->
    </app-page> 
-  </div>
+</div>
 </template>
 
  <script> 
@@ -17,23 +17,23 @@
 import { useStore } from 'vuex';
 import { ref, computed, onMounted} from "vue";
 import AppPage from "../ui/AppPage.vue";
-import AppLoader from "../ui/AppLoader.vue";
+// import AppLoader from "../ui/AppLoader.vue";
 export default {
   components:{
       AppPage,
-      AppLoader,
+      // AppLoader,
   },
   setup(){
 
       const store = useStore()
 
-      const loading = ref(false)
+      // const loading = ref(false)
 
-      onMounted(async()=>{
-        loading.value = true
-        await store.dispatch('requests/load')
-        loading.value = false
-      })
+      // onMounted(async()=>{
+      //   loading.value = true
+      //   await store.dispatch('requests/load',{rType:''})
+      //   loading.value = false
+      // })
       
 
 
@@ -47,7 +47,7 @@ export default {
 
       return{
         films,cinemas,sessions,addServices,
-        loading,
+        // loading,
       }
 
   },

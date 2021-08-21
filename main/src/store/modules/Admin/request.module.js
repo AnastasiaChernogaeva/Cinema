@@ -13,7 +13,9 @@ export default {
     },
     mutations:{
         setRequests(state, requests){
-            state.requests = requests
+            console.log(requests.rType)
+            console.log(requests.info)
+            state[requests.rType=='services'?'addServices':requests.rType] = requests.info
         },
         addRequest(state, request){
             state[request.rType].push(request.value)
@@ -36,11 +38,13 @@ export default {
             dispatch('admin/setMess', body_D , {root:true,})
            }
         },
-        async load({commit, dispatch},){
+
+        async load({commit, dispatch}, payload){
            try{
                 const token = store.getters['authAdmin/token']
-                const {data} = await axios.get(`/${payload.rType}.json?auth=${token}`)
-                // commit('setRequests',{...payload, id:data.name});
+                const {data} = await axios.get(`/${payload.rType=='services'?'addServices':payload.rType}.json?auth=${token}`)
+                const requests = Object.keys(data).map(id =>({...data[id], id}))
+                commit('setRequests',{...payload, info:requests,});
            }catch(e){
            }
         },

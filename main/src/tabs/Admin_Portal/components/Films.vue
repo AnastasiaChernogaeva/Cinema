@@ -10,6 +10,7 @@
           <th>Окончание показа</th>
           <th>Постер</th>
           <th>Статус</th>
+          <th>Действие</th>
         </tr>
       </thead>
       <tbody>
@@ -22,6 +23,9 @@
           <td><img :alt="film.filmName" :src="film.movieposter" ></td>
           <!-- {{film.movieposter}} -->
           <td>{{Date.parse(film.finishTime)>Date.parse(new Date())?"В прокате":"Показ завершен"}}</td>
+          <td>
+            <button class="btn primary">Открыть</button>
+          </td>
         </tr>
       </tbody>
     </table>

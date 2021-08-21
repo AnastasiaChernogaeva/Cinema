@@ -13,11 +13,11 @@
           <td>{{idx + 1}}</td>
           <td>{{service.addServices}}</td>
           <td>{{service.addServicesPrice}}</td>
-          <td>
+          <!-- <td>
             <router-link v-slot="{navigate}" custom :to="{name:'service', params:{id:idx}}">
               <button class="btn primary" @click="navigate">Открыть</button>
             </router-link>
-          </td>
+          </td> -->
         </tr>
       </tbody>
     </table>
