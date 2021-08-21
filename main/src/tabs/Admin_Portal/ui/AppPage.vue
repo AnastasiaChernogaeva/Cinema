@@ -2,7 +2,7 @@
     <div class="container">
          <div class="card">
         <h1 class="card-title">
-          <span>{{subtitle}}</span> 
+          <span>{{subtitleWeNeed}}</span> 
                <button class="btn primary" @click="modal = true">Добавить</button>
         </h1>
          </div>
@@ -20,22 +20,19 @@
  </template>
 
 <script> 
-        import {ref, computed,} from "vue";
+        import {ref, computed} from "vue";
         import { useRoute } from "vue-router";
+        import {subtitles} from '../utils/titles'
+
         import AppModal from "../ui/AppModal.vue"
 
         import AddingServices from "../components/AddingForms/AddingServices"
         import AddingSessions from "../components/AddingForms/AddingSessions"
         import AddingCinemas from "../components/AddingForms/AddingCinemas"
         import AddingFilms from "../components/AddingForms/AddingFilms"
+import LoginVue from '../layout/Login.vue';
 
  export default {
-     props:{
-         subtitle:{
-             type:String,
-             required:true,
-         },
-     },
      components:{
       AppModal,
       AddingServices,
@@ -43,18 +40,33 @@
       AddingCinemas,
       AddingSessions,
      },
-     setup(props){
-         document.title = `${props.subtitle} | Админский портал`
+     setup(){
+     
+      const route = useRoute()
+
+           const subtitleWeNeed = computed(()=> {
+                const englishName = route.path.split('/')[route.path.split('/').length-1]
+                document.title = `${subtitles(englishName)} | Админский портал`
+           return subtitles(englishName)
+          }) 
+         
         const modal = ref(false)
 
-      const route = useRoute()
-      const shareName = computed(()=> route.path.split('/')[route.path.split('/').length-1])
+     
+      const shareName = computed(()=> {
+         if( route.path.split('/')[route.path.split('/').length-1] !=='admin'){
+         return route.path.split('/')[route.path.split('/').length-1]
+         }
+         else{
+              return 'films'
+         }
+      })
 
    
 
 
         return{
-            modal, shareName,
+            modal, shareName, subtitleWeNeed,
             //films,cinemas,sessions,addServices,
         }
 
