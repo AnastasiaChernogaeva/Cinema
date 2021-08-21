@@ -1,9 +1,10 @@
 <template>
   <div class="card">
-       <h1 class="card-title">
-          <span>{{service.addServices}}</span> 
-          <span>{{currency(service.addServicesPrice)}}</span> 
-      </h1>
+       <h3 class="card-title">
+           <!-- <span>LOVE is in the AIR </span> -->
+          <span>{{res.addServices}}</span> 
+          <span>{{currency(res.addServicesPrice)}}</span> 
+      </h3>
       <hr/>
       <button class="btn primary">Изменить</button>
       <button class="btn danger">Удалить</button>
@@ -22,11 +23,13 @@ export default {
         const route = useRoute()
         const store = useStore()
         const keyS = route.path.split('/')[route.path.split('/').length-1]
-        console.log(keyS)
-        const service = computed(()=> store.getters['requests/addServices'].keyS)
+        const service =  computed(()=> store.getters['requests/addServices'].filter(elem =>elem.id === keyS))
+        const res = service.value[0]
+
+        
         return{
             currency,
-            service,
+            res,
         }
     }
 }

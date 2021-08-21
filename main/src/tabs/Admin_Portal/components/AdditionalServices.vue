@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(service,idx) in additionalServices" :key="idx" @click="lookCloser(service, idx)" >
+        <tr v-for="(service,idx) in additionalServices" :key="idx" >
           <router-link v-slot="{navigate}" custom :to="{name:'service', params:{idas:service.id}}">
           <td>{{idx + 1}}</td>
           <td @click="navigate">{{service.addServices}}</td>
