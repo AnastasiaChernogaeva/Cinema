@@ -107,17 +107,14 @@ export default {
       const sessions = computed(()=> store.getters['requests/sessions'])
       const addServices = computed(()=> store.getters['requests/addServices']
         .filter(service =>{
-          console.log(service);
-          console.log(filter.value.aServices);
-
-          // if(filter.value.aServices){
-          //   return service.aServices.includes(filter.value.aServices)
-          // }
-          // else return service
+          if(filter.value.aServices){
+            return service.addServices.toLowerCase().includes(filter.value.aServices.toLowerCase())
+          }
+          else  return service
         })
         // .filter(service =>{
         //   if(filter.value.priceServices){
-        //     return service.priceServices.includes(filter.value.priceServices)
+        //     return service.addServicesPrice.includes(filter.value.priceServices)
         //   }
         //   else return service
         // })

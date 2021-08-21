@@ -61,6 +61,15 @@ const router = createRouter({
                         authAdmin:true,
                     },
                 },
+                {   
+                    path:"/services/:idas",
+                    component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/ServicesTemplate'),
+                    name:'service',
+                    meta:{
+                        layout:'main-admin',
+                        authAdmin:true,
+                    },
+                },
 
                 {   
                     path:"login",

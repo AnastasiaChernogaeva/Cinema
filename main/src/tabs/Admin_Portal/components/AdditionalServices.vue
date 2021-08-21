@@ -11,13 +11,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(service,idx) in additionalServices" :key="idx">
+        <tr v-for="(service,idx) in additionalServices" :key="idx" @click="lookCloser(service, idx)" >
+          <router-link v-slot="{navigate}" custom :to="{name:'service', params:{idas:service.id}}">
           <td>{{idx + 1}}</td>
-          <td>{{service.addServices}}</td>
+          <td @click="navigate">{{service.addServices}}</td>
           <td>{{currency(service.addServicesPrice)}}</td>
+          </router-link>
           <!-- <td> -->
             <!-- <router-link v-slot="{navigate}" custom :to="{name:'service', params:{id:idx}}">
-              <button class="btn primary" @click="navigate">Открыть</button>
+              <button class="btn primary">Открыть</button>
             </router-link> -->
       
           <!-- </td> -->
@@ -30,13 +32,19 @@
 </template>
 
 <script>
+import {useRouter} from 'vue-router'
 import {currency} from '../use/currency'
 
 export default {
   props:['additionalServices'],
   setup(){
+    const router = useRouter()
+    // const lookCloser = (elem,id)=>{
+    //   router.push(`/admin/services/${id}`)
+    // }
     return{
-      currency
+      currency,
+      // lookCloser,
     }
   }
 }
