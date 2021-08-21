@@ -1,30 +1,42 @@
-<template>
-    <div class="container">
+<template> 
+  <app-loader v-if="loading"/>
+    <div class="container" v-else>
+     
          <div class="card">
         <h1 class="card-title">
           <span>{{subtitleWeNeed}}</span> 
                <button class="btn primary" @click="modal = true">Добавить</button>
         </h1>
+        <keep-alive>
+             <component :is="shareName+'-filter'" v-model="filter"></component>
+         </keep-alive>
+          <slot/>
+         
             </div>
-         <app-loader v-if="loading"/>
-         <slot v-else/>
+         
+         
+           
+          
         
-
+      <teleport to="body">
         <app-modal v-if="modal" @close="modal = false" >
                <!-- <slot name="insidecontent"/> -->
             <keep-alive>
              <component :is="'adding-'+shareName" @click.stop @added="modal = false"></component>
            </keep-alive>
         </app-modal>
-  
+      </teleport>
      </div>
  </template>
 
 <script> 
+import FilmsFilter from '../components/FilterForms/FilmsFilter.vue'
+
+
 import { useStore } from 'vuex';
 import { onMounted, onUpdated} from "vue";
 
-        import {ref, computed} from "vue";
+        import {ref, computed,watch} from "vue";
         import { useRoute } from "vue-router";
         import {subtitles} from '../utils/titles'
 
@@ -45,6 +57,7 @@ import { onMounted, onUpdated} from "vue";
       AddingFilms,
       AddingCinemas,
       AddingSessions,
+      FilmsFilter,
      },
      setup(){
 
@@ -89,11 +102,14 @@ import { onMounted, onUpdated} from "vue";
               return 'films'
          }
       })
-   
 
+      const filter = ref({})
+   
+       watch(filter, val=> console.log(val.value))
+       
 
         return{
-            modal, shareName, subtitleWeNeed, loading,
+            modal, shareName, subtitleWeNeed, loading, filter
             //films,cinemas,sessions,addServices,
         }
 
