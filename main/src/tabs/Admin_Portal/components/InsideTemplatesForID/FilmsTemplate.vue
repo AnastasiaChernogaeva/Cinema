@@ -1,6 +1,9 @@
 <template>
    <app-loader v-if="loading"/>
   <div class="card" v-else-if="film">
+     <div class="breadcrumbs">
+          <router-link to="/admin/films">Вернуться к списку фильмов</router-link>
+      </div>
        <h3 class="card-title">
            <!-- <span>LOVE is in the AIR </span> -->
           <span>{{film.filmName}}</span> 
@@ -17,8 +20,8 @@
       </div>
       
       <hr/>
-      <button class="btn primary">Изменить</button>
-      <button class="btn danger">Удалить</button>
+      <button class="btn primary" @click="update">Изменить</button>
+      <button class="btn danger" @click="remove">Удалить</button>
 
   </div>
     <h3 class="text-center text-white" v-else>
@@ -58,10 +61,19 @@ export default {
 
         })
         
+        const remove = ()=>{
+
+        }
+
+        const update = ()=>{
+            
+        }
         return{
             loading,
             date,
             film,
+            remove,
+            update
         }
     }
 }
