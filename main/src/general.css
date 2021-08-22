@@ -12,6 +12,13 @@
         background: transparent;
     }
 
+    img.templateImg {
+        float:left;
+        margin-right:5%;
+        width: 200px;
+        height: auto;       
+    }
+
     img {
         width: 100px;
         height: auto;

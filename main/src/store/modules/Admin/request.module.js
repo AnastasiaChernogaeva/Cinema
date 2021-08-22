@@ -44,7 +44,14 @@ export default {
            }catch(e){
            }
         },
-        
+        async loadByID(_, payload){
+            try{
+                 const token = store.getters['authAdmin/token']
+                 const {data} = await axios.get(`/${payload.rType=='services'?'addServices':payload.rType}/${payload.id}.json?auth=${token}`)
+                 return data
+            }catch(e){
+            }
+         },        
     },
     getters:{
         films(state){

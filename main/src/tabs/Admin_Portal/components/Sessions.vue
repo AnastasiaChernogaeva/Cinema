@@ -14,14 +14,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr v-for="(session,idx) in sessions" :key="idx" >
+          <router-link v-slot="{navigate}" custom :to="{name:'session', params:{ids:session.id}}">
+          <td></td>
+          <td></td>
+          <td @click="navigate"></td>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          </router-link>
         </tr>
       </tbody>
     </table>

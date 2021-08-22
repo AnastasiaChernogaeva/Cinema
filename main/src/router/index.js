@@ -57,7 +57,16 @@ const router = createRouter({
                     },
                 },
                 {   
-                    path:"/services/:idas",
+                    path:"/admin/films/:idf",
+                    component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/FilmsTemplate'),
+                    name:'film',
+                    meta:{
+                        layout:'main-admin',
+                        authAdmin:true,
+                    },
+                },
+                {   
+                    path:"/admin/services/:idas",
                     component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/ServicesTemplate'),
                     name:'service',
                     meta:{
@@ -65,7 +74,24 @@ const router = createRouter({
                         authAdmin:true,
                     },
                 },
-
+                {   
+                    path:"/admin/sessions/:ids",
+                    component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/SessionsTemplate'),
+                    name:'session',
+                    meta:{
+                        layout:'main-admin',
+                        authAdmin:true,
+                    },
+                },
+                {   
+                    path:"/admin/cinemas/:idc",
+                    component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/CinemasTemplate'),
+                    name:'cinema',
+                    meta:{
+                        layout:'main-admin',
+                        authAdmin:true,
+                    },
+                },
                 {   
                     path:"login",
                     component:LoginAdmin, 

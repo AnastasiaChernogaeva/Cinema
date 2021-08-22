@@ -13,12 +13,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr v-for="(cinema,idx) in cinemas" :key="idx">
+          <router-link v-slot="{navigate}" custom :to="{name:'cinema', params:{idc:cinema.id}}">
+          <td></td>
+          <td @click="navigate"></td>
           <td></td>
           <td></td>
           <td></td>
-          <td></td>
-          <td></td>
+          </router-link>
+
         </tr>
       </tbody>
     </table>
