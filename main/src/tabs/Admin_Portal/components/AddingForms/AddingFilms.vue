@@ -77,7 +77,6 @@ export default {
         const store = useStore()
         const submit = async values =>{
             await store.dispatch('requests/create', {'value':values, 'rType':'films',});
-            console.log(values);
             emit('added')
             
             

@@ -46,8 +46,7 @@ export default {
     setup( _, {emit},){
         const store = useStore()
         const submit = async values =>{
-            await store.dispatch('requests/create',{'value':values, 'rType':'addServices',} );
-            console.log(values);
+            await store.dispatch('requests/create',{'value':values, 'rType':'addServices', } );
             emit('added')
             
             

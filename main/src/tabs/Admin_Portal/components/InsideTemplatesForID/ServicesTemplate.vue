@@ -21,7 +21,7 @@
 
 <script>
 import {computed,ref, onMounted} from 'vue'
-import {useRoute} from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
 import { useStore } from "vuex";
 import {currency} from '../../use/currency'
 import  AppLoader from '../../ui/AppLoader.vue'
@@ -32,6 +32,7 @@ export default {
     },
     setup(){
         const route = useRoute()
+        const router = useRouter()
         const loading = ref(false)
         const store = useStore()
         const service = ref({})
@@ -49,10 +50,13 @@ export default {
         // const services =  computed(()=> store.getters['requests/addServices'].filter(elem =>elem.id === keyS))
         // const service = services.value[0]
 
-        console.log(route.params.idas)
-        
-        const remove = ()=>{
 
+        const remove = async()=>{
+            await store.dispatch('requests/remove',{
+                rType:'services',
+                id:route.params.idas,
+            },)
+            router.push('/admin/services')
         }
 
         const update = ()=>{

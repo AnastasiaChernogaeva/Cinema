@@ -32,19 +32,13 @@
 </template>
 
 <script>
-import {useRouter} from 'vue-router'
 import {currency} from '../use/currency'
 
 export default {
   props:['additionalServices'],
   setup(){
-    const router = useRouter()
-    // const lookCloser = (elem,id)=>{
-    //   router.push(`/admin/services/${id}`)
-    // }
     return{
       currency,
-      // lookCloser,
     }
   }
 }

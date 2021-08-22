@@ -3,8 +3,13 @@
        <div class="form-control">
            <input type="text" placeholder="Введите название услуги" v-model="aServices">
        </div>
-        <!-- <div class="form-control">
-           <input type="number" placeholder="Введите цену" v-model="priceServices">
+        <!-- <div class="form-control"> -->
+            <!-- <select v-model="priceServices">
+                <option disabled selected>Отсортировать по цене</option>
+                <option value="max">по убыванию</option>
+                <option value="min">по возрастанию</option>
+            </select> -->
+           <!-- <input type="number" placeholder="Введите цену" v-model="priceServices">
        </div> -->
         <button class="btn warning" v-if="isActive" @click="reset" > Сбросить</button>
    </div>
@@ -38,6 +43,22 @@ export default {
         //     reset:()=>{
         //         aServices.value = ''
         //         priceServices.value = ''
+        //     }
+        // }
+        //         watch(['aServices','priceServices'], values=>{
+        //     emit('update:modelValue',{
+        //         aServices:values[0],
+        //         priceServices:values[1],
+        //     })
+        // })
+
+        // const isActive = computed(()=>aServices.value ||priceServices.value )
+
+        //         return{
+        //     isActive,
+        //     aServices,priceServices,
+        //     reset:()=>{
+        //         aServices.value = ''
         //     }
         // }
 

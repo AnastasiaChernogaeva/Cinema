@@ -51,7 +51,30 @@ export default {
                  return data
             }catch(e){
             }
-         },        
+         },   
+         async remove({dispatch}, payload){
+            try{
+                 const token = store.getters['authAdmin/token']
+                await axios.delete(`/${payload.rType=='services'?'addServices':payload.rType}/${payload.id}.json?auth=${token}`)
+                const body_D = {value:'Удаление прошло успешно', type:'primary',}
+                dispatch('admin/setMess', body_D , {root:true,})
+
+            }catch(e){
+                const body_D = {value:e.message, type:'danger',}
+                dispatch('admin/setMess', body_D , {root:true,})
+            }
+         }, 
+        //  async update({dispatch}, payload){
+        //     try{
+        //          const token = store.getters['authAdmin/token']
+        //         await axios.put(`/${payload.rType=='services'?'addServices':payload.rType}/${payload.id}.json?auth=${token}`, payload.value )
+        //         const body_D = {value:'Обновление прошло успешно', type:'primary',}
+        //         dispatch('admin/setMess', body_D , {root:true,})
+        //     }catch(e){
+        //         const body_D = {value:e.message, type:'danger',}
+        //         dispatch('admin/setMess', body_D , {root:true,})
+        //     }
+        //  },         
     },
     getters:{
         films(state){

@@ -32,7 +32,7 @@
 <script>
 // import {computed} from 'vue'
 import {ref, onMounted} from 'vue'
-import {useRoute} from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
 import { useStore } from "vuex";
 import {date} from '../../use/date'
 import  AppLoader from '../../ui/AppLoader.vue'
@@ -43,6 +43,7 @@ export default {
     },
     setup(){
         const route = useRoute()
+        const router = useRouter()
         const store = useStore()
         const loading = ref(false)
         const film = ref({})
@@ -60,9 +61,13 @@ export default {
             loading.value = false
 
         })
-        
-        const remove = ()=>{
 
+         const remove = async()=>{
+            await store.dispatch('requests/remove',{
+                rType:'films',
+                id:route.params.idf,
+            },)
+            router.push('/admin/films')
         }
 
         const update = ()=>{

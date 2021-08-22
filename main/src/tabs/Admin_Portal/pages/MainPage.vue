@@ -12,15 +12,13 @@
       </keep-alive>
      <router-view :films="films" :additionalServices="addServices" :cinemas="cinemas" :sessions="sessions"></router-view> 
      </div>
-         
-      <teleport to="body">
+        <teleport to="body"> 
         <app-modal v-if="modal" @close="modal = false" >
           <keep-alive>
              <component :is="'adding-'+shareName" @click.stop @added="modal = false"></component>
           </keep-alive>
         </app-modal>
-      </teleport>
-            
+       </teleport>      
   </div>
 </template>
 
@@ -66,11 +64,7 @@ export default {
       const lastPartofURL = computed (()=>route.path.split('/')[route.path.split('/').length-1])
 
 
-      const load = async()=>{
-        loading.value = true
-        await store.dispatch('requests/load',{rType:lastPartofURL.value})
-        loading.value = false
-      }
+
 
       const subtitleWeNeed = computed(()=> {
         document.title = `${subtitles(lastPartofURL.value)} | Админский портал`
@@ -86,7 +80,11 @@ export default {
            return 'films'
          }
       })
-
+      const load = async()=>{
+        loading.value = true
+        await store.dispatch('requests/load',{rType:shareName.value})
+        loading.value = false
+      }
 
       const films = computed(()=> store.getters['requests/films']
         .filter(film =>{
@@ -112,19 +110,19 @@ export default {
           }
           else  return service
         })
-        // .filter(service =>{
-        //   if(filter.value.priceServices){
-        //     return service.addServicesPrice.includes(filter.value.priceServices)
-        //   }
-        //   else return service
-        // })
+        .filter(service =>{
+          if(filter.value.priceServices){
+            return service.addServicesPrice.includes(filter.value.priceServices)
+          }
+          else return service
+        })
       )
 
-        onMounted( computed(() =>load()) ) 
+        onMounted(async() => await store.dispatch('requests/load' ) )
         onUpdated( 
           computed(() =>{
             filter.value = {}
-            load()
+            async() => await store.dispatch('requests/load' ) 
           }
           )
         )
