@@ -12,11 +12,11 @@
       </thead>
       <tbody>
         <tr v-for="(service,idx) in additionalServices" :key="idx" >
-          <router-link v-slot="{navigate}" custom :to="{name:'service', params:{idas:service.id}}">
+          <!-- <router-link v-slot="{navigate}" custom :to="{name:'service', params:{idas:service.id}}"> -->
           <td>{{idx + 1}}</td>
-          <td @click="navigate">{{service.addServices}}</td>
+          <td>{{service.addServices}}</td>
           <td>{{currency(service.addServicesPrice)}}</td>
-          </router-link>
+          <!-- </router-link> -->
           <!-- <td> -->
             <!-- <router-link v-slot="{navigate}" custom :to="{name:'service', params:{id:idx}}">
               <button class="btn primary">Открыть</button>

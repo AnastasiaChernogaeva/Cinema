@@ -118,7 +118,7 @@ let validationArr;
         types:[
           {idName:"city", fieldName:"Город", fieldType:"text", forVModel:"city"}, 
           {idName:"cinemaName", fieldName:"Название", fieldType:"text", forVModel:"cinemaName"}, 
-          {idName:"hallamount", fieldName:"Количество залов", fieldType:"number", forVModel:"hallamount"}, 
+          {idName:"hallamounts", fieldName:"Количество залов", fieldType:"number", forVModel:"hallamounts"}, 
           // 'План зала(ов)',
           ],
         id:3,

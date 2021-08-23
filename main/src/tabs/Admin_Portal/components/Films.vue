@@ -17,19 +17,21 @@
       </thead>
       <tbody>
         <tr v-for="(film,idx) in films" :key="idx">
-          <router-link v-slot="{navigate}" custom :to="{name:'film', params:{idf:film.id}}">
+
           <td>{{ idx + 1}}</td>
-          <td @click="navigate">{{film.filmName}}</td>
+          <td>{{film.filmName}}</td>
           <!-- <td>{{film.filmDescription}}</td> -->
           <td>{{date(film.startTime)}}</td>
           <td>{{date(film.finishTime)}}</td>
           <td><img :alt="film.filmName" :src="film.movieposter" ></td>
           <!-- {{film.movieposter}} -->
           <td><app-status :className="Date.parse(film.finishTime)>Date.parse(new Date())?'primary':'danger'">{{Date.parse(film.finishTime)>Date.parse(new Date())?"В прокате":"Показ завершен"}}</app-status></td>
-          </router-link>
-          <!-- <td>
-            <button class="btn primary">Открыть</button>
-          </td> -->
+          <!--  -->
+     <!-- <router-link v-slot="{navigate}" custom :to="{name:'film', params:{idf:film.id}}">
+          <td>
+            <button class="btn primary"   @click="navigate">Открыть</button>
+          </td>
+      </router-link> -->
         </tr>
       </tbody>
     </table>

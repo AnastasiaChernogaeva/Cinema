@@ -27,7 +27,7 @@ export default {
       // const films = computed(()=> store.getters['requests/films'])
       // const cinemas = computed(()=> store.getters['requests/cinemas'])
       // const sessions = computed(()=> store.getters['requests/sessions'])
-      // const addServices = computed(()=> store.getters['requests/addServices'])
+      // const addServices = computed(()=> store.getters['requests/services'])
 
 
       

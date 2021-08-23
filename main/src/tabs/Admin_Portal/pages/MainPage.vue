@@ -10,7 +10,7 @@
       <keep-alive>
           <component :is="shareName+'-filter'" v-model="filter"></component>
       </keep-alive>
-     <router-view :films="films" :additionalServices="addServices" :cinemas="cinemas" :sessions="sessions"></router-view> 
+     <router-view :films="films" :additionalServices="services" :cinemas="cinemas" :sessions="sessions"></router-view> 
      </div>
         <teleport to="body"> 
         <app-modal v-if="modal" @close="modal = false" >
@@ -103,19 +103,19 @@ export default {
       )
       const cinemas = computed(()=> store.getters['requests/cinemas'])
       const sessions = computed(()=> store.getters['requests/sessions'])
-      const addServices = computed(()=> store.getters['requests/addServices']
+      const services = computed(()=> store.getters['requests/services']
         .filter(service =>{
           if(filter.value.aServices){
             return service.addServices.toLowerCase().includes(filter.value.aServices.toLowerCase())
           }
           else  return service
         })
-        .filter(service =>{
-          if(filter.value.priceServices){
-            return service.addServicesPrice.includes(filter.value.priceServices)
-          }
-          else return service
-        })
+        // .filter(service =>{
+        //   if(filter.value.priceServices){
+        //     return service.addServicesPrice.includes(filter.value.priceServices)
+        //   }
+        //   else return service
+        // })
       )
 
         onMounted(async() => await store.dispatch('requests/load' ) )
@@ -131,7 +131,7 @@ export default {
       
 
       return{
-        films,cinemas,sessions,addServices,
+        films,cinemas,sessions,services,
         modal, shareName, subtitleWeNeed, loading, filter
 
       }

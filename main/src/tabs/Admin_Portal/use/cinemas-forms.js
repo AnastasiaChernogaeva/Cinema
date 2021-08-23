@@ -21,7 +21,7 @@ export function useCinemasForms(func){
         .trim()
         .required('Это обязательное поле! Пожалуйста, введите название кинотеатра.'))
 
-    const {value:hallamount, errorMessage:hallamountError, handleBlur:hallamountBlur} = useField('hallamount',yup
+    const {value:hallamounts, errorMessage:hallamountsError, handleBlur:hallamountsBlur} = useField('hallamounts',yup
         .string()
         .trim()
         .required('Это обязательное поле! Пожалуйста, введите количество залов.')
@@ -42,7 +42,7 @@ export function useCinemasForms(func){
         return{
             city, cityError, cityBlur,
             cinemaName, cinemaError, cinemaBlur,
-            hallamount, hallamountError, hallamountBlur, onSubmit,isSubmitting
+            hallamounts, hallamountsError, hallamountsBlur, onSubmit,isSubmitting
             // filmName, fnError, fnBlur,
         }
 

@@ -47,7 +47,7 @@ export default {
 
         })
         // const keyS = route.path.split('/')[route.path.split('/').length-1]
-        // const services =  computed(()=> store.getters['requests/addServices'].filter(elem =>elem.id === keyS))
+        // const services =  computed(()=> store.getters['requests/services'].filter(elem =>elem.id === keyS))
         // const service = services.value[0]
 
 

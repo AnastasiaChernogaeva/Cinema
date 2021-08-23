@@ -29,9 +29,6 @@
                 <small v-if="priceError">{{priceError}}</small>
         </div>
 
-
-         
-
             <button class="btn primary" type="submit" :disabled="isSubmitting" >Добавить</button>      
 
         </form> 
@@ -46,7 +43,7 @@ export default {
     setup( _, {emit},){
         const store = useStore()
         const submit = async values =>{
-            await store.dispatch('requests/create',{'value':values, 'rType':'addServices', } );
+            await store.dispatch('requests/create',{'value':values, 'rType':'services', } );
             emit('added')
             
             

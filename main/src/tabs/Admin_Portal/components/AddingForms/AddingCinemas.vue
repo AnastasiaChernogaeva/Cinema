@@ -23,29 +23,32 @@
   </div>
 
   
-  <div :class="['form-control', {'invalid':hallamountError},]"> 
-                <label for="hallamount">Количество залов</label>
+  <div :class="['form-control', {'invalid':hallamountsError},]"> 
+                <label for="hallamounts">Количество залов</label>
                 <input
                     type="number"
-                    id="hallamount"
-                    v-model.number="hallamount"
-                    @blur="hallamountBlur"
+                    id="hallamounts"
+                    v-model="hallamounts"
+                    @blur="hallamountsBlur"
                 >
-                <small v-if="hallamountError">{{hallamountError}}</small>
-  </div>
+                 <small v-if="hallamountsError">{{hallamountsError}}</small>
+  </div> 
 
-<!-- <div  v-if="hallamount > 0">
-          <div :class="['form-control',]" v-for="n in hallamount " > 
-                <label for="`places${n}`">План зала {{n}}</label>
-                <input
-                    type="text"
-                    id="`places${n}`"
-                    v-model="place"
-                    @blur="placesBlur"
-                >
-                <small v-if="placesError">{{placesError}}</small>
-      </div> -->
-<!-- </div> -->
+    <hall-form v-for="(el,idx) in hallamounts" :key="idx" :id="el"></hall-form>
+
+    <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis, porro. Alias ducimus ratione beatae libero officia totam animi unde quaerat deleniti. Recusandae, optio fugiat veritatis consequuntur quasi aspernatur minus dicta.</span>
+
+
+<!-- <div  v-if="hallamounts > 0"> -->
+
+          
+    <!-- <div :class="['form-control']" v-for="hallamount in hallamounts " :key="hallamount" > 
+    
+              <h3>План зала {{hallamount}}</h3> -->
+              <!-- <hall-form v-model="hallForm" :id="hallamount"></hall-form> -->
+                <!-- <small v-if="hfError">{{hfError}}</small>  -->
+       <!-- </div> -->
+ <!-- </div>  -->
 
 
 
@@ -56,10 +59,18 @@
         </form> 
 </template>
 <script>
+import {ref} from "vue"
 import { useStore } from 'vuex';
 import { useCinemasForms } from "../../use/cinemas-forms";
+import CanvasHalls from "../../canvas/CanvasHalls.vue"
+import HallForm from "../../ui/HallForm.vue"
+
 
 export default {
+    components:{
+        CanvasHalls,
+        HallForm,
+    },
     emits:['added'],
     setup( _, {emit},){
         const store = useStore()
@@ -68,7 +79,11 @@ export default {
             console.log(values);
             emit('added')
         }  
+        const hallForm = ref({})
+
+        // console.log(hallamounts)
         return{
+            hallForm,
             ...useCinemasForms(submit)
         }
        
