@@ -35,22 +35,55 @@
   </div> 
 
   <div v-if="hallamounts!==0">
-    <hall-form v-for="(el,idx) in hallamounts" :key="idx" :id="el" @hall="newHall"></hall-form>
+    <!-- <hall-form v-for="(el,idx) in hallamounts" :key="idx" :id="el" @hall="newHall"></hall-form> -->
+<div class="form-control" v-for="(el,idx) in hallamounts" :key="idx">
+            <h2>План зала {{el}}</h2>
+  <div class="form-control">
+        <label for="rows">Количество рядов</label>
+          <input
+                type="number"
+                id="rows"
+                v-model="rows"
+                @blur="rowsBlur"
+        >
+  </div>
+  <div class="form-control">
+        <label for="places">Количество мест в одном ряду </label>
+          <input
+                type="number"
+                id="places"
+                v-model="places"
+                @blur="placesBlur"
+        >
+    </div>
+        <div class="form-checkbox">
 
-    <!-- <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis, porro. Alias ducimus ratione beatae libero officia totam animi unde quaerat deleniti. Recusandae, optio fugiat veritatis consequuntur quasi aspernatur minus dicta.</span> -->
+            <span class="label">Выберите номера рядов с обычными местами</span>
 
+            <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
+                <label><input type="checkbox" name="simplePl" v-model="simplePl" value="row"/>{{row}}</label>
+            </div>
+        </div>
+
+        <div class="form-checkbox">
+
+            <span class="label">Выберите номера рядов с VIP местами</span>
+
+            <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
+                <label><input type="checkbox" name="vipPl" v-model="vipPl" value="row"/>{{row}}</label>
+            </div>
+        </div>
+
+        <div class="form-checkbox">
+
+            <span class="label">Выберите номера рядов с местами для двоих</span>
+
+            <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
+                <label><input type="checkbox" name="couplePl" v-model="couplePl" value="row"/>{{row}}</label>
+            </div>
+        </div>
 </div>
-<!-- <div  v-if="hallamounts > 0"> -->
-
-          
-    <!-- <div :class="['form-control']" v-for="hallamount in hallamounts " :key="hallamount" > 
-    
-              <h3>План зала {{hallamount}}</h3> -->
-              <!-- <hall-form  :id="hallamount"></hall-form> -->
-                <!-- <small v-if="hfError">{{hfError}}</small>  -->
-       <!-- </div> -->
- <!-- </div>  -->
-
+</div>
 
 
          
@@ -60,7 +93,7 @@
         </form> 
 </template>
 <script>
-import {ref,reactive} from "vue"
+import {ref,reactive, watch} from "vue"
 import { useStore } from 'vuex';
 import { useCinemasForms } from "../../use/cinemas-forms";
 import CanvasHalls from "../../canvas/CanvasHalls.vue"
@@ -75,13 +108,13 @@ export default {
     emits:['added'],
     setup( _, {emit},){
         const store = useStore()
- 
+        const rows = ref()
+        const places = ref()
+        const simplePl = reactive([])
+        const vipPl = reactive([])
+        const couplePl = reactive([])
         const hallForm = reactive({})
 
-        const newHall = (payload)=>{
-            hallForm[payload.id] = payload.val
-            console.log(payload)
-        }
         
         const submit = async values =>{
             const v = {...values, ...hallForm}
@@ -90,8 +123,37 @@ export default {
             // console.log(v);
             emit('added')
         } 
+
+        watch(['rows', 'places', 'simplePl', 'vipPl', 'couplePl',], values=>{
+            console.log(values)
+            // {
+            //     val:{
+            //         rows:values[0],
+            //         places:values[1],
+            //         simplePl:values[2],
+            //         vipPl:values[3],
+            //         couplePl:values[4],
+            //     },     
+            // }
+            // console.log(id)
+            // info = {
+            //         rows:values[0],
+            //         places:values[1],
+            //         simplePl:values[2],
+            //         vipPl:values[3],
+            //         couplePl:values[4],
+            //     }
+            // console.log(values)
+        }
+        )
+
+
         return{
-            newHall,
+            rows,
+            places,
+            simplePl,
+            vipPl,
+            couplePl,
             ...useCinemasForms(submit)
         }
        

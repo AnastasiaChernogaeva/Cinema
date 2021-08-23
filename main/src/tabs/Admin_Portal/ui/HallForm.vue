@@ -88,34 +88,34 @@ export default {
         const couplePl = reactive([])
         const info =  reactive ({})
         
-        // watch(['rows', 'places', 'simplePl', 'vipPl', 'couplePl',], values=>{
-        //     // console.log(values.value)
-        //     // emit('hall',{
-        //     //     val:{
-        //     //         rows:values[0],
-        //     //         places:values[1],
-        //     //         simplePl:values[2],
-        //     //         vipPl:values[3],
-        //     //         couplePl:values[4],
-        //     //     },                
-        //     //     id:id,
-        //     // })
-        //     console.log(id)
-        //     info[id] = {
-        //             rows:values[0],
-        //             places:values[1],
-        //             simplePl:values[2],
-        //             vipPl:values[3],
-        //             couplePl:values[4],
-        //         }
-        //     console.log(info.value)
-        // }
-        // )
+        watch(['rows', 'places', 'simplePl', 'vipPl', 'couplePl',], values=>{
+            console.log(values)
+            emit('hall',{
+                val:{
+                    rows:values[0],
+                    places:values[1],
+                    simplePl:values[2],
+                    vipPl:values[3],
+                    couplePl:values[4],
+                },                
+                id:id,
+            })
+            console.log(id)
+            info[id] = {
+                    rows:values[0],
+                    places:values[1],
+                    simplePl:values[2],
+                    vipPl:values[3],
+                    couplePl:values[4],
+                }
+            console.log(values)
+        }
+        )
 
-        // const save = ()=>{
+        const save = ()=>{
         //     console.log(info.value);
-        //     emit('hall',info)
-        // }
+            emit('hall',info)
+        }
 
 
         return{
