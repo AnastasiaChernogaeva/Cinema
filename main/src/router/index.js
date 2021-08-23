@@ -56,42 +56,42 @@ const router = createRouter({
                         authAdmin:true,
                     },
                 },
-                // {   
-                //     path:"/admin/film/:idf",
-                //     component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/FilmsTemplate'),
-                //     name:'film',
-                //     meta:{
-                //         layout:'main-admin',
-                //         authAdmin:true,
-                //     },
-                // },
-                // {   
-                //     path:"/admin/service/:idas",
-                //     component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/ServicesTemplate'),
-                //     name:'service',
-                //     meta:{
-                //         layout:'main-admin',
-                //         authAdmin:true,
-                //     },
-                // },
-                // {   
-                //     path:"/admin/session/:ids",
-                //     component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/SessionsTemplate'),
-                //     name:'session',
-                //     meta:{
-                //         layout:'main-admin',
-                //         authAdmin:true,
-                //     },
-                // },
-                // {   
-                //     path:"/admin/cinema/:idc",
-                //     component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/CinemasTemplate'),
-                //     name:'cinema',
-                //     meta:{
-                //         layout:'main-admin',
-                //         authAdmin:true,
-                //     },
-                // },
+                {   
+                    path:"/admin/film:idf?",
+                    component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/FilmsTemplate'),
+                    name:'film',
+                    meta:{
+                        layout:'main-admin',
+                        authAdmin:true,
+                    },
+                },
+                {   
+                    path:"/admin/service:idas?",
+                    component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/ServicesTemplate'),
+                    name:'service',
+                    meta:{
+                        layout:'main-admin',
+                        authAdmin:true,
+                    },
+                },
+                {   
+                    path:"/admin/session:ids?",
+                    component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/SessionsTemplate'),
+                    name:'session',
+                    meta:{
+                        layout:'main-admin',
+                        authAdmin:true,
+                    },
+                },
+                {   
+                    path:"/admin/cinema:idc?",
+                    component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/CinemasTemplate'),
+                    name:'cinema',
+                    meta:{
+                        layout:'main-admin',
+                        authAdmin:true,
+                    },
+                },
                 {   
                     path:"login",
                     component:LoginAdmin, 

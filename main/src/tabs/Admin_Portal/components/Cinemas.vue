@@ -14,13 +14,13 @@
       </thead>
       <tbody>
         <tr v-for="(cinema,idx) in cinemas" :key="idx">
-          <!-- <router-link v-slot="{navigate}" custom :to="{name:'cinema', params:{idc:cinema.id}}"> -->
+          <router-link v-slot="{navigate}" custom :to="{name:'cinema', params:{idc:cinema.id}}">
           <td>{{idx + 1}}</td>
           <td >{{cinema.city}}</td>
-          <td>{{cinema.cinemaName}}</td>
+          <td @click="navigate">{{cinema.cinemaName}}</td>
           <td>{{cinema.hallamounts}}</td>
           <!-- <td></td> -->
-          <!-- </router-link> @click="navigate"-->
+          </router-link> 
 
         </tr>
       </tbody>

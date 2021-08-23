@@ -6,7 +6,7 @@
       </div>
        <h3 class="card-title">
            <span>LOVE is in the AIR </span>
-          <span>{{cinema}}</span> 
+          <span>{{cinema.cinemaName }},{{cinema.city}}</span> 
           
       </h3>
       
