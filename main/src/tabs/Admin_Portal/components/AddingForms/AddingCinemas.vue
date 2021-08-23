@@ -34,18 +34,19 @@
                  <small v-if="hallamountsError">{{hallamountsError}}</small>
   </div> 
 
-    <hall-form v-for="(el,idx) in hallamounts" :key="idx" :id="el"></hall-form>
+  <div v-if="hallamounts!==0">
+    <hall-form v-for="(el,idx) in hallamounts" :key="idx" :id="el" @hall="newHall"></hall-form>
 
-    <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis, porro. Alias ducimus ratione beatae libero officia totam animi unde quaerat deleniti. Recusandae, optio fugiat veritatis consequuntur quasi aspernatur minus dicta.</span>
+    <!-- <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis, porro. Alias ducimus ratione beatae libero officia totam animi unde quaerat deleniti. Recusandae, optio fugiat veritatis consequuntur quasi aspernatur minus dicta.</span> -->
 
-
+</div>
 <!-- <div  v-if="hallamounts > 0"> -->
 
           
     <!-- <div :class="['form-control']" v-for="hallamount in hallamounts " :key="hallamount" > 
     
               <h3>План зала {{hallamount}}</h3> -->
-              <!-- <hall-form v-model="hallForm" :id="hallamount"></hall-form> -->
+              <!-- <hall-form  :id="hallamount"></hall-form> -->
                 <!-- <small v-if="hfError">{{hfError}}</small>  -->
        <!-- </div> -->
  <!-- </div>  -->
@@ -59,7 +60,7 @@
         </form> 
 </template>
 <script>
-import {ref} from "vue"
+import {ref,reactive} from "vue"
 import { useStore } from 'vuex';
 import { useCinemasForms } from "../../use/cinemas-forms";
 import CanvasHalls from "../../canvas/CanvasHalls.vue"
@@ -74,16 +75,23 @@ export default {
     emits:['added'],
     setup( _, {emit},){
         const store = useStore()
-        const submit = async values =>{
-            await store.dispatch('requests/create', {'value':values, 'rType':'cinemas',});
-            console.log(values);
-            emit('added')
-        }  
-        const hallForm = ref({})
+ 
+        const hallForm = reactive({})
 
-        // console.log(hallamounts)
+        const newHall = (payload)=>{
+            hallForm[payload.id] = payload.val
+            console.log(payload)
+        }
+        
+        const submit = async values =>{
+            const v = {...values, ...hallForm}
+            console.log(v);
+            await store.dispatch('requests/create', {'value':v, 'rType':'cinemas',});
+            // console.log(v);
+            emit('added')
+        } 
         return{
-            hallForm,
+            newHall,
             ...useCinemasForms(submit)
         }
        
