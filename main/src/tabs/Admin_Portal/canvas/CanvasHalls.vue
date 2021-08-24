@@ -1,12 +1,16 @@
 <template>
     <div class="app-wrapper" >
-        <canvas id="canvas" @mouseover="check" ></canvas>
+        <!-- <canvas :id="'canvas'+ id" width='300px' height='500px' ></canvas> -->
+        <canvas id="canvas" ></canvas>
+
     </div>
 </template>
 
 <script>
 export default {
-    props:['rows','simplePl','vipPl','couplePl', 'places',],
+    // props:['rows','simplePl','vipPl','couplePl', 'places',],@mouseover="check"
+    props:['info',],
+
     data() {
         return {
             elements:[],
@@ -22,6 +26,7 @@ export default {
                 startX: 0,
                 startY: 0
             },
+            id:this.info.value.id,
         }
     },
     mounted(){
@@ -29,38 +34,41 @@ export default {
     },
 
     methods: {
-        check(e){
-        var ev = e || window.event; //Moz || IE
-        if (ev.pageX) { //Moz
-            this.mouse.x = ev.pageX + window.pageXOffset;
-            this.mouse.y = ev.pageY + window.pageYOffset;
-        } else if (ev.clientX) { //IE
-            this.mouse.x = ev.clientX + document.body.scrollLeft;
-            this.mouse.y = ev.clientY + document.body.scrollTop;
-        }
+        // check(e){
+        // var ev = e || window.event; //Moz || IE
+        // if (ev.pageX) { //Moz
+        //     this.mouse.x = ev.pageX + window.pageXOffset;
+        //     this.mouse.y = ev.pageY + window.pageYOffset;
+        // } else if (ev.clientX) { //IE
+        //     this.mouse.x = ev.clientX + document.body.scrollLeft;
+        //     this.mouse.y = ev.clientY + document.body.scrollTop;
+        // }
                     
 
-        this.elements.forEach(element => {
+        // this.elements.forEach(element => {
 
-            if(element.x===this.mouse.x+this.radius||this.mouse.x && element.y===this.mouse.y+this.radius||this.mouse.y)
-                console.log('fit',element, this.mouse);
-        });
-        },
+        //     if(element.x===this.mouse.x+this.radius||this.mouse.x && element.y===this.mouse.y+this.radius||this.mouse.y)
+        //         console.log('fit',element, this.mouse);
+        // });
+        // },
 
     draw() {
-        canvas.height=300;
-    for (let i=0;i<this.rows;i++){
-      for (let j=0;j<this.places;j++){
-            let x = 12+j*20
-            let y = 12+i*20
-            if(this.simplePl.includes(i+1) ){
+        console.log(this.info.value.val)
+
+        this.ctx.height=800;
+        this.ctx.width=800;
+    for (let i=0;i<this.info.value.val.rows;i++){
+      for (let j=0;j<this.info.value.val.places;j++){
+            let x = 8+j*18
+            let y = 8+i*18
+            if(this.info.value.val.simplePl.includes(i+1) ){
             this.ctx.strokeStyle = 'black';
             this.ctx.beginPath();
             this.ctx.arc(x,y,this.radius,0,Math.PI*2,true);
             this.ctx.stroke();
             this.ctx.beginPath();
         }
-        else if(this.vipPl.includes(i+1)){
+        else if(this.info.value.val.vipPl.includes(i+1)){
             this.ctx.beginPath();
             this.ctx.arc(x,y, this.radius*1.5, 0, Math.PI);
             this.ctx.strokeStyle = '#1a2edb'; // тёмно-синий цвет
@@ -76,7 +84,7 @@ export default {
             this.ctx.beginPath();
         // this.ctx.fill(); 
         }
-        else if(this.couplePl.includes(i+1)){
+        else if(this.info.value.val.couplePl.includes(i+1)){
    if(j%2!=0){
             this.ctx.beginPath();
             this.ctx.fillStyle = 'red'; // зелёный цвет
@@ -93,7 +101,9 @@ export default {
     },
     computed: {
         ctx(){
-            return document.querySelector('#canvas').getContext('2d');
+            return document.querySelector(`#canvas`).getContext('2d');
+
+            // return document.querySelector(`#canvas${this.id}`).getContext('2d');
         }
     },
 
@@ -107,13 +117,19 @@ export default {
     /* text-align: center; */
     max-height: 190px;
     max-width: 16%;
-    background: beige;
+    background: rgb(253, 253, 37);
 }
 
+/* [id^=canvas] {
+    /* height: 220px; */
+  /*  padding-left: 0%;
+    object-fit: scale-down;
+} */
 canvas#canvas {
-    height: 303px;
-    padding-left: 2%;
+    height: 220px;
+    object-fit: scale-down;
 }
+
     /* .app-wrapper {
         padding-top:5%;
         text-align: center;

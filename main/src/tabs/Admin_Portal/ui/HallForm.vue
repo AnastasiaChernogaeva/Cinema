@@ -1,6 +1,7 @@
 <template>
 <div class="container">
-    <form @submit.prevent="save"  >  
+   <div v-if="open === false"> <button class="btn danger" @click="open = true">Сформировать зал {{id}}</button></div>
+    <form @submit.prevent="save" v-else  >  
     <h2>План зала {{id}}</h2>
   <div class="form-control">
         <label for="rows">Количество рядов</label>
@@ -25,7 +26,7 @@
             <span class="label">Выберите номера рядов с обычными местами</span>
 
             <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
-                <label><input type="checkbox" name="simplePl" v-model="simplePl" value="row"/>{{row}}</label>
+                <label><input type="checkbox" name="simplePl" v-model="simplePl" :value="row"/>{{row}}</label>
             </div>
         </div>
 
@@ -34,7 +35,7 @@
             <span class="label">Выберите номера рядов с VIP местами</span>
 
             <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
-                <label><input type="checkbox" name="vipPl" v-model="vipPl" value="row"/>{{row}}</label>
+                <label><input type="checkbox" name="vipPl" v-model="vipPl" :value="row"/>{{row}}</label>
             </div>
         </div>
 
@@ -43,19 +44,26 @@
             <span class="label">Выберите номера рядов с местами для двоих</span>
 
             <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
-                <label><input type="checkbox" name="couplePl" v-model="couplePl" value="row"/>{{row}}</label>
+                <label><input type="checkbox" name="couplePl" v-model="couplePl" :value="row"/>{{row}}</label>
             </div>
         </div>
 
         <button class="btn" type="submit">Сохранить</button>
     </form>
+     <canvas-halls v-if="isReadyHall" :info="info"></canvas-halls>
 </div>
 
 </template>
 
 <script>
 import { ref, watch, reactive } from "vue";
+import CanvasHalls from "../canvas/CanvasHalls.vue"
+
+
 export default {
+    components:{
+        CanvasHalls,
+    },
     props:['id'],
     emits:['hall'],
     // data(){
@@ -80,40 +88,54 @@ export default {
     //     },
     // },
     // watch
-    setup( _, {emit},){
+    setup( props, {emit},){
         const rows = ref()
         const places = ref()
-        const simplePl = reactive([])
-        const vipPl = reactive([])
-        const couplePl = reactive([])
+        const simplePl = ref([])
+        const vipPl = ref([])
+        const couplePl = ref([])
         const info =  reactive ({})
+        const open = ref(false)
+        const isReadyHall = ref(false)
+
         
-        watch(['rows', 'places', 'simplePl', 'vipPl', 'couplePl',], values=>{
-            console.log(values)
-            emit('hall',{
-                val:{
-                    rows:values[0],
-                    places:values[1],
-                    simplePl:values[2],
-                    vipPl:values[3],
-                    couplePl:values[4],
-                },                
-                id:id,
-            })
-            console.log(id)
-            info[id] = {
-                    rows:values[0],
-                    places:values[1],
-                    simplePl:values[2],
-                    vipPl:values[3],
-                    couplePl:values[4],
-                }
-            console.log(values)
-        }
-        )
+        // watch(['rows', 'places', 'simplePl', 'vipPl', 'couplePl',], values=>{
+        //     console.log(values)
+        //     emit('hall',{
+        //         val:{
+        //             rows:values[0],
+        //             places:values[1],
+        //             simplePl:values[2],
+        //             vipPl:values[3],
+        //             couplePl:values[4],
+        //         },                
+        //         id:id,
+        //     })
+        //     console.log(id)
+        //     info[id] = {
+        //             rows:values[0],
+        //             places:values[1],
+        //             simplePl:values[2],
+        //             vipPl:values[3],
+        //             couplePl:values[4],
+        //         }
+        //     console.log(values)
+        // }
+        // )
 
         const save = ()=>{
-        //     console.log(info.value);
+            info.value = {
+                val:{
+                    rows:rows.value,
+                    places:places.value,
+                    simplePl:simplePl.value,
+                    vipPl:vipPl.value,
+                    couplePl:couplePl.value,
+                },                
+                id:props.id,
+            }
+            // console.log(info.value);
+            isReadyHall.value = true
             emit('hall',info)
         }
 
@@ -125,6 +147,9 @@ export default {
             simplePl,
             vipPl,
             couplePl,
+            open,
+            info,
+            isReadyHall
         }
     }
 }

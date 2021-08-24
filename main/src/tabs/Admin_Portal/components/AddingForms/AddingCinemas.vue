@@ -35,84 +35,30 @@
   </div> 
 
   <div v-if="hallamounts!==0">
-    <!-- <hall-form v-for="(el,idx) in hallamounts" :key="idx" :id="el" @hall="newHall"></hall-form> -->
-<div class="form-control" v-for="(el,idx) in hallamounts" :key="idx">
-            <h2>План зала {{el}}</h2>
-  <div class="form-control">
-        <label for="rows">Количество рядов</label>
-          <input
-                type="number"
-                id="rows"
-                v-model="rows"
-                @blur="rowsBlur"
-        >
-  </div>
-  <div class="form-control">
-        <label for="places">Количество мест в одном ряду </label>
-          <input
-                type="number"
-                id="places"
-                v-model="places"
-                @blur="placesBlur"
-        >
-    </div>
-        <div class="form-checkbox">
+        <div v-for="(el,idx) in hallamounts" :key="idx">
+          <hall-form  :id="el" @hall="newHall"></hall-form>
+      </div>
+   </div>
 
-            <span class="label">Выберите номера рядов с обычными местами</span>
+    <button class="btn primary" type="submit" :disabled="isSubmitting || tooManyAttemptsAmount" >Добавить</button>      
 
-            <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
-                <label><input type="checkbox" name="simplePl" v-model="simplePl" value="row"/>{{row}}</label>
-            </div>
-        </div>
-
-        <div class="form-checkbox">
-
-            <span class="label">Выберите номера рядов с VIP местами</span>
-
-            <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
-                <label><input type="checkbox" name="vipPl" v-model="vipPl" value="row"/>{{row}}</label>
-            </div>
-        </div>
-
-        <div class="form-checkbox">
-
-            <span class="label">Выберите номера рядов с местами для двоих</span>
-
-            <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
-                <label><input type="checkbox" name="couplePl" v-model="couplePl" value="row"/>{{row}}</label>
-            </div>
-        </div>
-</div>
-</div>
-
-
-         
-
-            <button class="btn primary" type="submit" :disabled="isSubmitting || tooManyAttemptsAmount" >Добавить</button>      
-
-        </form> 
+   </form> 
 </template>
+
 <script>
 import {ref,reactive, watch} from "vue"
 import { useStore } from 'vuex';
 import { useCinemasForms } from "../../use/cinemas-forms";
-import CanvasHalls from "../../canvas/CanvasHalls.vue"
 import HallForm from "../../ui/HallForm.vue"
 
 
 export default {
     components:{
-        CanvasHalls,
         HallForm,
     },
     emits:['added'],
     setup( _, {emit},){
         const store = useStore()
-        const rows = ref()
-        const places = ref()
-        const simplePl = reactive([])
-        const vipPl = reactive([])
-        const couplePl = reactive([])
         const hallForm = reactive({})
 
         
@@ -120,41 +66,20 @@ export default {
             const v = {...values, ...hallForm}
             console.log(v);
             await store.dispatch('requests/create', {'value':v, 'rType':'cinemas',});
-            // console.log(v);
             emit('added')
         } 
 
-        watch(['rows', 'places', 'simplePl', 'vipPl', 'couplePl',], values=>{
-            console.log(values)
-            // {
-            //     val:{
-            //         rows:values[0],
-            //         places:values[1],
-            //         simplePl:values[2],
-            //         vipPl:values[3],
-            //         couplePl:values[4],
-            //     },     
-            // }
-            // console.log(id)
-            // info = {
-            //         rows:values[0],
-            //         places:values[1],
-            //         simplePl:values[2],
-            //         vipPl:values[3],
-            //         couplePl:values[4],
-            //     }
-            // console.log(values)
+        const newHall = (res) =>{
+            hallForm[`id${res.value.id}`] = res.value.val
         }
-        )
+
+
 
 
         return{
-            rows,
-            places,
-            simplePl,
-            vipPl,
-            couplePl,
-            ...useCinemasForms(submit)
+            ...useCinemasForms(submit),
+            newHall,
+            hallForm
         }
        
     }
