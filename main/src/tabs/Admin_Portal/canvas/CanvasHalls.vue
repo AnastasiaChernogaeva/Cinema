@@ -1,14 +1,13 @@
 <template>
     <div class="app-wrapper" >
-        <!-- <canvas :id="'canvas'+ id" width='300px' height='500px' ></canvas> -->
-        <canvas id="canvas" ></canvas>
+        <h3>Зал №{{id}}</h3>
+        <canvas :id="'canvas'+ id"  style="width: 100%;" ></canvas>
 
     </div>
 </template>
 
 <script>
 export default {
-    // props:['rows','simplePl','vipPl','couplePl', 'places',],@mouseover="check"
     props:['info',],
 
     data() {
@@ -56,7 +55,7 @@ export default {
         console.log(this.info.value.val)
 
         this.ctx.height=800;
-        this.ctx.width=800;
+        // this.ctx.width=800;
     for (let i=0;i<this.info.value.val.rows;i++){
       for (let j=0;j<this.info.value.val.places;j++){
             let x = 8+j*18
@@ -101,9 +100,8 @@ export default {
     },
     computed: {
         ctx(){
-            return document.querySelector(`#canvas`).getContext('2d');
 
-            // return document.querySelector(`#canvas${this.id}`).getContext('2d');
+            return document.querySelector(`#canvas${this.id}`).getContext('2d');
         }
     },
 
@@ -112,23 +110,27 @@ export default {
 </script>
 
 <style scoped>
-.app-wrapper[data-v-4c755ec4] {
+.app-wrapper {
     /* padding-top: 5%; */
     /* text-align: center; */
-    max-height: 190px;
-    max-width: 16%;
-    background: rgb(253, 253, 37);
+    /* max-height: 190px;
+    max-width: 16%; */
+    margin-top:5%;
+    border-block: 2px solid black;
+    height:200px;
+    width:550px;
+    background: lightblue;
 }
 
-/* [id^=canvas] {
+[id^=canvas] {
     /* height: 220px; */
-  /*  padding-left: 0%;
+     padding-left: 0%;
     object-fit: scale-down;
-} */
-canvas#canvas {
-    height: 220px;
-    object-fit: scale-down;
-}
+ }
+/*canvas#canvas {
+    /* height: 220px; */
+    /* object-fit: scale-down; */
+/* } */ 
 
     /* .app-wrapper {
         padding-top:5%;

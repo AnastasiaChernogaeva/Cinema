@@ -1,7 +1,7 @@
 <template>
 <div class="container">
    <div v-if="open === false"> <button class="btn danger" @click="open = true">Сформировать зал {{id}}</button></div>
-    <form @submit.prevent="save" v-else  >  
+    <form @submit.prevent="save" v-else-if="isReadyHall === false"  >  
     <h2>План зала {{id}}</h2>
   <div class="form-control">
         <label for="rows">Количество рядов</label>
@@ -48,7 +48,7 @@
             </div>
         </div>
 
-        <button class="btn" type="submit">Сохранить</button>
+        <button class="btn" type="submit" >Сохранить</button>
     </form>
      <canvas-halls v-if="isReadyHall" :info="info"></canvas-halls>
 </div>
