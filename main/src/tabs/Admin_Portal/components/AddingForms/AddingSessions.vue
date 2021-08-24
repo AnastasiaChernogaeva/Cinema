@@ -4,11 +4,11 @@
         <div :class="['form-control', ]"> 
                 <label for="cityName">Город</label>
                 <select  id="cityName" v-model="cityName">
-                  <option value="spb">Санкт-Петербург</option>
+                  <!-- <option value="spb">Санкт-Петербург</option>
                   <option value="msk">Москва</option>
                   <option value="kzn">Казань</option>
-                  <option value="nsk">Новосибирск</option>
-                       <!-- <option v-for="city of cities" value="city.value" >{{city.name}}</option> -->
+                  <option value="nsk">Новосибирск</option> -->
+                       <option v-for="(key,idx) of cinemas" value="key.city" :key="idx" >{{key.city}}</option>
                 </select>
 
       </div>
@@ -19,10 +19,10 @@
 
 <!-- cinemas=[{name:"Hey,Lee!", value:"hle",}, {name:"Voka!", value:"vka",}] -->
         <select  id="chosenCinemaName" v-model="chosenCinemaName">
-        <option value="msk">Москва</option>
+        <!-- <option value="msk">Москва</option>
        <option value="kzn">Казань</option>
-       <option value="nsk">Новосибирск</option>
-                          <!-- <option v-for="cinema of cinemas" value="cinema.value" >{{cinema.name}}</option> -->
+       <option value="nsk">Новосибирск</option> -->
+                          <option v-for="(key,idx) of cinemas" value="key.city" :key="idx">{{key.cinemaName}}</option>
         </select>
 
       </div>
@@ -31,9 +31,9 @@
         <div :class="['form-control', ]"> 
                 <label for="cityName">Фильм</label>
                 <select  id="sessionFilmName" v-model="sessionFilmName">
-                  <option value="wlf">Wolf</option>
-                  <option value="msk">Москва</option>
-                       <!-- <option v-for="film of films" value="film.value" >{{film.name}}</option> -->
+                  <!-- <option value="wlf">Wolf</option>
+                  <option value="msk">Москва</option> -->
+                       <option v-for="(key,idx) of films" value="key.city" :key="idx" >{{key.filmName}}</option>
                 </select>
 
       </div>
@@ -41,22 +41,22 @@
       <div :class="['form-control', ]"> 
                 <label for="hallnumber">Номер зала</label>
                 <select  id="hallnumber" v-model="hallnumber">
-                  <option value=1>1</option>
-                  <option value=2>2</option>
-                       <!-- <option v-for="film of films" value="film.value" >{{film.name}}</option> -->
+                  <!-- <option value=1>1</option>
+                  <option value=2>2</option> -->
+                       <option v-for="(key,idx) of cinemas" value="idx+1" :key="idx" >{{idx+1}}</option>
                 </select>
 
       </div>
 <!-- Подумать, как установить цену для мест -->
-            <div :class="['form-control', ]"> 
+            <!-- <div :class="['form-control', ]"> 
                 <label for="places">Места</label>
                 <select  id="places" v-model="places" >
                   <option value="wlf">Wolf</option>
-                  <option value="msk">Москва</option>
+                  <option value="msk">Москва</option> -->
                        <!-- <option v-for="film of films" value="film.value" >{{film.name}}</option> -->
-                </select>
+                <!-- </select>
 
-      </div>
+      </div> -->
 
             <!-- <div :class="['form-control', ]"> 
                 <label for="chosenAddServices">Дополнительные услуги</label>
@@ -122,7 +122,9 @@
 
         </form> 
 </template>
+
 <script>
+import {ref,onMounted, onUpdated} from 'vue'
 import { useStore } from 'vuex';
 import { useSessionsForms } from "../../use/sessions-forms";
 
@@ -130,6 +132,41 @@ export default {
     emits:['added'],
     setup( _, {emit},){
         const store = useStore()
+        const cityName = ref()
+        const chosenCinemaName = ref()
+        const sessionFilmName = ref()
+        const hallnumber = ref()
+        const startSessionTime = ref()
+        const places = ref([])
+
+        const films = ref()
+        const cinemas = ref()
+        const services = ref()
+
+
+
+        onMounted(
+        //   async ()=>{
+        //   allInfo.value = await store.dispatch('requests/loadAll')
+        //   console.log(allInfo.value);
+        // }
+        ()=>{
+          films.value = store.getters['requests/films']
+          cinemas.value = store.getters['requests/cinemas']
+          services.value = store.getters['requests/services']
+          console.log(films.value,cinemas.value, services.value);
+        },
+        )
+          
+        
+        // onUpdated(
+        // //   async ()=>{
+        // //   allInfo.value = await store.dispatch('requests/loadAll')
+        // //   console.log(allInfo.value);
+        // // }
+        // )
+          
+
         const submit = async values =>{
             await store.dispatch('requests/create',{'value':values, 'rType':'sessions',});
             console.log(values);
@@ -137,7 +174,10 @@ export default {
         }  
 
         return{
-            ...useSessionsForms(submit)
+          // allInfo,
+          places, startSessionTime, hallnumber, sessionFilmName, chosenCinemaName, cityName,
+            ...useSessionsForms(submit),
+        films, cinemas, services,
         }
     
     }

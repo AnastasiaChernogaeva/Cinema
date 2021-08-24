@@ -9,11 +9,13 @@ export default {
             cinemas:[],
             sessions:[],
             services:[],
+            // all:'',
         }
     },
     mutations:{
         setRequests(state, requests){
             state[requests.rType] = requests.info
+
         },
         addRequest(state, request){
             state[request.rType].push(request.value)
@@ -34,6 +36,16 @@ export default {
             dispatch('admin/setMess', body_D , {root:true,})
            }
         },
+        
+        // async loadAll({commit,}){
+        //     try{
+        //          const token = store.getters['authAdmin/token']
+        //          const {data} = await axios.get(`/cinema-vue-project-default-rtdb?auth=${token}`)
+        //          const requests = Object.keys(data).map(id =>({...data[id], id}))
+        //          commit('setRequests',{rType:'all', info:requests,});
+        //     }catch(e){
+        //     }
+        //  },
 
         async load({commit, dispatch}, payload){
            try{
