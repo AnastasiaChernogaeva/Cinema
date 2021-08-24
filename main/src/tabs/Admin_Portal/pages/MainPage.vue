@@ -40,6 +40,8 @@ import AppLoader from "../ui/AppLoader.vue";
 
 import FilmsFilter from '../components/FilterForms/FilmsFilter.vue'
 import ServicesFilter from '../components/FilterForms/ServicesFilter.vue'
+import CinemasFilter from '../components/FilterForms/CinemasFilter.vue'
+
 
 export default {
   components:{
@@ -51,6 +53,7 @@ export default {
       AddingSessions,
       FilmsFilter,
       ServicesFilter,
+      CinemasFilter  
   },
   setup(){
 
@@ -101,7 +104,20 @@ export default {
           else return film
         })
       )
-      const cinemas = computed(()=> store.getters['requests/cinemas'])
+      const cinemas = computed(()=> store.getters['requests/cinemas']        
+      .filter(cinema =>{
+          if(filter.value.cinemaName){
+            return cinema.cinemaName.toLowerCase().includes(filter.value.cinemaName.toLowerCase())
+          }
+          else  return cinema
+        })
+        .filter(cinema =>{
+          if(filter.value.city){
+            return cinema.city.toLowerCase().includes(filter.value.city.toLowerCase())
+          }
+          else  return cinema
+        })
+      )
       const sessions = computed(()=> store.getters['requests/sessions'])
       const services = computed(()=> store.getters['requests/services']
         .filter(service =>{

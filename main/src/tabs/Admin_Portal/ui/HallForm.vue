@@ -1,6 +1,6 @@
 <template>
 <div class="container">
-   <div v-if="open === false"> <button class="btn danger" @click="open = true">Сформировать зал {{id}}</button></div>
+   <div v-if="open === false" class="formhall"> <button class="btn danger" @click="open = true">Сформировать зал {{id}}</button></div>
     <form @submit.prevent="save" v-else-if="isReadyHall === false"  >  
     <h2>План зала {{id}}</h2>
   <div class="form-control">
@@ -155,6 +155,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+    .formhall{
+        margin:5%;
+    }
 </style>

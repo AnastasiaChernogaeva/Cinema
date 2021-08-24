@@ -5,10 +5,13 @@
           <router-link to="/admin/cinemas">Вернуться к списку кинотеатров</router-link>
       </div>
        <h3 class="card-title">
-           <span>LOVE is in the AIR </span>
-          <span>{{cinema.cinemaName }},{{cinema.city}}</span> 
-          
+          <span>{{cinema.cinemaName }}</span> 
       </h3>
+      <p>г.{{cinema.city}}</p>
+      <div v-if="cinema.hallamounts>0">
+        <can-vas v-for=" el of cinema.hallamounts " :key="el" :info="cinema.val[`id${el}`]" :id='el'></can-vas>
+      </div>
+     
       
       <hr/>
       <button class="btn" @click="update">Изменить</button>
@@ -27,10 +30,12 @@ import {useRoute} from 'vue-router'
 import { useStore } from "vuex";
 // import {date} from '../../use/date'
 import  AppLoader from '../../ui/AppLoader.vue'
+import CanVas from '../../canvas/CanVas.vue';
 
 export default {
       components:{
         AppLoader,
+            CanVas,
     },
     setup(){
         const route = useRoute()
@@ -51,8 +56,12 @@ export default {
             loading.value = false
 
         })
-        const remove = ()=>{
-
+        const remove =async()=>{
+            await store.dispatch('requests/remove',{
+                rType:'cinemas',
+                id:route.params.idc,
+            },)
+            router.push('/admin/cinemas')
         }
 
         const update = ()=>{
@@ -70,6 +79,10 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+    /* .wrapper-Canvas {
+    width: 500px;
+    height: 250px;
+    background: lightblue;
+} */
 </style>
