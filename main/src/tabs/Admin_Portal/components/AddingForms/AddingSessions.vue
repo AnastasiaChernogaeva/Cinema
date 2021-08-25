@@ -8,7 +8,7 @@
                   <option value="msk">Москва</option>
                   <option value="kzn">Казань</option>
                   <option value="nsk">Новосибирск</option> -->
-                       <option v-for="(key,idx) of cinemas" value="key.city" :key="idx" >{{key.city}}</option>
+                       <option v-for="(cinema,idx) of cinemas" value="key.city" :key="idx" >{{cinema.city}}</option>
                 </select>
 
       </div>
@@ -22,7 +22,7 @@
         <!-- <option value="msk">Москва</option>
        <option value="kzn">Казань</option>
        <option value="nsk">Новосибирск</option> -->
-                          <option v-for="(key,idx) of cinemas" value="key.city" :key="idx">{{key.cinemaName}}</option>
+                          <option v-for="(cinema,idx) of cinemas" value="key.city" :key="idx">{{cinema.cinemaName}}</option>
         </select>
 
       </div>
@@ -31,12 +31,10 @@
         <div :class="['form-control', ]"> 
                 <label for="cityName">Фильм</label>
                 <select  id="sessionFilmName" v-model="sessionFilmName">
-                  <!-- <option value="wlf">Wolf</option>
-                  <option value="msk">Москва</option> -->
-                       <option v-for="(key,idx) of films" value="key.city" :key="idx" >{{key.filmName}}</option>
+                <option v-for="(key,idx) of films" value="key.city" :key="idx" >{{key.filmName}}</option>
                 </select>
 
-      </div>
+      </div> 
 
       <div :class="['form-control', ]"> 
                 <label for="hallnumber">Номер зала</label>
@@ -103,7 +101,7 @@
                 >
                 <small style="color:green;" >Учтите время работы кинотеатра( рабочие часы: 10:00 - 24:00 )</small>
                 <small v-if="startSessionTimeError">{{startSessionTimeError}}</small>
-  </div>
+  </div> 
 
   
         <!-- <div :class="['form-control', {'invalid':finishSessionTimeError},]"> 
@@ -115,7 +113,7 @@
                     @blur="finishSessionTimeBlur"
                 >
                 <small v-if="finishSessionTimeBlur">{{finishSessionTimeBlur}}</small>
-  </div> -->
+  </div>-->
 
   
   <button class="btn primary" type="submit" :disabled="isSubmitting" >Добавить</button>      
@@ -124,7 +122,7 @@
 </template>
 
 <script>
-import {ref,onMounted, onUpdated} from 'vue'
+import {ref, onMounted} from 'vue'
 import { useStore } from 'vuex';
 import { useSessionsForms } from "../../use/sessions-forms";
 
@@ -132,39 +130,59 @@ export default {
     emits:['added'],
     setup( _, {emit},){
         const store = useStore()
-        const cityName = ref()
-        const chosenCinemaName = ref()
+        const cityName = ref('')
+        const chosenCinemaName = ref('')
         const sessionFilmName = ref()
         const hallnumber = ref()
         const startSessionTime = ref()
         const places = ref([])
 
-        const films = ref()
-        const cinemas = ref()
-        const services = ref()
+        // const films = ref()
+        // const cinemas = ref()
+        // const services = ref()
+
+        const allInfo = ref()
+
 
 
 
         onMounted(
-        //   async ()=>{
-        //   allInfo.value = await store.dispatch('requests/loadAll')
-        //   console.log(allInfo.value);
-        // }
-        ()=>{
-          films.value = store.getters['requests/films']
-          cinemas.value = store.getters['requests/cinemas']
-          services.value = store.getters['requests/services']
-          console.log(films.value,cinemas.value, services.value);
-        },
+          async ()=>{
+          await store.dispatch('requests/loadAll',['films', 'cinemas', 'services',])
+          allInfo.value = store.getters['requests/all']
+          console.log(allInfo.value);
+        }
+        // ()=>{
+        //   films.value = store.getters['requests/films']
+        //   cinemas.value = store.getters['requests/cinemas']
+        //   services.value = store.getters['requests/services']
+        //   console.log(films.value,cinemas.value, services.value);
+        // },
         )
-          
-        
-        // onUpdated(
-        // //   async ()=>{
-        // //   allInfo.value = await store.dispatch('requests/loadAll')
-        // //   console.log(allInfo.value);
-        // // }
-        // )
+          //  films.value = store.getters['requests/films']
+          //   console.log(films.value);
+       //cinemasN.value = store.getters['requests/cinemas']        
+      // .filter(cinema =>{
+      //     if(cityName.value !== ''){
+      //       return cityName.value === cinema.city?cinema.cinemaName : ''
+      //     }
+      //     // else if(chosenCinemaName.value !==''){
+      //     //   return chosenCinemaName.value === cinema.cinemaName?cinema.cityName : ''
+      //     // }
+      //     else  return cinema.cinemaName
+      //   })
+     // console.log(cinemasN.value);
+
+
+      // cinemasC.value = store.getters['requests/cinemas']        
+      // .filter(cinema =>{
+      //     if(chosenCinemaName.value !==''){
+      //       return chosenCinemaName.value === cinema.cinemaName?cinema.city : ''
+      //     }
+      //     else  return cinema.city
+      //   })
+
+      //console.log(cinemasC.value);
           
 
         const submit = async values =>{
@@ -177,7 +195,8 @@ export default {
           // allInfo,
           places, startSessionTime, hallnumber, sessionFilmName, chosenCinemaName, cityName,
             ...useSessionsForms(submit),
-        films, cinemas, services,
+        // films, cinemas, 
+        // services,
         }
     
     }

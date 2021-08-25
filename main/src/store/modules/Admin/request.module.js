@@ -9,7 +9,7 @@ export default {
             cinemas:[],
             sessions:[],
             services:[],
-            // all:'',
+            all:{},
         }
     },
     mutations:{
@@ -18,17 +18,21 @@ export default {
 
         },
         addRequest(state, request){
-            state[request.rType].push(request.value)
+            // console.log(request)
+            const value = {...request.value, id:request.id}
+            // console.log(value)
+            state[request.rType].push(value)
         },
 
     },
     actions:{
         async create({commit, dispatch}, payload){
            try{
-               console.log(store);
+            //    console.log(store);
                 const token = store.getters['authAdmin/token']
                 const {data} = await axios.post(`/${payload.rType}.json?auth=${token}`,payload.value)
                 commit('addRequest',{...payload, id:data.name});
+                // console.log({data})
                     const body_D = {value:'Добавление прошло успешно', type:'primary',}
                     dispatch('admin/setMess', body_D , {root:true,})
            }catch(e){
@@ -37,17 +41,24 @@ export default {
            }
         },
         
-        // async loadAll({commit,}){
-        //     try{
-        //          const token = store.getters['authAdmin/token']
-        //          const {data} = await axios.get(`/cinema-vue-project-default-rtdb?auth=${token}`)
-        //          const requests = Object.keys(data).map(id =>({...data[id], id}))
-        //          commit('setRequests',{rType:'all', info:requests,});
-        //     }catch(e){
-        //     }
-        //  },
+         loadAll({commit,}, arr){
+            try{
+                 const token = store.getters['authAdmin/token']
+                 const info = {}
+                 arr.forEach(async element => {
+                 const {data} = await axios.get(`/${element}.json?auth=${token}`)
+                 const requests = Object.keys(data).map(id =>({...data[id], id}))
+                 info[element]=requests;
+                 console.log(info);
+                });
+                console.log(info);
 
-        async load({commit, dispatch}, payload){
+               commit('setRequests',{rType:'all', info:info,});
+            }catch(e){
+            }
+         },
+
+        async load({commit}, payload){
            try{
                 const token = store.getters['authAdmin/token']
                 const {data} = await axios.get(`/${payload.rType}.json?auth=${token}`)

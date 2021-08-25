@@ -1,7 +1,9 @@
 <template>
     <div class="app-wrapper" >
         <h3>Зал №{{id}}</h3>
-        <canvas :id="'canvas'+ id"  style="width: 100%;" ></canvas>
+        <canvas :id="'canvas'+ id" class="cnvs"  ></canvas>
+        <!-- <canvas :id="'canvas'+ id" class="cnvs"  style="width: 100%;" ></canvas> -->
+
 
     </div>
 </template>
@@ -59,7 +61,7 @@ export default {
     for (let i=0;i<this.info.rows;i++){
       for (let j=0;j<this.info.places;j++){
             let x = 8+j*18
-            let y = 8+i*18
+            let y = 8+i*22
             if(this.info.simplePl!==undefined && this.info.simplePl.includes(i+1) ){
             this.ctx.strokeStyle = 'black';
             this.ctx.beginPath();
@@ -87,7 +89,7 @@ export default {
    if(j%2!=0){
             this.ctx.beginPath();
             this.ctx.fillStyle = 'red'; // зелёный цвет
-            this.ctx.fillRect(x/3 + j*10,y/1.055,this.radius*4.5, this.radius*2.2);
+            this.ctx.fillRect(x/3 + j*10,y/1.155,this.radius*4.5, this.radius*2.2);
              this.ctx.beginPath();
         }
         }
@@ -118,15 +120,21 @@ export default {
     margin-top:5%;
     border-block: 2px solid black;
     height:200px;
-    width:550px;
-    background: lightblue;
+    width:300px;
+    padding-left:3%;
+    background: rgb(213, 245, 255);
 }
 
 [id^=canvas] {
     /* height: 220px; */
-     padding-left: 0%;
+     /* padding-left: 0%; */
     object-fit: scale-down;
  }
+.cnvs{
+    width: 125%;
+    height: 62%;
+
+}
 /*canvas#canvas {
     /* height: 220px; */
     /* object-fit: scale-down; */
