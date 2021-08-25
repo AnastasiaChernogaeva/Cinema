@@ -9,7 +9,7 @@ export default {
             cinemas:[],
             sessions:[],
             services:[],
-            all:{},
+            all:'',
         }
     },
     mutations:{
@@ -49,8 +49,9 @@ export default {
                  const {data} = await axios.get(`/${element}.json?auth=${token}`)
                  const requests = Object.keys(data).map(id =>({...data[id], id}))
                  info[element]=requests;
-                 console.log(info);
+                //  console.log(info);
                 });
+                return info;
                 console.log(info);
 
                commit('setRequests',{rType:'all', info:info,});
@@ -111,6 +112,10 @@ export default {
           },
           services(state){
             return  state.services
+          },
+          all(state){
+              console.log(state.all)
+            return  state.all
           },
         
     }

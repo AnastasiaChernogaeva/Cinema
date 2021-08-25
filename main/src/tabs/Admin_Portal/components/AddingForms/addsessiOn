@@ -2,9 +2,13 @@
 <template>
          <form class="card" @submit.prevent="onSubmit"  > 
            <div class="card">{{allInfo}}</div>
-        <!-- <div :class="['form-control', ]"> 
+        <div :class="['form-control', ]"> 
                 <label for="cityName">Город</label>
                 <select  id="cityName" v-model="cityName">
+                  <!-- <option value="spb">Санкт-Петербург</option>
+                  <option value="msk">Москва</option>
+                  <option value="kzn">Казань</option>
+                  <option value="nsk">Новосибирск</option> -->
                        <option v-for="(cinema,idx) of allInfo.cinemas" value="key.city" :key="idx" >{{cinema.city}}</option>
                 </select>
 
@@ -14,7 +18,11 @@
     <div :class="['form-control']"> 
                 <label for="chosenCinemaName">Кинотеатр</label>
 
+<!-- cinemas=[{name:"Hey,Lee!", value:"hle",}, {name:"Voka!", value:"vka",}] -->
         <select  id="chosenCinemaName" v-model="chosenCinemaName">
+        <!-- <option value="msk">Москва</option>
+       <option value="kzn">Казань</option>
+       <option value="nsk">Новосибирск</option> -->
                           <option v-for="(cinema,idx) of allInfo.cinemas" value="key.city" :key="idx">{{cinema.cinemaName}}</option>
         </select>
 
@@ -32,10 +40,12 @@
       <div :class="['form-control', ]"> 
                 <label for="hallnumber">Номер зала</label>
                 <select  id="hallnumber" v-model="hallnumber">
+                  <!-- <option value=1>1</option>
+                  <option value=2>2</option> -->
                        <option v-for="(key,idx) of allInfo.cinemas" value="idx+1" :key="idx" >{{idx+1}}</option>
                 </select>
 
-      </div> -->
+      </div>
 <!-- Подумать, как установить цену для мест -->
             <!-- <div :class="['form-control', ]"> 
                 <label for="places">Места</label>
@@ -81,7 +91,7 @@
 
 
 
-        <!-- <div :class="['form-control', {'invalid':startSessionTimeError},]"> 
+        <div :class="['form-control', {'invalid':startSessionTimeError},]"> 
                 <label for="startSessionTime">Время начала сеанса</label>
                 <input
                     min="10:00" max="22:00"
@@ -92,8 +102,19 @@
                 >
                 <small style="color:green;" >Учтите время работы кинотеатра( рабочие часы: 10:00 - 24:00 )</small>
                 <small v-if="startSessionTimeError">{{startSessionTimeError}}</small>
-  </div>  -->
+  </div> 
 
+  
+        <!-- <div :class="['form-control', {'invalid':finishSessionTimeError},]"> 
+                <label for="finishSessionTime">Время окончания сеанса</label>
+                <input
+                    type="time"
+                    id="finishSessionTime"
+                    v-model="finishSessionTime"
+                    @blur="finishSessionTimeBlur"
+                >
+                <small v-if="finishSessionTimeBlur">{{finishSessionTimeBlur}}</small>
+  </div>-->
 
   
   <button class="btn primary" type="submit" :disabled="isSubmitting" >Добавить</button>      
@@ -102,7 +123,7 @@
 </template>
 
 <script>
-import {ref, onMounted, computed} from 'vue'
+import {ref, onMounted} from 'vue'
 import { useStore } from 'vuex';
 import { useSessionsForms } from "../../use/sessions-forms";
 
@@ -117,32 +138,30 @@ export default {
         const startSessionTime = ref()
         const places = ref([])
 
+        // const films = ref()
+        // const cinemas = ref()
+        // const services = ref()
 
-        const allInfo = ref({})
+        const allInfo = ref()
 
 
 
 
         onMounted(
-          // async ()=>{
-          // await store.dispatch('requests/loadAll',['films', 'cinemas', 'services',])
-          // allInfo = store.getters['requests/all']
-          // console.log(allInfo);
-        //   allInfo = async ()=>{
-        //     await store.dispatch('requests/loadAll',['films', 'cinemas', 'services',])
-        //  }
+          async ()=>{
+          await store.dispatch('requests/loadAll',['films', 'cinemas', 'services',])
+          allInfo.value = store.getters['requests/all']
+          console.log(allInfo.value);
+        }
+        // ()=>{
+        //   films.value = store.getters['requests/films']
+        //   cinemas.value = store.getters['requests/cinemas']
+        //   services.value = store.getters['requests/services']
+        //   console.log(films.value,cinemas.value, services.value);
+        // },
         )
-
-        // const allInfo = }
-
-
-        //   onUpdated(
-        //   async ()=>{
-        //   await store.dispatch('requests/loadAll',['films', 'cinemas', 'services',])
-        //   allInfo.value = store.getters['requests/all']
-        //   console.log(allInfo.value);
-        // }
-        // )
+          //  films.value = store.getters['requests/films']
+          //   console.log(films.value);
        //cinemasN.value = store.getters['requests/cinemas']        
       // .filter(cinema =>{
       //     if(cityName.value !== ''){
@@ -164,6 +183,7 @@ export default {
       //     else  return cinema.city
       //   })
 
+      //console.log(cinemasC.value);
           
 
         const submit = async values =>{
@@ -176,6 +196,8 @@ export default {
           allInfo,
           places, startSessionTime, hallnumber, sessionFilmName, chosenCinemaName, cityName,
             ...useSessionsForms(submit),
+        // films, cinemas, 
+        // services,
         }
     
     }
