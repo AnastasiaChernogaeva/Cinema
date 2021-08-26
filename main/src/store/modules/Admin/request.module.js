@@ -15,7 +15,7 @@ export default {
     mutations:{
         setRequests(state, requests){
             state[requests.rType] = requests.info
-
+            // return 1
         },
         addRequest(state, request){
             // console.log(request)
@@ -44,18 +44,24 @@ export default {
          loadAll({commit,}, arr){
             try{
                  const token = store.getters['authAdmin/token']
-                 const info = {}
+                //  const info = {}
+                // let count = 0
+
                  arr.forEach(async element => {
                  const {data} = await axios.get(`/${element}.json?auth=${token}`)
                  const requests = Object.keys(data).map(id =>({...data[id], id}))
-                 info[element]=requests;
-                //  console.log(info);
-                });
-                return info;
-                console.log(info);
+                 commit('setRequests',{rType:element, info:requests,});
+                //  info[element]=requests;count+=
+                //  console.log(element,requests);
+                }
+                    
+                );
+                
 
-               commit('setRequests',{rType:'all', info:info,});
+
+               
             }catch(e){
+                return false
             }
          },
 
@@ -114,7 +120,6 @@ export default {
             return  state.services
           },
           all(state){
-              console.log(state.all)
             return  state.all
           },
         

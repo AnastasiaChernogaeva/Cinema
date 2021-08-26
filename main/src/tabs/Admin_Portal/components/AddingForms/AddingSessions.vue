@@ -1,108 +1,20 @@
-
 <template>
-         <form class="card" @submit.prevent="onSubmit"  > 
-           <div class="card">{{allInfo}}</div>
-        <!-- <div :class="['form-control', ]"> 
+<!-- <div class="card">{{info}}</div> -->
+     <form class="card" @submit.prevent="onSubmit"  >  
+         <div :class="['form-control', ]"> 
                 <label for="cityName">Город</label>
                 <select  id="cityName" v-model="cityName">
-                       <option v-for="(cinema,idx) of allInfo.cinemas" value="key.city" :key="idx" >{{cinema.city}}</option>
+                       <option v-for="(cinema,idx) of info.cinemas" value="city" :key="idx" >{{cinema.city}}</option>
                 </select>
+         </div>
 
-      </div>
-
-
-    <div :class="['form-control']"> 
-                <label for="chosenCinemaName">Кинотеатр</label>
-
-        <select  id="chosenCinemaName" v-model="chosenCinemaName">
-                          <option v-for="(cinema,idx) of allInfo.cinemas" value="key.city" :key="idx">{{cinema.cinemaName}}</option>
-        </select>
-
-      </div>
-
-      
-        <div :class="['form-control', ]"> 
-                <label for="cityName">Фильм</label>
-                <select  id="sessionFilmName" v-model="sessionFilmName">
-                <option v-for="(key,idx) of allInfo.films" value="key.city" :key="idx" >{{key.filmName}}</option>
-                </select>
-
-      </div> 
-
-      <div :class="['form-control', ]"> 
-                <label for="hallnumber">Номер зала</label>
-                <select  id="hallnumber" v-model="hallnumber">
-                       <option v-for="(key,idx) of allInfo.cinemas" value="idx+1" :key="idx" >{{idx+1}}</option>
-                </select>
-
-      </div> -->
-<!-- Подумать, как установить цену для мест -->
-            <!-- <div :class="['form-control', ]"> 
-                <label for="places">Места</label>
-                <select  id="places" v-model="places" >
-                  <option value="wlf">Wolf</option>
-                  <option value="msk">Москва</option> -->
-                       <!-- <option v-for="film of films" value="film.value" >{{film.name}}</option> -->
-                <!-- </select>
-
-      </div> -->
-
-            <!-- <div :class="['form-control', ]"> 
-                <label for="chosenAddServices">Дополнительные услуги</label>
-                <select  id="chosenAddServices" v-model="chosenAddServices">
-                  <option value="chosenAddServices">chosenAddServices</option>
-                  <option value="msk">Москва</option>
-                       <option v-for="service of services" value="service.value" >{{service.name}}</option> -->
-                <!-- </select>
-
-      </div> --> 
-
-<!-- <div class="form-checkbox">
-
-  <span class="label">Дополнительные услуги</span> -->
-
-   <!-- <div class="checkbox" v-for>
-    <label><input type="checkbox" name="skills" v-model="skills" value="Vuex"/> pop-corn</label>
-  </div> -->
-<!-- 
-  <div class="checkbox">
-    <label><input type="checkbox" name="AddServices" v-model="chosenAddServices" value="Vuex"/> pop-corn</label>
-  </div>
-
-  <div class="checkbox">
-    <label><input type="checkbox" name="AddServices" v-model="chosenAddServices" value="vue CLI"/> coca</label>
-  </div>
-
-  <div class="checkbox">
-    <label><input type="checkbox" name="AddServices" v-model="chosenAddServices" value="Vue router"/> sprite</label>
-  </div>
-
-</div> -->
-
-
-
-        <!-- <div :class="['form-control', {'invalid':startSessionTimeError},]"> 
-                <label for="startSessionTime">Время начала сеанса</label>
-                <input
-                    min="10:00" max="22:00"
-                    type="time"
-                    id="startSessionTime"
-                    v-model="startSessionTime"
-                    @blur="startSessionTimeBlur"
-                >
-                <small style="color:green;" >Учтите время работы кинотеатра( рабочие часы: 10:00 - 24:00 )</small>
-                <small v-if="startSessionTimeError">{{startSessionTimeError}}</small>
-  </div>  -->
-
-
-  
-  <button class="btn primary" type="submit" :disabled="isSubmitting" >Добавить</button>      
+            <button class="btn primary" type="submit" :disabled="isSubmitting" >Добавить</button>      
 
         </form> 
 </template>
 
 <script>
-import {ref, onMounted, computed} from 'vue'
+import {ref, onMounted, reactive} from 'vue'
 import { useStore } from 'vuex';
 import { useSessionsForms } from "../../use/sessions-forms";
 
@@ -110,79 +22,49 @@ export default {
     emits:['added'],
     setup( _, {emit},){
         const store = useStore()
-        const cityName = ref('')
-        const chosenCinemaName = ref('')
-        const sessionFilmName = ref()
-        const hallnumber = ref()
-        const startSessionTime = ref()
-        const places = ref([])
+        const arr = ref(['films', 'services', 'cinemas',])
+        // const cinemasCity = ref([])
+        const info = ref({})
 
+        onMounted(async ()=>{
+          await store.dispatch('requests/loadAll', arr.value );
+          // console.log(res)
+          // if (res){const res = 
+         
+          // }
+        }) 
+         setTimeout(()=> {  
+          const cinemas =  store.getters['requests/cinemas']
+          const films =  store.getters['requests/films']
+          const services =  store.getters['requests/services']
+          console.log(  cinemas);
+          info.value['cinemas'] =  cinemas
+          info.value['films'] = films
+          info.value['services'] = services
+          console.log( info.value);},2000)
 
-        const allInfo = ref({})
-
-
-
-
-        onMounted(
-          // async ()=>{
-          // await store.dispatch('requests/loadAll',['films', 'cinemas', 'services',])
-          // allInfo = store.getters['requests/all']
-          // console.log(allInfo);
-        //   allInfo = async ()=>{
-        //     await store.dispatch('requests/loadAll',['films', 'cinemas', 'services',])
-        //  }
-        )
-
-        // const allInfo = }
-
-
-        //   onUpdated(
-        //   async ()=>{
-        //   await store.dispatch('requests/loadAll',['films', 'cinemas', 'services',])
-        //   allInfo.value = store.getters['requests/all']
-        //   console.log(allInfo.value);
-        // }
-        // )
-       //cinemasN.value = store.getters['requests/cinemas']        
-      // .filter(cinema =>{
-      //     if(cityName.value !== ''){
-      //       return cityName.value === cinema.city?cinema.cinemaName : ''
-      //     }
-      //     // else if(chosenCinemaName.value !==''){
-      //     //   return chosenCinemaName.value === cinema.cinemaName?cinema.cityName : ''
-      //     // }
-      //     else  return cinema.cinemaName
-      //   })
-     // console.log(cinemasN.value);
-
-
-      // cinemasC.value = store.getters['requests/cinemas']        
-      // .filter(cinema =>{
-      //     if(chosenCinemaName.value !==''){
-      //       return chosenCinemaName.value === cinema.cinemaName?cinema.city : ''
-      //     }
-      //     else  return cinema.city
-      //   })
-
+          // if(info.value!=={}){
+          //   var cinemas = info.value.cinemas
+          //   console.log('CCC',info.value.cinemas);
+          //   // cinemasCity.value = cinemas.map(cinema=>cinemasCity.includes(cinema.city)?'':cinema.city)
+          //   console.log(cinemasCity);
+          // }
           
 
-        const submit = async values =>{
-            await store.dispatch('requests/create',{'value':values, 'rType':'sessions',});
-            console.log(values);
-            emit('added')
-        }  
 
-        return{
-          allInfo,
-          places, startSessionTime, hallnumber, sessionFilmName, chosenCinemaName, cityName,
-            ...useSessionsForms(submit),
+        const submit = async values =>{
+            await store.dispatch('requests/create',{'value':values, 'rType':'sessions', } );
+            emit('added')
         }
-    
+            return{
+              info,
+                ...useSessionsForms(submit)    
+            }
     }
+
 }
 </script>
 
 <style>
 
 </style>
-
