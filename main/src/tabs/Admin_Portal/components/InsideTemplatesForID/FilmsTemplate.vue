@@ -9,6 +9,7 @@
           <span>{{film.filmName}}</span> 
           <span v-if="film.startTime"><small>Время показа: {{date(film.startTime)}} - {{date(film.finishTime)}}</small></span>
       </h3>
+      <small>Жанр:{{film.genre}}</small>
       <hr/>
       <div>
           <img :alt="film.filmName" :src="film.movieposter" class="templateImg" >

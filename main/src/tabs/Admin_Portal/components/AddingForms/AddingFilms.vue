@@ -56,7 +56,16 @@
                 <small v-if="mpError">{{mpError}}</small>
   </div>
 
-  
+    <div :class="['form-control', {'invalid':gError},]"> 
+                <label for="genre">Жанр</label>
+                <input
+                    type="text"
+                    id="genre"
+                    v-model="genre"
+                    @blur="gBlur"
+                >
+                <small v-if="gError">{{gError}}</small>
+  </div>
 
 
 

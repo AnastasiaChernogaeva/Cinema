@@ -36,6 +36,11 @@ export function useFilmsForms(func){
         .trim()
         .required('Это обязательное поле! Пожалуйста, введите url картинки.'))
 
+    const {value:genre, errorMessage:gError, handleBlur:gBlur} = useField('genre', yup
+        .string()
+        .trim()
+        .required('Это обязательное поле! Пожалуйста, введите жанр фильма.'))
+
         
         const onSubmit = handleSubmit(func)
 
@@ -46,6 +51,7 @@ export function useFilmsForms(func){
             filmDescription, descError, descBlur,
             filmName, fnError, fnBlur,
             movieposter, mpError, mpBlur,
+            genre, gError, gBlur,
             onSubmit,isSubmitting
         }
 

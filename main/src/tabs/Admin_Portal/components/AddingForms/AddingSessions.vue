@@ -1,13 +1,13 @@
 <template>
 <!-- <div class="card">{{info}}</div> -->
      <form class="card" @submit.prevent="onSubmit"  >  
-         <div :class="['form-control', ]"> 
+         <div :class="['form-control', ]">  
                 <label for="cityName">Город</label>
-                <select  id="cityName" v-model="cityName">
+                <select  id="cityName" v-model="cityName"  >
                        <option v-for="(cinema,idx) of info.cinemas" value="city" :key="idx" >{{cinema.city}}</option>
                 </select>
          </div>
-
+<!-- v-if="!cinemasCity.includes(cinema.city) && cinemasCity.push(cinema.city)" -->
             <button class="btn primary" type="submit" :disabled="isSubmitting" >Добавить</button>      
 
         </form> 
@@ -23,7 +23,7 @@ export default {
     setup( _, {emit},){
         const store = useStore()
         const arr = ref(['films', 'services', 'cinemas',])
-        // const cinemasCity = ref([])
+        const cinemasCity = ref([])
         const info = ref({})
 
         onMounted(async ()=>{
@@ -58,6 +58,7 @@ export default {
         }
             return{
               info,
+              cinemasCity,
                 ...useSessionsForms(submit)    
             }
     }

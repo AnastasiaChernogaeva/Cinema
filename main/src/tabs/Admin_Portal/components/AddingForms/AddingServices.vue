@@ -18,9 +18,9 @@
   <div :class="['form-control', {'invalid':priceError},]"> 
                 <label for="addServicesPrice">Цена в бел.рублях</label>
                 <input
-                    type="number"
+                    type="text"
                     id="addServicesPrice"
-                    v-model.number="addServicesPrice"
+                    v-model.trim="addServicesPrice"
                     @blur="priceBlur"
                 >
                 
