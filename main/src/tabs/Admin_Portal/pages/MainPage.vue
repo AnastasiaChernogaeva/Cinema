@@ -103,6 +103,14 @@ export default {
           }
           else return film
         })
+        // .filter(film =>{
+        //   if(filter.value.genre){
+        //     return film.genre.toLowerCase().includes(filter.value.genre.toLowerCase())
+        //   }
+        //   else return film
+        // }
+
+        // )
       )
       const cinemas = computed(()=> store.getters['requests/cinemas']        
       .filter(cinema =>{

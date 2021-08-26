@@ -10,6 +10,9 @@
                <option value="off">Показ завершен</option>
            </select>
        </div>
+        <div class="form-control">
+           <input type="text" placeholder="Введите название жанра" v-model="genre">
+       </div>
         <button class="btn warning" v-if="isActive" @click="reset" > Сбросить</button>
 
    </div>
@@ -24,19 +27,23 @@ export default {
     setup(_,{emit}){
         const name = ref()
         const status = ref()
+        const genre = ref()
 
-        watch([name, status,], values=>{
+
+        watch([name, status, genre], values=>{
             emit('update:modelValue',{
                 name:values[0],
                 status:values[1],
+                genre:values[2],
             })
         })
 
-        const isActive = computed(()=>name.value||status.value)
+        const isActive = computed(()=>name.value||status.value||genre.value)
 
         return{
             name,
             status,
+            genre,
             isActive,
             reset:()=>{
                 name.value = ''

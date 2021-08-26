@@ -24,6 +24,7 @@
         <div class="form-checkbox">
 
             <span class="label">Выберите номера рядов с обычными местами</span>
+            <!-- <button class="btn" @click="chooseAll('simplePl')">Выбрать все</button> -->
 
             <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
                 <label><input type="checkbox" name="simplePl" v-model="simplePl" :value="row"/>{{row}}</label>
@@ -33,6 +34,8 @@
         <div class="form-checkbox">
 
             <span class="label">Выберите номера рядов с VIP местами</span>
+            <!-- <button class="btn" @click="chooseAll('vipPl')">Выбрать все</button> -->
+
 
             <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
                 <label><input type="checkbox" name="vipPl" v-model="vipPl" :value="row"/>{{row}}</label>
@@ -42,6 +45,8 @@
         <div class="form-checkbox">
 
             <span class="label">Выберите номера рядов с местами для двоих</span>
+            <!-- <button class="btn" @click="chooseAll('couplePl')">Выбрать все</button> -->
+
 
             <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
                 <label><input type="checkbox" name="couplePl" v-model="couplePl" :value="row"/>{{row}}</label>
@@ -98,6 +103,20 @@ export default {
         const open = ref(false)
         const isReadyHall = ref(false)
 
+        // const chooseAll = (type)=>{
+        //     console.log(rows);
+        //     if(type==='simplePl'){
+        //         simplePl.value = rows.value.map(row=>row) 
+        //     }
+        //     else if(type==='vipPl'){
+        //         vipPl.value = rows.value.map(row=>row)
+        //     }
+        //     else if(type==='couplePl'){
+        //         couplePl.value = rows.value.map(row=>row)
+        //     }
+           
+        // }
+
         
         // watch(['rows', 'places', 'simplePl', 'vipPl', 'couplePl',], values=>{
         //     console.log(values)
@@ -149,7 +168,8 @@ export default {
             couplePl,
             open,
             info,
-            isReadyHall
+            isReadyHall,
+            // chooseAll
         }
     }
 }
