@@ -9,9 +9,9 @@
       </h3>
       <p>г.{{cinema.city}}</p>
       <div v-if="cinema.hallamounts>0">
-        <can-vas v-for=" el of cinema.hallamounts " :key="el" :info="cinema.val[`id${el}`]" :id='el'></can-vas>
+        <hall v-for=" el of cinema.hallamounts " :key="el" :info="info={'val':{...cinema.val[`id${el}`]}, id:el}" ></hall>
       </div>
-     
+     <!-- :id='el' -->
       
       <hr/>
       <button class="btn" @click="update">Изменить</button>
@@ -30,12 +30,12 @@ import {useRoute, useRouter} from 'vue-router'
 import { useStore } from "vuex";
 // import {date} from '../../use/date'
 import  AppLoader from '../../ui/AppLoader.vue'
-import CanVas from '../../canvas/CanVas.vue';
+import Hall from '../../hall/Hall.vue';
 
 export default {
       components:{
         AppLoader,
-            CanVas,
+            Hall,
     },
     setup(){
         const route = useRoute()
@@ -55,6 +55,7 @@ export default {
                 id:route.params.idc,
             },)
             loading.value = false
+            console.log(cinema);
 
         })
         const remove =async()=>{

@@ -126,7 +126,7 @@ const router = createRouter({
         },
 
         { path:"/:notFound(.*)", component:TheNotFound,},
-        { path:"/canvas", component:()=>import('../tabs/Admin_Portal/canvas/CanvasHalls'),},
+        { path:"/hall", component:()=>import('../tabs/Admin_Portal/hall/Hall.vue'),},
 
 
     ],

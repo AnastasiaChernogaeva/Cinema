@@ -50,19 +50,19 @@
 
         <button class="btn" type="submit" >Сохранить</button>
     </form>
-     <canvas-halls v-if="isReadyHall" :info="info"></canvas-halls>
+     <hall v-if="isReadyHall" :info="info"></hall>
 </div>
 
 </template>
 
 <script>
 import { ref, watch, reactive } from "vue";
-import CanvasHalls from "../canvas/CanvasHalls.vue"
+import Hall from "../hall/Hall.vue"
 
 
 export default {
     components:{
-        CanvasHalls,
+        Hall,
     },
     props:['id'],
     emits:['hall'],
