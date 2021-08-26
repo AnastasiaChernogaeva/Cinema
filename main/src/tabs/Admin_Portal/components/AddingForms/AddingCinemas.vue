@@ -64,7 +64,7 @@ export default {
         
         const submit = async values =>{
             const v = {...values, val:hallForm}
-            console.log(v);
+            // console.log(v);
             await store.dispatch('requests/create', {'value':v, 'rType':'cinemas',});
             emit('added')
         } 

@@ -143,7 +143,7 @@ export default {
           )
         )
 
-    watch(filter, values => console.log(values))
+    //watch(filter, values => console.log(values))
       
 
       return{

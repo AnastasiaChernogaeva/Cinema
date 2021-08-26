@@ -55,7 +55,7 @@ export default {
                 id:route.params.idc,
             },)
             loading.value = false
-            console.log(cinema);
+            // console.log(cinema);
 
         })
         const remove =async()=>{

@@ -39,7 +39,7 @@ export function useSessionsForms(func){
         // .max("22:00",'Последний сеанс может начаться не позже 22:00')
         )
       const chosenAddServices = []
-      console.log(chosenAddServices);
+     // console.log(chosenAddServices);
 
     
     // const {value:finishSessionTime, errorMessage:finishSessionTimeError, handleBlur:finishSessionTimBlur} = useField('startSessionTime', yup

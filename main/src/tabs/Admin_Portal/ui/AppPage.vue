@@ -105,7 +105,7 @@ import { onMounted, onUpdated} from "vue";
 
       const filter = ref({})
    
-       watch(filter, val=> console.log(val.value))
+      // watch(filter, val=> console.log(val.value))
        
 
         return{
