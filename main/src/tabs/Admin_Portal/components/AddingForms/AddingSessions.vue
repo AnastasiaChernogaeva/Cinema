@@ -15,7 +15,7 @@
 
           <div :class="['form-control', ]">  
                 <label for="cinemaName">Кинотеатр</label>
-                <select  id="cinemaName" v-model="chosenCinemaName" v-if="cityName" @blur="chosen" >
+                <select  id="cinemaName" v-model="chosenCinemaName" v-if="cityName"  >
                       <option default selected>Выберите кинотеатр</option>
                        <option v-for="(cinema,idx) of info.cinemas" :value="cinema.cinemaName" :key="idx" >{{ cityName.includes(cinema.city)?cinema.cinemaName:null}}</option>
                 </select>
@@ -26,12 +26,12 @@
          </div>
           <div :class="['form-control', ]" v-if="chosenCinemaName">  
                 <label for="hallnumber">Зал</label>
-                <select  id="hallnumber" v-model="hallnumber"  >
+                <select  id="hallnumber" v-model="hallnumber" @focus="chosen" >
                   
                        <option v-for="(hall,idx) of halls " :value="hall" :key="idx" >{{hall}}</option>
                 </select>
          </div>
-         <!-- <div :class="['form-control', ]" v-if="chosenCinemaName">  
+         <!-- <div :class="['form-control', ]" v-if="chosenCinemaName">  @blur="chosen"
                 <label for="hallnumber">Зал</label>
                 <div class="checkbox" v-for="(hall,idx) of halls " :value="hall" :key="idx">
     <label><input type="checkbox" name="skills" v-model="hallnumber" :value="hall"/>{{hall}}</label>
@@ -85,28 +85,28 @@ export default {
     emits:['added'],
     setup( _, {emit},){
         const store = useStore()
-        const arr = ref(['films', 'services', 'cinemas',])
-        const cinemasCity = ref([])
-        const info = ref({})
+        // const arr = ref(['films', 'services', 'cinemas',])
+        // const cinemasCity = ref([])
+        // const info = ref({})
 
-        onMounted(async ()=>{
-          await store.dispatch('requests/loadAll', arr.value );
-          // console.log(res)
-          // if (res){const res = 
+        // onMounted(async ()=>{
+        //   await store.dispatch('requests/loadAll', arr.value );
+        //   // console.log(res)
+        //   // if (res){const res = 
          
-          // }
-        }) 
-         setTimeout(()=> {  
-          const cinemas =  store.getters['requests/cinemas']
-          const films =  store.getters['requests/films']
-          const services =  store.getters['requests/services']
-          console.log(  cinemas);
-          info.value['cinemas'] =  cinemas
-          info.value['films'] = films
-          info.value['services'] = services
-          // console.log( info.value.cinemas.forEach(cinema=>cinema.cinemaName==='Lovi_Movie'?halls.value=cinema.val:null))
-          // console.log(halls.value);
-          },2000)
+        //   // }
+        // }) 
+        //  setTimeout(()=> {  
+        //   const cinemas =  store.getters['requests/cinemas']
+        //   const films =  store.getters['requests/films']
+        //   const services =  store.getters['requests/services']
+        //   console.log(  cinemas);
+        //   info.value['cinemas'] =  cinemas
+        //   info.value['films'] = films
+        //   info.value['services'] = services
+        //   // console.log( info.value.cinemas.forEach(cinema=>cinema.cinemaName==='Lovi_Movie'?halls.value=cinema.val:null))
+        //   // console.log(halls.value);
+        //   },2000)
 
           // const chosen = ()=>{
           //  info.value.cinemas.forEach(cinema=>cinema.cinemaName==='Lovi_Movie'?halls.value=cinema.val:null)
@@ -121,8 +121,8 @@ export default {
         }
             return{
               // halls,
-              info,
-              cinemasCity,
+              // info,
+              // cinemasCity,
                 ...useSessionsForms(submit)    
             }
     }

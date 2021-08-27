@@ -1,4 +1,4 @@
-import { ref} from "vue";
+import { ref, onMounted} from "vue";
 import * as yup from 'yup';
 import { useField, useForm } from "vee-validate";
 import { useStore } from "vuex";
@@ -51,6 +51,24 @@ export function useSessionsForms(func){
     //     )
 
         const onSubmit = handleSubmit(func)
+        const arr = ref(['films', 'services', 'cinemas',])
+        const cinemasCity = ref([])
+        const info = ref({})
+
+        onMounted(async ()=>{
+          await store.dispatch('requests/loadAll', arr.value );
+        }) 
+         setTimeout(()=> {  
+          const cinemas =  store.getters['requests/cinemas']
+          const films =  store.getters['requests/films']
+          const services =  store.getters['requests/services']
+          console.log(  cinemas);
+          info.value['cinemas'] =  cinemas
+          info.value['films'] = films
+          info.value['services'] = services
+          // console.log( info.value.cinemas.forEach(cinema=>cinema.cinemaName==='Lovi_Movie'?halls.value=cinema.val:null))
+          // console.log(halls.value);
+          },2000)
 
         const halls=ref({})
 
@@ -63,6 +81,8 @@ export function useSessionsForms(func){
 
         return{
             chosen,
+            info,
+            cinemasCity,
             chosenAddServices,
             chosenCinemaName,
             cityName, sessionFilmName,
