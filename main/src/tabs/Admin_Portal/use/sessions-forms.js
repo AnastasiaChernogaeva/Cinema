@@ -1,4 +1,4 @@
-import { computed, watch } from "vue";
+import { ref} from "vue";
 import * as yup from 'yup';
 import { useField, useForm } from "vee-validate";
 import { useStore } from "vuex";
@@ -52,14 +52,12 @@ export function useSessionsForms(func){
 
         const onSubmit = handleSubmit(func)
 
+        const halls=ref({})
+
+
 
         const chosen = ()=>{
-          halls.value=info.value.cinemas.find(cinema=>{
-         if(cinema.cinemaName===chosenCinemaName){
-           return cinema.val
-           }
-         else return null
-         })
+          info.value.cinemas.forEach(cinema=>cinema.cinemaName==='Lovi_Movie'?halls.value=cinema.val:null)
 
          }
 

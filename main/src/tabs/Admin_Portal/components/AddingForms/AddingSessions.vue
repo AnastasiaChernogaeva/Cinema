@@ -24,13 +24,13 @@
                        <option v-for="(cinema,idx) of info.cinemas" :value="cinema.cinemaName" :key="idx" >{{cinema.cinemaName}}</option>
                 </select>
          </div>
-          <!-- <div :class="['form-control', ]" v-if="chosenCinemaName">  
+          <div :class="['form-control', ]" v-if="chosenCinemaName">  
                 <label for="hallnumber">Зал</label>
                 <select  id="hallnumber" v-model="hallnumber"  >
                   
                        <option v-for="(hall,idx) of halls " :value="hall" :key="idx" >{{hall}}</option>
                 </select>
-         </div> -->
+         </div>
          <!-- <div :class="['form-control', ]" v-if="chosenCinemaName">  
                 <label for="hallnumber">Зал</label>
                 <div class="checkbox" v-for="(hall,idx) of halls " :value="hall" :key="idx">
@@ -88,7 +88,6 @@ export default {
         const arr = ref(['films', 'services', 'cinemas',])
         const cinemasCity = ref([])
         const info = ref({})
-        const halls=ref({})
 
         onMounted(async ()=>{
           await store.dispatch('requests/loadAll', arr.value );
@@ -105,16 +104,12 @@ export default {
           info.value['cinemas'] =  cinemas
           info.value['films'] = films
           info.value['services'] = services
-          console.log( info.value);
+          // console.log( info.value.cinemas.forEach(cinema=>cinema.cinemaName==='Lovi_Movie'?halls.value=cinema.val:null))
+          // console.log(halls.value);
           },2000)
 
           // const chosen = ()=>{
-          //  halls.value=info.value.cinemas.find(cinema=>{
-          // if(cinema.cinemaName===chosenCinemaName){
-          //   return cinema.val
-          //   }
-          // else return null
-          // })
+          //  info.value.cinemas.forEach(cinema=>cinema.cinemaName==='Lovi_Movie'?halls.value=cinema.val:null)
 
           // }
           
@@ -125,9 +120,8 @@ export default {
             emit('added')
         }
             return{
-              halls,
+              // halls,
               info,
-              
               cinemasCity,
                 ...useSessionsForms(submit)    
             }
