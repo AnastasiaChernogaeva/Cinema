@@ -46,14 +46,26 @@ export function useSessionsForms(func){
     //     .string()
     //     .trim()
     //     .required('Это обязательное поле! Пожалуйста, введите время окончания сеанса.')
-    //     .min("12:00",'Раньше 10 утра кинотеатр не откроется.')
-    //     .max("00:00",'Последний сеанс может заканчиваться до 00:00')
+    //     // .min("12:00",'Раньше 10 утра кинотеатр не откроется.')
+    //     // .max("00:00",'Последний сеанс может заканчиваться до 00:00')
     //     )
 
         const onSubmit = handleSubmit(func)
 
 
+        const chosen = ()=>{
+          halls.value=info.value.cinemas.find(cinema=>{
+         if(cinema.cinemaName===chosenCinemaName){
+           return cinema.val
+           }
+         else return null
+         })
+
+         }
+
         return{
+            chosen,
+            chosenAddServices,
             chosenCinemaName,
             cityName, sessionFilmName,
             // chosenAddServices,

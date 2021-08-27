@@ -24,36 +24,38 @@
         <div class="form-checkbox">
 
             <span class="label">Выберите номера рядов с обычными местами</span>
-            <!-- <button class="btn" @click="chooseAll('simplePl')">Выбрать все</button> -->
+            <!-- <button class="btn" @click="checkedAllSimple=!checkedAllSimple">Выбрать все</button> :checked="checkedAllSimple"-->
 
             <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
-                <label><input type="checkbox" name="simplePl" v-model="simplePl" :value="row"/>{{row}}</label>
+                <label><input type="checkbox" name="simplePl" v-model="simplePl" :value="row" />{{row}}</label>
             </div>
         </div>
 
         <div class="form-checkbox">
 
             <span class="label">Выберите номера рядов с VIP местами</span>
-            <!-- <button class="btn" @click="chooseAll('vipPl')">Выбрать все</button> -->
+            <!-- <button class="btn" @click="checkedAllVip=!checkedAllVip">Выбрать все</button> :checked="checkedAllVip"-->
 
 
             <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
-                <label><input type="checkbox" name="vipPl" v-model="vipPl" :value="row"/>{{row}}</label>
+                <label><input type="checkbox" name="vipPl" v-model="vipPl" :value="row" />{{row}}</label>
             </div>
         </div>
 
         <div class="form-checkbox">
 
-            <span class="label">Выберите номера рядов с местами для двоих</span>
-            <!-- <button class="btn" @click="chooseAll('couplePl')">Выбрать все</button> -->
-
+            <span class="label">Выберите номера рядов с местами для двоих
+                 </span>
+           
+<!-- <button class="btn" @click="checkedAllCouple=!checkedAllCouple">Выбрать все</button> :checked="checkedAllCouple"-->
 
             <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
-                <label><input type="checkbox" name="couplePl" v-model="couplePl" :value="row"/>{{row}}</label>
+                <label><input type="checkbox" name="couplePl" v-model="couplePl" :value="row" />
+                {{row}}</label>
             </div>
         </div>
 
-        <button class="btn" type="submit" >Сохранить</button>
+        <button class="btn" type="submit">Сохранить</button>
     </form>
      <hall v-if="isReadyHall" :info="info"></hall>
 </div>
@@ -102,6 +104,11 @@ export default {
         const info =  reactive ({})
         const open = ref(false)
         const isReadyHall = ref(false)
+        const checkedAllCouple = ref(false)
+        const checkedAllVip = ref(false)
+        const checkedAllSimple = ref(false)
+
+
 
         // const chooseAll = (type)=>{
         //     console.log(rows);
@@ -169,6 +176,7 @@ export default {
             open,
             info,
             isReadyHall,
+            checkedAllCouple, checkedAllVip, checkedAllSimple
             // chooseAll
         }
     }

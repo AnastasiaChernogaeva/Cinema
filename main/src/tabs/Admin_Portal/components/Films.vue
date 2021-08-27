@@ -7,7 +7,7 @@
         <tr>
           <th>#</th>
           <th>Название</th>
-          <!-- <th>Описание</th> -->
+          <!-- <th>Жанр</th> -->
           <th>Начало показа</th>
           <th>Окончание показа</th>
           <th>Постер</th>
@@ -20,7 +20,7 @@
 <router-link v-slot="{navigate}" custom :to="{name:'film', params:{idf:film.id}}">
           <td>{{ idx + 1}}</td>
           <td @click="navigate">{{film.filmName}}</td>
-          <!-- <td>{{film.filmDescription}}</td> -->
+          <!-- <td>{{film.genre}}</td> -->
           <td>{{date(film.startTime)}}</td>
           <td>{{date(film.finishTime)}}</td>
           <td><img :alt="film.filmName" :src="film.movieposter" ></td>

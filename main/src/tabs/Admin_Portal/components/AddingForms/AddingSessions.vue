@@ -3,10 +3,73 @@
      <form class="card" @submit.prevent="onSubmit"  >  
          <div :class="['form-control', ]">  
                 <label for="cityName">Город</label>
-                <select  id="cityName" v-model="cityName"  >
-                       <option v-for="(cinema,idx) of info.cinemas" value="city" :key="idx" >{{cinema.city}}</option>
+                <!-- <select  id="cityName" v-model="cityName"   v-if="chosenCinemaName">
+                      <option default selected>Выберите город</option>
+                       <option v-for="(cinema,idx) of info.cinemas" :value="cinema.city" :key="idx" >{{ chosenCinemaName.includes(cinema.cinemaName)?cinema.city:null}}</option> v-else
+                </select> -->
+                <select  id="cinemaName" v-model="cityName">
+                      <option default selected>Выберите город</option>
+                       <option v-for="(cinema,idx) of info.cinemas" :value="cinema.city" :key="idx" >{{cinema.city}}</option>
                 </select>
          </div>
+
+          <div :class="['form-control', ]">  
+                <label for="cinemaName">Кинотеатр</label>
+                <select  id="cinemaName" v-model="chosenCinemaName" v-if="cityName" @blur="chosen" >
+                      <option default selected>Выберите кинотеатр</option>
+                       <option v-for="(cinema,idx) of info.cinemas" :value="cinema.cinemaName" :key="idx" >{{ cityName.includes(cinema.city)?cinema.cinemaName:null}}</option>
+                </select>
+                <select  id="cinemaName" v-model="chosenCinemaName" v-else>
+                      <option default selected>Выберите кинотеатр</option>
+                       <option v-for="(cinema,idx) of info.cinemas" :value="cinema.cinemaName" :key="idx" >{{cinema.cinemaName}}</option>
+                </select>
+         </div>
+          <!-- <div :class="['form-control', ]" v-if="chosenCinemaName">  
+                <label for="hallnumber">Зал</label>
+                <select  id="hallnumber" v-model="hallnumber"  >
+                  
+                       <option v-for="(hall,idx) of halls " :value="hall" :key="idx" >{{hall}}</option>
+                </select>
+         </div> -->
+         <!-- <div :class="['form-control', ]" v-if="chosenCinemaName">  
+                <label for="hallnumber">Зал</label>
+                <div class="checkbox" v-for="(hall,idx) of halls " :value="hall" :key="idx">
+    <label><input type="checkbox" name="skills" v-model="hallnumber" :value="hall"/>{{hall}}</label>
+  </div>
+                
+         </div> -->
+          <div :class="['form-control', ]">  
+                <label for="film">Фильм</label>
+                <select  id="film" v-model="sessionFilmName"  >
+                       <option v-for="(film,idx) of info.films" :value="film.filmName" :key="idx" >{{film.filmName}}</option>
+                </select>
+         </div>
+
+         
+<div class="form-checkbox">
+
+  <span class="label">Дополнительные услуги</span> 
+
+   <div class="checkbox" v-for="(service,idx) of info.services" :key="idx">
+    <label><input type="checkbox" name="chosenAddServices" v-model="chosenAddServices" :value="service.addServices"/>{{service.addServices}}</label>
+  </div>
+
+</div>
+
+
+
+        <div :class="['form-control', {'invalid':startSessionTimeError},]"> 
+                <label for="startSessionTime">Время начала сеанса</label>
+                <input
+                    min="10:00" max="22:00"
+                    type="time"
+                    id="startSessionTime"
+                    v-model="startSessionTime"
+                    @blur="startSessionTimeBlur"
+                >
+                <small style="color:green;" >Учтите время работы кинотеатра( рабочие часы: 10:00 - 24:00 )</small>
+                <small v-if="startSessionTimeError">{{startSessionTimeError}}</small>
+  </div> 
 <!-- v-if="!cinemasCity.includes(cinema.city) && cinemasCity.push(cinema.city)" -->
             <button class="btn primary" type="submit" :disabled="isSubmitting" >Добавить</button>      
 
@@ -14,7 +77,7 @@
 </template>
 
 <script>
-import {ref, onMounted, reactive} from 'vue'
+import {ref, onMounted, computed} from 'vue'
 import { useStore } from 'vuex';
 import { useSessionsForms } from "../../use/sessions-forms";
 
@@ -25,6 +88,7 @@ export default {
         const arr = ref(['films', 'services', 'cinemas',])
         const cinemasCity = ref([])
         const info = ref({})
+        const halls=ref({})
 
         onMounted(async ()=>{
           await store.dispatch('requests/loadAll', arr.value );
@@ -41,13 +105,17 @@ export default {
           info.value['cinemas'] =  cinemas
           info.value['films'] = films
           info.value['services'] = services
-          console.log( info.value);},2000)
+          console.log( info.value);
+          },2000)
 
-          // if(info.value!=={}){
-          //   var cinemas = info.value.cinemas
-          //   console.log('CCC',info.value.cinemas);
-          //   // cinemasCity.value = cinemas.map(cinema=>cinemasCity.includes(cinema.city)?'':cinema.city)
-          //   console.log(cinemasCity);
+          // const chosen = ()=>{
+          //  halls.value=info.value.cinemas.find(cinema=>{
+          // if(cinema.cinemaName===chosenCinemaName){
+          //   return cinema.val
+          //   }
+          // else return null
+          // })
+
           // }
           
 
@@ -57,7 +125,9 @@ export default {
             emit('added')
         }
             return{
+              halls,
               info,
+              
               cinemasCity,
                 ...useSessionsForms(submit)    
             }
