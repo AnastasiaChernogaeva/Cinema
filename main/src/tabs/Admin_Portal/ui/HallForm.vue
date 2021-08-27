@@ -1,18 +1,20 @@
 <template>
 <div class="container">
    <div v-if="open === false" class="formhall"> <button class="btn danger" @click="open = true">Сформировать зал {{id}}</button></div>
-    <form @submit.prevent="save" v-else-if="isReadyHall === false"  >  
+    <form @submit.prevent="onSubmit" v-else-if="isReadyHall === false"  >  
     <h2>План зала {{id}}</h2>
-  <div class="form-control">
-        <label for="rows">Количество рядов</label>
+  <div :class="['form-control', {'invalid':rowsError},]"> 
+              <label for="rows">Количество рядов</label>
           <input
                 type="number"
                 id="rows"
                 v-model="rows"
                 @blur="rowsBlur"
         >
+        <small v-if="rowsError">{{rowsError}}</small>
+
   </div>
-  <div class="form-control">
+   <div :class="['form-control', {'invalid':placesError},]"> 
         <label for="places">Количество мест в одном ряду </label>
           <input
                 type="number"
@@ -20,8 +22,10 @@
                 v-model="places"
                 @blur="placesBlur"
         >
+         <small v-if="placesError">{{placesError}}</small>
+
     </div>
-        <div class="form-checkbox">
+        <div class="form-checkbox" >
 
             <span class="label">Выберите номера рядов с обычными местами</span>
             <!-- <button class="btn" @click="checkedAllSimple=!checkedAllSimple">Выбрать все</button> :checked="checkedAllSimple"-->
@@ -31,7 +35,7 @@
             </div>
         </div>
 
-        <div class="form-checkbox">
+        <div class="form-checkbox" >
 
             <span class="label">Выберите номера рядов с VIP местами</span>
             <!-- <button class="btn" @click="checkedAllVip=!checkedAllVip">Выбрать все</button> :checked="checkedAllVip"-->
@@ -42,7 +46,7 @@
             </div>
         </div>
 
-        <div class="form-checkbox">
+        <div class="form-checkbox" >
 
             <span class="label">Выберите номера рядов с местами для двоих
                  </span>
@@ -55,7 +59,7 @@
             </div>
         </div>
 
-        <button class="btn" type="submit">Сохранить</button>
+        <button class="btn" type="submit" :disabled="isSubmitting">Сохранить</button>
     </form>
      <hall v-if="isReadyHall" :info="info"></hall>
 </div>
@@ -64,6 +68,9 @@
 
 <script>
 import { ref, watch, reactive } from "vue";
+import * as yup from 'yup';
+import { useField, useForm } from "vee-validate";
+
 import Hall from "../hall/Hall.vue"
 
 
@@ -73,31 +80,9 @@ export default {
     },
     props:['id'],
     emits:['hall'],
-    // data(){
-    //     return{
-    //         rows:0,
-    //         places:0,
-    //         simplePl:[],
-    //         vipPl:[],
-    //         couplePl:[],
-    //         info:{},
-    //     }
-    // },
-    // methods: {
-    //     save () {
-    //                 info[id] = {
-    //                 rows:values[0],
-    //                 places:values[1],
-    //                 simplePl:values[2],
-    //                 vipPl:values[3],
-    //                 couplePl:values[4],
-    //             }
-    //     },
-    // },
-    // watch
     setup( props, {emit},){
-        const rows = ref()
-        const places = ref()
+        // const rows = ref()
+        // const places = ref()
         const simplePl = ref([])
         const vipPl = ref([])
         const couplePl = ref([])
@@ -107,47 +92,21 @@ export default {
         const checkedAllCouple = ref(false)
         const checkedAllVip = ref(false)
         const checkedAllSimple = ref(false)
+        // const rowsArr = ref([])
 
 
 
-        // const chooseAll = (type)=>{
-        //     console.log(rows);
-        //     if(type==='simplePl'){
-        //         simplePl.value = rows.value.map(row=>row) 
-        //     }
-        //     else if(type==='vipPl'){
-        //         vipPl.value = rows.value.map(row=>row)
-        //     }
-        //     else if(type==='couplePl'){
-        //         couplePl.value = rows.value.map(row=>row)
-        //     }
-           
-        // }
+    const {handleSubmit, isSubmitting, } = useForm()
 
-        
-        // watch(['rows', 'places', 'simplePl', 'vipPl', 'couplePl',], values=>{
-        //     console.log(values)
-        //     emit('hall',{
-        //         val:{
-        //             rows:values[0],
-        //             places:values[1],
-        //             simplePl:values[2],
-        //             vipPl:values[3],
-        //             couplePl:values[4],
-        //         },                
-        //         id:id,
-        //     })
-        //     console.log(id)
-        //     info[id] = {
-        //             rows:values[0],
-        //             places:values[1],
-        //             simplePl:values[2],
-        //             vipPl:values[3],
-        //             couplePl:values[4],
-        //         }
-        //     console.log(values)
-        // }
-        // )
+
+      const {value:rows, errorMessage:rowsError, handleBlur:rowsBlur} = useField('rows',yup
+        .string()
+        .trim()
+        .required('Это обязательное поле! Пожалуйста, введите количество рядов.'))
+      const {value:places, errorMessage:placesError, handleBlur:placesBlur} = useField('places',yup
+        .string()
+        .trim()
+        .required('Это обязательное поле! Пожалуйста, введите количество мест в ряду.'))
 
         const save = ()=>{
             info.value = {
@@ -165,18 +124,24 @@ export default {
             emit('hall',info)
         }
 
+        const onSubmit = handleSubmit(save)
+
+        // rowsArr.value=rows.map(row=>row)
+
 
         return{
-            save,
+            rowsError, rowsBlur,
+            // save,
             rows,
-            places,
+            places, placesBlur, placesError,
             simplePl,
             vipPl,
             couplePl,
             open,
             info,
             isReadyHall,
-            checkedAllCouple, checkedAllVip, checkedAllSimple
+            checkedAllCouple, checkedAllVip, checkedAllSimple,
+            isSubmitting,onSubmit
             // chooseAll
         }
     }

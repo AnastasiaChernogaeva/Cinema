@@ -3,6 +3,9 @@
         <h3>Movie Time</h3>
         <ul class="navbar-menu">
             <li>
+                <router-link to="/admin/orders">Заказы</router-link>
+            </li>
+            <li>
                 <router-link to="/admin/films">Фильмы</router-link>
             </li>
             <li>

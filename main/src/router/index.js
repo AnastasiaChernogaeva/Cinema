@@ -13,6 +13,8 @@ const Films = () => import ('../tabs/Admin_Portal/components/Films');
 const Cinemas = () => import ('../tabs/Admin_Portal/components/Cinemas');
 const Sessions = () => import ('../tabs/Admin_Portal/components/Sessions');
 const AdditionalServices = () => import ('../tabs/Admin_Portal/components/AdditionalServices');
+const Orders = () => import ('../tabs/Admin_Portal/components/Orders');
+
 
 //клиентская часть
 const TheClientsView = () => import ('../tabs/Clients_Interface/components/TheClientsView');
@@ -49,6 +51,10 @@ const router = createRouter({
                                 {
                                     path:"services",
                                     component:AdditionalServices,
+                                },
+                                {
+                                    path:"orders",
+                                    component:Orders,
                                 },
                     ],
                     meta:{
@@ -87,6 +93,15 @@ const router = createRouter({
                     path:"/admin/cinema:idc?",
                     component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/CinemasTemplate'),
                     name:'cinema',
+                    meta:{
+                        layout:'main-admin',
+                        authAdmin:true,
+                    },
+                },
+                {   
+                    path:"/admin/order:ido?",
+                    component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/OrdersTemplate'),
+                    name:'order',
                     meta:{
                         layout:'main-admin',
                         authAdmin:true,

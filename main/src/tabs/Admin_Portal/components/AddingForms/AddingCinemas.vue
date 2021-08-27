@@ -11,7 +11,7 @@
                 <small v-if="cityError">{{cityError}}</small>
       </div>
 
-        <div :class="['form-control', {'invalid':Error},]"> 
+        <div :class="['form-control', {'invalid':cinemaError},]"> 
                 <label for="cinemaName">Название кинотеатра</label>
                 <input
                     type="text"

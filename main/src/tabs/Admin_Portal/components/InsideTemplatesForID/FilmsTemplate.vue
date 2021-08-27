@@ -21,7 +21,7 @@
       </div>
       
       <hr/>
-      <button class="btn primary" @click="update">Изменить</button>
+      <!-- <button class="btn primary" @click="update">Изменить</button> -->
       <button class="btn danger" @click="remove">Удалить</button>
 
   </div>

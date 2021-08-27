@@ -4,6 +4,7 @@ const SUBTITLES_MAP = {
     sessions:'Сеансы',
     services:'Дополнительные услуги',
     adding:'Добавить',
+    orders:'Заказы',
 
 }
 
