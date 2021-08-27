@@ -71,19 +71,34 @@ export function useSessionsForms(func){
           },2000)
 
         const halls=ref({})
+        const hallInfo = ref({})
 
 
 
         const chosen = ()=>{
-          info.value.cinemas.forEach(cinema=>cinema.cinemaName==='Lovi_Movie'?halls.value=cinema.val:null)
+          info.value.cinemas.forEach(cinema=>cinema.cinemaName===chosenCinemaName?halls.value=Object.keys(cinema.val):null)
           console.log(halls.value);
-          console.log(halls.value[id1]);
+          // console.log(Object.keys(halls.value));
+
+         }
+
+         const showHall = ()=>{
+          info.value.cinemas.forEach(cinema=>{
+            if(cinema.cinemaName===chosenCinemaName){
+              halls.value.forEach(id=>id===('id'+hallnumber)?hallInfo.value=cinema.val[id]:null)
+            }
+          })
+          console.log(hallInfo.value);
+          // console.log(Object.keys(halls.value));
 
          }
 
         return{
             chosen,
             info,
+            halls,
+            showHall,
+            hallInfo,
             cinemasCity,
             chosenAddServices,
             chosenCinemaName,

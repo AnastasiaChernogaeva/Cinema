@@ -9,6 +9,33 @@
           <span>{{session}}</span> 
           
       </h3>
+         <table  class=" sessionT">
+      <thead>
+        <tr>
+          <th>Фильм:</th>
+          <th>Город:</th>
+          <th>Кинотеатр:</th>
+          <th>Время:</th>
+          
+          <th>Зал:</th>
+          <th>Места:</th>
+          <th>Дополнительные услуги:</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <!--  @click="navigate"<router-link v-slot="{navigate}" custom :to="{name:'session', params:{ids:session.id}}"> -->
+          <td>{{session.sessionFilmName}}</td>
+          <td>{{session.cityName}}</td>
+          <td>{{session.chosenCinemaName}}</td>
+          <td>{{session.startSessionTime}}</td>
+          
+          <!-- <td>{{session.cityName}}</td>
+          <td>{{session.cityName}}</td> -->
+          <!-- </router-link> -->
+        </tr>
+      </tbody>
+    </table>
       
       <hr/>
       <button class="btn primary" @click="update">Изменить</button>
@@ -71,6 +98,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+    .sessionT{
+        color:red;
+    }
+    th {
+    display: table;
+}
 </style>

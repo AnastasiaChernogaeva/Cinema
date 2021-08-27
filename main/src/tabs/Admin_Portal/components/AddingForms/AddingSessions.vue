@@ -26,11 +26,12 @@
          </div>
           <div :class="['form-control', ]" v-if="chosenCinemaName">  
                 <label for="hallnumber">Зал</label>
-                <select  id="hallnumber" v-model="hallnumber" @focus="chosen" >
+                <select  id="hallnumber" v-model="hallnumber" @focus="chosen" @blur="showHall">
                   
-                       <option v-for="(hall,idx) of halls " :value="'id'+(idx+1)" :key="idx" >{{hall[idx+1]}}</option>
+                       <option v-for="(hall,idx) of halls " :value="hall" :key="idx" >{{idx+1}}</option>
                 </select>
          </div>
+         <hall v-if="hallnumber" :info="hallInfo"></hall>
          <!-- <div :class="['form-control', ]" v-if="chosenCinemaName">  @blur="chosen"
                 <label for="hallnumber">Зал</label>
                 <div class="checkbox" v-for="(hall,idx) of halls " :value="hall" :key="idx">
@@ -80,8 +81,12 @@
 import {ref, onMounted, computed} from 'vue'
 import { useStore } from 'vuex';
 import { useSessionsForms } from "../../use/sessions-forms";
+import Hall from "../../hall/Hall.vue";
 
 export default {
+  components:{
+    Hall,
+  },
     emits:['added'],
     setup( _, {emit},){
         const store = useStore()

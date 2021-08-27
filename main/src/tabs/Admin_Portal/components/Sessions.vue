@@ -5,6 +5,7 @@
       <thead>
         <tr>
           <th>#</th>
+          <th>Город</th>
           <th>Кинотеатр</th>
           <th>Время</th>
           <th>Фильм</th>
@@ -16,13 +17,13 @@
       <tbody>
         <tr v-for="(session,idx) in sessions" :key="idx" >
           <router-link v-slot="{navigate}" custom :to="{name:'session', params:{ids:session.id}}">
-          <td></td>
-          <td></td>
-          <td @click="navigate"></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>{{idx+1}}</td>
+          <td>{{session.cityName}}</td>
+          <td @click="navigate">{{session.chosenCinemaName}}</td>
+          <td>{{session.startSessionTime}}</td>
+          <td>{{session.sessionFilmName}}</td>
+          <!-- <td>{{session.cityName}}</td>
+          <td>{{session.cityName}}</td> -->
           </router-link>
         </tr>
       </tbody>
