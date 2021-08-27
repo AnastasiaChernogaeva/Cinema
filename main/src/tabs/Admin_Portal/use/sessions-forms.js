@@ -76,6 +76,8 @@ export function useSessionsForms(func){
 
         const chosen = ()=>{
           info.value.cinemas.forEach(cinema=>cinema.cinemaName==='Lovi_Movie'?halls.value=cinema.val:null)
+          console.log(halls.value);
+          console.log(halls.value[id1]);
 
          }
 

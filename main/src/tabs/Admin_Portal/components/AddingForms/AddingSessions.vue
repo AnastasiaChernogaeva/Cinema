@@ -28,7 +28,7 @@
                 <label for="hallnumber">Зал</label>
                 <select  id="hallnumber" v-model="hallnumber" @focus="chosen" >
                   
-                       <option v-for="(hall,idx) of halls " :value="hall" :key="idx" >{{hall}}</option>
+                       <option v-for="(hall,idx) of halls " :value="'id'+(idx+1)" :key="idx" >{{hall[idx+1]}}</option>
                 </select>
          </div>
          <!-- <div :class="['form-control', ]" v-if="chosenCinemaName">  @blur="chosen"
