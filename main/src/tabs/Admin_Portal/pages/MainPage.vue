@@ -5,12 +5,12 @@
     <div class="card">
       <h1 class="card-title">
           <span>{{subtitleWeNeed}}</span> 
-          <button class="btn primary" @click="modal = true">Добавить</button>
+          <button class="btn primary" @click="modal = true" v-if="subtitleWeNeed!=='Заказы'">Добавить</button>
       </h1>
       <keep-alive>
           <component :is="shareName+'-filter'" v-model="filter"></component>
       </keep-alive>
-     <router-view :films="films" :additionalServices="services" :cinemas="cinemas" :sessions="sessions"></router-view> 
+     <router-view :films="films" :additionalServices="services" :cinemas="cinemas" :sessions="sessions" :orders="orders"></router-view> 
      </div>
         <teleport to="body"> 
         <app-modal v-if="modal" @close="modal = false" >
@@ -142,6 +142,9 @@ export default {
         // })
       )
 
+      const orders = computed(()=> store.getters['requests/orders'])
+
+
         onMounted(async() => await store.dispatch('requests/load' ) )
         onUpdated( 
           computed(() =>{
@@ -155,7 +158,7 @@ export default {
       
 
       return{
-        films,cinemas,sessions,services,
+        films,cinemas,sessions,services, orders,
         modal, shareName, subtitleWeNeed, loading, filter
 
       }

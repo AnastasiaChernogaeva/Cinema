@@ -39,7 +39,7 @@ import {date} from '../use/date'
 import AppStatus from "../ui/AppStatus.vue";
 
 export default {
-  props:['order'],
+  props:['orders'],
   components:{
     AppStatus,
   },

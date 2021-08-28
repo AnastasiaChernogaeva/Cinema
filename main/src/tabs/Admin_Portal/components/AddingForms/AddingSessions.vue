@@ -26,19 +26,45 @@
          </div>
           <div :class="['form-control', ]" v-if="chosenCinemaName">  
                 <label for="hallnumber">Зал</label>
-                <select  id="hallnumber" v-model="hallnumber" @focus="chosen" @blur="showHall">
+                <select  id="hallnumber" v-model="hallnumber" @focus="chosen"  @change="showHall">
                   
                        <option v-for="(hall,idx) of halls " :value="hall" :key="idx" >{{idx+1}}</option>
                 </select>
          </div>
-         <hall v-if="hallnumber" :info="hallInfo"></hall>
-         <!-- <div :class="['form-control', ]" v-if="chosenCinemaName">  @blur="chosen"
-                <label for="hallnumber">Зал</label>
-                <div class="checkbox" v-for="(hall,idx) of halls " :value="hall" :key="idx">
-    <label><input type="checkbox" name="skills" v-model="hallnumber" :value="hall"/>{{hall}}</label>
-  </div>
-                
-         </div> -->
+         <div v-if="hallInfo!=={} && hallnumber" >
+         <hall :info="hallInfo" :key="newOne"></hall>
+
+              <div :class="['form-control', ]" v-if="couplePl"> 
+              <label for="pricesCPl" >Цены на места для парочек</label>
+                     <input
+                            type="string"
+                            id="pricesCPl"
+                            v-model="pricesCPl"
+                     >
+              
+           </div>
+           <div :class="['form-control', ]" v-if="vipPl"> 
+              <label for="pricesVPl" >Цены на VIP места</label>
+                     <input
+                            type="string"
+                            id="pricesVPl"
+                            v-model="pricesVPl"
+                     >
+              
+           </div>
+           <div :class="['form-control', ]" v-if="simplePl"> 
+              <label for="pricesSPl" >Цены на обычные места </label>
+                     <input
+                            type="string"
+                            id="pricesSPl"
+                            v-model="pricesSPl"
+                     >
+             
+           </div>
+
+   </div>
+         
+
           <div :class="['form-control', ]">  
                 <label for="film">Фильм</label>
                 <select  id="film" v-model="sessionFilmName"  >
@@ -50,9 +76,9 @@
 <div class="form-checkbox">
 
   <span class="label">Дополнительные услуги</span> 
-
-   <div class="checkbox" v-for="(service,idx) of info.services" :key="idx">
-    <label><input type="checkbox" name="chosenAddServices" v-model="chosenAddServices" :value="service.addServices"/>{{service.addServices}}</label>
+<!-- @change="serVices" -->
+   <div class="checkbox" v-for="(service,idx) of info.services" :key="idx"  >
+    <label><input type="checkbox" name="chosenAddServices" v-model="chosenAddServices" :value="service.addServices" />{{service.addServices}}</label>
   </div>
 
 </div>
@@ -78,7 +104,6 @@
 </template>
 
 <script>
-import {ref, onMounted, computed} from 'vue'
 import { useStore } from 'vuex';
 import { useSessionsForms } from "../../use/sessions-forms";
 import Hall from "../../hall/Hall.vue";
@@ -90,45 +115,16 @@ export default {
     emits:['added'],
     setup( _, {emit},){
         const store = useStore()
-        // const arr = ref(['films', 'services', 'cinemas',])
-        // const cinemasCity = ref([])
-        // const info = ref({})
-
-        // onMounted(async ()=>{
-        //   await store.dispatch('requests/loadAll', arr.value );
-        //   // console.log(res)
-        //   // if (res){const res = 
-         
-        //   // }
-        // }) 
-        //  setTimeout(()=> {  
-        //   const cinemas =  store.getters['requests/cinemas']
-        //   const films =  store.getters['requests/films']
-        //   const services =  store.getters['requests/services']
-        //   console.log(  cinemas);
-        //   info.value['cinemas'] =  cinemas
-        //   info.value['films'] = films
-        //   info.value['services'] = services
-        //   // console.log( info.value.cinemas.forEach(cinema=>cinema.cinemaName==='Lovi_Movie'?halls.value=cinema.val:null))
-        //   // console.log(halls.value);
-        //   },2000)
-
-          // const chosen = ()=>{
-          //  info.value.cinemas.forEach(cinema=>cinema.cinemaName==='Lovi_Movie'?halls.value=cinema.val:null)
-
-          // }
-          
-
-
+ 
         const submit = async values =>{
-            await store.dispatch('requests/create',{'value':values, 'rType':'sessions', } );
+            const v={...values,'pricesCPl':pricesCPl,'pricesSPl':pricesSPl,'pricesVPl':pricesVPl, 'chosenAddServices':chosenAddServices, }
+            console.log('VALUES',v)
+            await store.dispatch('requests/create',{'value':v, 'rType':'sessions', } );
             emit('added')
         }
             return{
-              // halls,
-              // info,
-              // cinemasCity,
-                ...useSessionsForms(submit)    
+                ...useSessionsForms(submit)   
+                 
             }
     }
 

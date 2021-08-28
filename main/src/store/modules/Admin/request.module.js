@@ -9,6 +9,7 @@ export default {
             cinemas:[],
             sessions:[],
             services:[],
+            orders:[],
             all:'',
         }
     },
@@ -118,6 +119,9 @@ export default {
           },
           services(state){
             return  state.services
+          },
+          orders(state){
+            return  state.orders
           },
           all(state){
             return  state.all

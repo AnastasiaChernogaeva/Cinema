@@ -1,4 +1,4 @@
-import { ref, onMounted} from "vue";
+import { ref, onMounted, reactive} from "vue";
 import * as yup from 'yup';
 import { useField, useForm } from "vee-validate";
 import { useStore } from "vuex";
@@ -38,17 +38,12 @@ export function useSessionsForms(func){
         // .min("10:00",'Раньше 10 утра кинотеатр не откроется.')
         // .max("22:00",'Последний сеанс может начаться не позже 22:00')
         )
-      const chosenAddServices = []
-     // console.log(chosenAddServices);
+      const chosenAddServices = ref([])
+      // const serVices=()=>{
+      //     console.log('chosenAddservices',chosenAddServices.value);
+      // }
+   
 
-    
-    // const {value:finishSessionTime, errorMessage:finishSessionTimeError, handleBlur:finishSessionTimBlur} = useField('startSessionTime', yup
-    //     .string()
-    //     .trim()
-    //     .required('Это обязательное поле! Пожалуйста, введите время окончания сеанса.')
-    //     // .min("12:00",'Раньше 10 утра кинотеатр не откроется.')
-    //     // .max("00:00",'Последний сеанс может заканчиваться до 00:00')
-    //     )
 
         const onSubmit = handleSubmit(func)
         const arr = ref(['films', 'services', 'cinemas',])
@@ -62,7 +57,7 @@ export function useSessionsForms(func){
           const cinemas =  store.getters['requests/cinemas']
           const films =  store.getters['requests/films']
           const services =  store.getters['requests/services']
-          console.log(  cinemas);
+          // console.log(  cinemas);
           info.value['cinemas'] =  cinemas
           info.value['films'] = films
           info.value['services'] = services
@@ -71,41 +66,56 @@ export function useSessionsForms(func){
           },2000)
 
         const halls=ref({})
-        const hallInfo = ref({})
+        const hallInfo = reactive({})
+        const newOne = ref(0)
+        const couplePl = ref([])
+        const simplePl = ref([])
+        const vipPl = ref([])
+        const pricesCPl = ref()
+        const pricesSPl = ref()
+        const pricesVPl = ref()
+
+
 
 
 
         const chosen = ()=>{
-          info.value.cinemas.forEach(cinema=>cinema.cinemaName===chosenCinemaName?halls.value=Object.keys(cinema.val):null)
-          console.log(halls.value);
+          // console.log('Название выьранного кинотеатра', chosenCinemaName.value);
+          info.value.cinemas.forEach(cinema=>cinema.cinemaName===chosenCinemaName.value?halls.value=Object.keys(cinema.val):null)
+          // console.log('ID залов',halls.value);
           // console.log(Object.keys(halls.value));
-
          }
-
-         const showHall = ()=>{
+      const showHall = ()=>{
           info.value.cinemas.forEach(cinema=>{
-            if(cinema.cinemaName===chosenCinemaName){
-              halls.value.forEach(id=>id===('id'+hallnumber)?hallInfo.value=cinema.val[id]:null)
+            if(cinema.cinemaName===chosenCinemaName.value){
+              halls.value.forEach(id=>id===hallnumber.value?hallInfo.value={'val':cinema.val[id], 'id':id}:null)
+              newOne.value+=1
+              couplePl.value=hallInfo.value.val.couplePl
+              simplePl.value=hallInfo.value.val.simplePl
+              vipPl.value=hallInfo.value.val.vipPl
+
+              // console.log('инфо о конкретном зале', hallInfo.value.val);
+              
             }
-          })
-          console.log(hallInfo.value);
+          })}
+   
+          // console.log(hallInfo.value);
           // console.log(Object.keys(halls.value));
 
-         }
+         
 
         return{
-            chosen,
+            couplePl, simplePl, vipPl,
+            newOne,
+            chosen,showHall,
             info,
-            halls,
-            showHall,
-            hallInfo,
-            cinemasCity,
+            halls,hallInfo,
+            cinemasCity,chosenAddServices,chosenCinemaName,cityName, sessionFilmName,
             chosenAddServices,
-            chosenCinemaName,
-            cityName, sessionFilmName,
-            // chosenAddServices,
             hallnumber, places, onSubmit,isSubmitting,
             startSessionTime, startSessionTimeBlur, startSessionTimeError, 
+            // serVices,
+            pricesCPl,pricesSPl,pricesVPl,
             
             // finishSessionTimBlur,finishSessionTime,finishSessionTimeError,
         }

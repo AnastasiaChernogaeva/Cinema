@@ -16,10 +16,12 @@ export default {
     },
     props:['info'],
     setup(props){
-        // console.log(props.info.val)
+        // console.log(props)
         // console.log(props.info.value.val)
 
-        const infRes=props.info.val?props.info.val:props.info.value.val
+        
+
+        const infRes=(props.info.val!=undefined)?props.info.val:props.info.value.val
         const idRes=props.info.id?props.info.id:props.info.value.id
 
         return{
