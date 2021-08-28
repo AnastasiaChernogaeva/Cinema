@@ -20,6 +20,9 @@ const Orders = () => import ('../tabs/Admin_Portal/components/Orders');
 const TheClientsView = () => import ('../tabs/Clients_Interface/components/TheClientsView');
 const Main = () => import ('../tabs/Clients_Interface/pages/Main');
 const ForgottenPassword = () => import ('../tabs/Clients_Interface/components/ForgottenPassword');
+const SignupUser = () => import ('../tabs/Clients_Interface/components/SignupUser');
+const LoginUser = () => import ('../tabs/Clients_Interface/components/LoginUser');
+
 
 
 
@@ -132,16 +135,23 @@ const router = createRouter({
             children:[
                 {   path:"main", 
                     component:Main, 
-                    alias:'/',
+                    alias:'',
                 },
-            // {
-                 //     path:"/forgottenPassword", component:ForgottenPassword,
-            // },
+                {   path:"loginUser", 
+                    component:LoginUser, 
+                },
+                {   path:"signupUser", 
+                    component:SignupUser, 
+                },
+                {
+                     path:"forgottenPassword", 
+                     component:ForgottenPassword,
+                },
             ],
         },
 
         { path:"/:notFound(.*)", component:TheNotFound,},
-        { path:"/hall", component:()=>import('../tabs/Admin_Portal/hall/Hall.vue'),},
+        // { path:"/hall", component:()=>import('../tabs/Admin_Portal/hall/Hall.vue'),},
 
 
     ],
