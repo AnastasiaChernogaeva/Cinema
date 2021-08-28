@@ -41,19 +41,16 @@ import AppLoader from "../ui/AppLoader.vue";
 import FilmsFilter from '../components/FilterForms/FilmsFilter.vue'
 import ServicesFilter from '../components/FilterForms/ServicesFilter.vue'
 import CinemasFilter from '../components/FilterForms/CinemasFilter.vue'
+import SessionsFilter from '../components/FilterForms/SessionsFilter.vue'
+
 
 
 export default {
   components:{
       AppLoader,
       AppModal,
-      AddingServices,
-      AddingFilms,
-      AddingCinemas,
-      AddingSessions,
-      FilmsFilter,
-      ServicesFilter,
-      CinemasFilter  
+      AddingServices, AddingFilms, AddingCinemas, AddingSessions,
+      FilmsFilter, ServicesFilter,CinemasFilter, SessionsFilter
   },
   setup(){
 
@@ -126,7 +123,26 @@ export default {
           else  return cinema
         })
       )
-      const sessions = computed(()=> store.getters['requests/sessions'])
+      const sessions = computed(()=> store.getters['requests/sessions']
+      .filter(session =>{
+          if(filter.value.cinemaname){
+            return session.chosenCinemaName.toLowerCase().includes(filter.value.cinemaname.toLowerCase())
+          }
+          else  return session
+        })
+        .filter(session =>{
+          if(filter.value.filmname){
+            return session.sessionFilmName.toLowerCase().includes(filter.value.filmname.toLowerCase())
+          }
+          else  return session
+        })
+        .filter(session =>{
+          if(filter.value.cityname){
+            return session.cityName.toLowerCase().includes(filter.value.cityname.toLowerCase())
+          }
+          else  return session
+        })
+      )
       const services = computed(()=> store.getters['requests/services']
         .filter(service =>{
           if(filter.value.aServices){

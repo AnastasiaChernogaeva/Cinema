@@ -5,37 +5,23 @@
           <router-link to="/admin/sessions">Вернуться к списку сеансов</router-link>
       </div>
        <h3 class="card-title">
-           <span>LOVE is in the AIR </span>
-          <span>{{session}}</span> 
-          
+         Сеанс №{{id}}
       </h3>
-         <table  class=" sessionT">
-      <thead>
-        <tr>
-          <th>Фильм:</th>
-          <th>Город:</th>
-          <th>Кинотеатр:</th>
-          <th>Время:</th>
-          
-          <th>Зал:</th>
-          <th>Места:</th>
-          <th>Дополнительные услуги:</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <!--  @click="navigate"<router-link v-slot="{navigate}" custom :to="{name:'session', params:{ids:session.id}}"> -->
-          <td>{{session.sessionFilmName}}</td>
-          <td>{{session.cityName}}</td>
-          <td>{{session.chosenCinemaName}}</td>
-          <td>{{session.startSessionTime}}</td>
-          
-          <!-- <td>{{session.cityName}}</td>
-          <td>{{session.cityName}}</td> -->
-          <!-- </router-link> -->
-        </tr>
-      </tbody>
-    </table>
+       <ul  class=" sessionT">
+          <li><b>Фильм:</b>&nbsp;{{session.sessionFilmName}}</li>
+          <li><b>Город:</b>&nbsp;{{session.cityName}}</li>
+          <li><b>Кинотеатр:</b>&nbsp;{{session.chosenCinemaName}}</li>
+          <li><b>Время:</b>&nbsp;{{session.startSessionTime}}</li>
+          <li><b>Зал:</b>&nbsp;{{session.hallnumber}}</li>
+          <li><b>Места:&nbsp;</b><span v-if="session.pricesCPl">{{session.pricesCPl?`Места для двоих - ${session.pricesCPl}BYN;`:null}}&nbsp;</span>
+            <span v-if="session.pricesSPl">{{session.pricesSPl?`Обычные места - ${session.pricesSPl}BYN;`:null}}&nbsp;</span>
+            <span v-if="session.pricesVPl">{{session.pricesVPl?`VIP места - ${session.pricesVPl}BYN;`:null}}&nbsp;</span>
+</li>
+          <li><b>Дополнительные услуги:</b>&nbsp;
+            <span v-if="session.chosenAddServices && session.chosenAddServices.length>0"> <span v-for="(oneservice, idx) of session.chosenAddServices" v-bind:key="idx">{{oneservice}}</span></span>
+          <span v-else>Нет</span>
+          </li>
+       </ul>
       
       <hr/>
       <!-- <button class="btn primary" @click="update">Изменить</button> -->
@@ -48,11 +34,9 @@
 </template>
 
 <script>
-// import {computed} from 'vue'
 import {ref, onMounted} from 'vue'
-import {useRoute} from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
 import { useStore } from "vuex";
-// import {date} from '../../use/date'
 import  AppLoader from '../../ui/AppLoader.vue'
 
 export default {
@@ -61,12 +45,10 @@ export default {
     },
     setup(){
         const route = useRoute()
+        const router = useRouter()
         const store = useStore()
         const loading = ref(false)
         const session = ref({})
-        // const keyS = route.path.split('/')[route.path.split('/').length-1]
-        // const films =  computed(()=> store.getters['requests/films'].filter(elem =>elem.id === keyS))
-        // const film = films.value[0]
 
 
         onMounted(async()=>{
@@ -79,20 +61,20 @@ export default {
 
         })
 
-        const remove = ()=>{
-
+        const remove =async()=>{
+            await store.dispatch('requests/remove',{
+                rType:'sessions',
+                id:route.params.ids,
+            },)
+            router.push('/admin/sessions')
         }
 
-        const update = ()=>{
-            
-        }
-        
         return{
             loading,
             // date,
             session,
             remove,
-            update
+            id:route.params.ids,
         }
     }
 }
@@ -100,9 +82,5 @@ export default {
 
 <style scoped>
     .sessionT{
-        color:red;
-    }
-    th {
-    display: table;
-}
+      list-style-type: none;    }
 </style>

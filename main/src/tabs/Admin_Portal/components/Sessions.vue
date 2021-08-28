@@ -32,7 +32,7 @@
 
             </td>
              <td>
-               {{session.chosenAddServices?'Есть':'Нет'}}
+               {{session.chosenAddServices && session.chosenAddServices.length>0?'Есть':'Нет'}}
             </td>
           </router-link>
         </tr>

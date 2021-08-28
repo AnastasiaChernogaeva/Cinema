@@ -11,10 +11,6 @@
       <div v-if="cinema.hallamounts>0">
         <hall v-for=" el of cinema.hallamounts " :key="el" :info="info={'val':{...cinema.val[`id${el}`]}, id:el}" ></hall>
       </div>
-     <!-- :id='el' -->
-      
-      <hr/>
-      <!-- <button class="btn" @click="update">Изменить</button> -->
       <button class="btn danger" @click="remove">Удалить</button>
 
   </div>
@@ -24,11 +20,9 @@
 </template>
 
 <script>
-// import {computed} from 'vue'
 import {ref, onMounted} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 import { useStore } from "vuex";
-// import {date} from '../../use/date'
 import  AppLoader from '../../ui/AppLoader.vue'
 import Hall from '../../hall/Hall.vue';
 
@@ -43,9 +37,6 @@ export default {
         const store = useStore()
         const loading = ref(false)
         const cinema = ref({})
-        // const keyS = route.path.split('/')[route.path.split('/').length-1]
-        // const films =  computed(()=> store.getters['requests/films'].filter(elem =>elem.id === keyS))
-        // const film = films.value[0]
 
 
         onMounted(async()=>{
