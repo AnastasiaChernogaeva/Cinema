@@ -22,8 +22,18 @@
           <td @click="navigate">{{session.chosenCinemaName}}</td>
           <td>{{session.startSessionTime}}</td>
           <td>{{session.sessionFilmName}}</td>
-          <!-- <td>{{session.cityName}}</td>
-          <td>{{session.cityName}}</td> -->
+          <td>{{session.hallnumber.split("")[session.hallnumber.split("").length-1]}}</td>
+          <td>
+            <div>{{session.pricesCPl?`Места для двоих - ${session.pricesCPl}BYN`:null}}</div>
+            <br>
+            <div>{{session.pricesSPl?`Обычные места - ${session.pricesSPl}BYN`:null}}</div>
+            <br>
+            <div>{{session.pricesVPl?`VIP места - ${session.pricesVPl}BYN`:null}}</div>
+
+            </td>
+             <td>
+               {{session.chosenAddServices?'Есть':'Нет'}}
+            </td>
           </router-link>
         </tr>
       </tbody>
@@ -39,6 +49,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+td{
+  width:12%
+}
 
 </style>

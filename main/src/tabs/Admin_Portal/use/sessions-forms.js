@@ -1,4 +1,4 @@
-import { ref, onMounted, reactive} from "vue";
+import { ref, onMounted, reactive, } from "vue";
 import * as yup from 'yup';
 import { useField, useForm } from "vee-validate";
 import { useStore } from "vuex";
@@ -100,8 +100,10 @@ export function useSessionsForms(){
             const v={'pricesCPl':pricesCPl.value,'pricesSPl':pricesSPl.value,'pricesVPl':pricesVPl.value, 'chosenAddServices':chosenAddServices.value, 'startSessionTime':startSessionTime.value, 'hallnumber':hallnumber.value, 'sessionFilmName':sessionFilmName.value, 'cityName':cityName.value, 'chosenCinemaName':chosenCinemaName.value, }
             console.log('VALUES',v)
             await store.dispatch('requests/create',{'value':v, 'rType':'sessions', } );
-            emit('added')
+            // $emit('added')
         }
+
+        // const onSubmit=(func)=>func()
 
         return{
             couplePl, simplePl, vipPl,
