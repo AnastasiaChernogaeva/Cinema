@@ -4,8 +4,8 @@ import { useField, useForm } from "vee-validate";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
-
-export function useSessionsForms(func){
+// func
+export function useSessionsForms(){
 
     const store = useStore()
     const router = useRouter()
@@ -13,8 +13,8 @@ export function useSessionsForms(func){
     //   initialErrors:{
 
     //   }
-    // })
-    const {handleSubmit, isSubmitting, } = useForm()
+    // })handleSubmit,
+    const { isSubmitting, } = useForm()
 
       const {value:chosenCinemaName,} = useField('chosenCinemaName',yup.string()
       )
@@ -24,28 +24,30 @@ export function useSessionsForms(func){
      const {value:sessionFilmName,} = useField('sessionFilmName',yup.string()
       )
 
-    //  const {value:chosenAddServices,} = useField('chosenAddServices',yup.string()
+    //  const {value:chosenAddServices,} = useField('chosenAddServices',yup.array()
     //   )
-    const {value:hallnumber,} = useField('hallnumber',yup.number()
+    const {value:hallnumber, errorMessage:hError, handleBlur:Blur} = useField('hallnumber',yup.number()
       )
       
-    const {value:places,} = useField('places',yup.string()
-      )
+    // const {value:places,} = useField('places',yup.string()
+      // )
     const {value:startSessionTime, errorMessage:startSessionTimeError, handleBlur:startSessionTimeBlur} = useField('startSessionTime', yup
         .string()
         .trim()
         .required('Это обязательное поле! Пожалуйста, введите время начала сеанса.')
-        // .min("10:00",'Раньше 10 утра кинотеатр не откроется.')
-        // .max("22:00",'Последний сеанс может начаться не позже 22:00')
         )
       const chosenAddServices = ref([])
-      // const serVices=()=>{
-      //     console.log('chosenAddservices',chosenAddServices.value);
-      // }
+      // chosenAddServices.yup.oneOf()
+  //     const {value:chosenAddServices,} = useField('chosenAddServices',yup.array()
+  //     .default([])
+  // );
+      const serVices=()=>{
+          console.log('chosenAddservices',chosenAddServices.value);
+      }
    
 
 
-        const onSubmit = handleSubmit(func)
+        // const onSubmit = handleSubmit(func)
         const arr = ref(['films', 'services', 'cinemas',])
         const cinemasCity = ref([])
         const info = ref({})
@@ -80,10 +82,7 @@ export function useSessionsForms(func){
 
 
         const chosen = ()=>{
-          // console.log('Название выьранного кинотеатра', chosenCinemaName.value);
           info.value.cinemas.forEach(cinema=>cinema.cinemaName===chosenCinemaName.value?halls.value=Object.keys(cinema.val):null)
-          // console.log('ID залов',halls.value);
-          // console.log(Object.keys(halls.value));
          }
       const showHall = ()=>{
           info.value.cinemas.forEach(cinema=>{
@@ -93,16 +92,16 @@ export function useSessionsForms(func){
               couplePl.value=hallInfo.value.val.couplePl
               simplePl.value=hallInfo.value.val.simplePl
               vipPl.value=hallInfo.value.val.vipPl
-
-              // console.log('инфо о конкретном зале', hallInfo.value.val);
               
             }
           })}
-   
-          // console.log(hallInfo.value);
-          // console.log(Object.keys(halls.value));
-
          
+          const submit = async () =>{
+            const v={'pricesCPl':pricesCPl.value,'pricesSPl':pricesSPl.value,'pricesVPl':pricesVPl.value, 'chosenAddServices':chosenAddServices.value, 'startSessionTime':startSessionTime.value, 'hallnumber':hallnumber.value, 'sessionFilmName':sessionFilmName.value, 'cityName':cityName.value, 'chosenCinemaName':chosenCinemaName.value, }
+            console.log('VALUES',v)
+            await store.dispatch('requests/create',{'value':v, 'rType':'sessions', } );
+            emit('added')
+        }
 
         return{
             couplePl, simplePl, vipPl,
@@ -112,11 +111,13 @@ export function useSessionsForms(func){
             halls,hallInfo,
             cinemasCity,chosenAddServices,chosenCinemaName,cityName, sessionFilmName,
             chosenAddServices,
-            hallnumber, places, onSubmit,isSubmitting,
+            hallnumber, 
+            //  onSubmit,
+            submit,
+             isSubmitting,
             startSessionTime, startSessionTimeBlur, startSessionTimeError, 
-            // serVices,
+            serVices,
             pricesCPl,pricesSPl,pricesVPl,
-            
-            // finishSessionTimBlur,finishSessionTime,finishSessionTimeError,
+            // places,
         }
 };

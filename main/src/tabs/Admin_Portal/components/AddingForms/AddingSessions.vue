@@ -1,6 +1,6 @@
 <template>
 <!-- <div class="card">{{info}}</div> -->
-     <form class="card" @submit.prevent="onSubmit"  >  
+     <form class="card" @submit.prevent="submit"  >  
          <div :class="['form-control', ]">  
                 <label for="cityName">Город</label>
                 <!-- <select  id="cityName" v-model="cityName"   v-if="chosenCinemaName">
@@ -77,8 +77,8 @@
 
   <span class="label">Дополнительные услуги</span> 
 <!-- @change="serVices" -->
-   <div class="checkbox" v-for="(service,idx) of info.services" :key="idx"  >
-    <label><input type="checkbox" name="chosenAddServices" v-model="chosenAddServices" :value="service.addServices" />{{service.addServices}}</label>
+   <div class="checkbox" v-for="(service,idx) of info.services" :key="idx" @change="serVices" >
+    <label><input type="checkbox" name="chosenAddServices" v-model="chosenAddServices" :value="service.addServices"  />{{service.addServices}}</label>
   </div>
 
 </div>
@@ -116,14 +116,14 @@ export default {
     setup( _, {emit},){
         const store = useStore()
  
-        const submit = async values =>{
-            const v={...values,'pricesCPl':pricesCPl,'pricesSPl':pricesSPl,'pricesVPl':pricesVPl, 'chosenAddServices':chosenAddServices, }
-            console.log('VALUES',v)
-            await store.dispatch('requests/create',{'value':v, 'rType':'sessions', } );
-            emit('added')
-        }
+       //  const submit = async () =>{
+       //      const v={'pricesCPl':pricesCPl,'pricesSPl':pricesSPl,'pricesVPl':pricesVPl, 'chosenAddServices':chosenAddServices, 'startSessionTime':startSessionTime, 'hallnumber':hallnumber, 'sessionFilmName':sessionFilmName, 'cityName':cityName, 'chosenCinemaName':chosenCinemaName, }
+       //      console.log('VALUES',v)
+       //      await store.dispatch('requests/create',{'value':v, 'rType':'sessions', } );
+       //      emit('added')
+       //  }
             return{
-                ...useSessionsForms(submit)   
+                ...useSessionsForms()   
                  
             }
     }
