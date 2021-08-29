@@ -35,8 +35,13 @@ export default {
 
 
        onMounted( async()=>{
-        await store.dispatch('gettingInfo/loadAll',['films','cinemas','services','sessions'])
+        // await store.dispatch('gettingInfo/loadAll',['films','cinemas','services','sessions'])
+                await store.dispatch('gettingInfo/loadAll',['films','cinemas','sessions'])
+
       })
+    //   onUpdated( async()=>{
+    //     await store.dispatch('gettingInfo/loadAll',['films','cinemas','services','sessions'])
+    //   })
       const films = computed(()=> store.getters['gettingInfo/films']
       .filter(film=>{
           if(Date.parse(film.finishTime)>Date.parse(new Date()))
@@ -45,10 +50,11 @@ export default {
       }))
       const cinemas = computed(()=> store.getters['gettingInfo/cinemas'])
       const sessions = computed(()=> store.getters['gettingInfo/sessions'])
-      const services = computed(()=> store.getters['gettingInfo/services'])
+    //   const services = computed(()=> store.getters['gettingInfo/services'])
 
         return{
-            films, cinemas, sessions, services,
+            films, cinemas, sessions, 
+            // services,
         }
     }
 }

@@ -45,8 +45,12 @@ export default {
 
                  arr.forEach(async element => {
                  const {data} = await axios.get(`/${element}.json`)
-                 const requests = Object.keys(data).map(id =>({...data[id], id}))
-                 commit('setRequests',{rType:element, info:requests,});
+                //  console.log(Object.keys(data));
+                 if(data){
+                  const requests = Object.keys(data).map(id =>({...data[id], id}))
+                  commit('setRequests',{rType:element, info:requests,});
+                 }
+                
                 //  info[element]=requests;count+=
                 //  console.log(element,requests);
                 }
