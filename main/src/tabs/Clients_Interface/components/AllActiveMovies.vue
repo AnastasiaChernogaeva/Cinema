@@ -18,7 +18,13 @@
             <button class="arrow forward" @click="maxL++" :disabled="maxL===films.length">&#8250;</button>
             <button class="arrow back" @click="maxL--" :disabled="maxL===5">&#8249;</button>
 
-        <div class="filmBlock" v-for="(film, idx) of films.filter((film,id)=>id<maxL)" :key="idx" >
+        <div class="filmBlock" v-for="(film, idx) of films.filter((film,id)=>{
+            if(maxL===5)
+                return id<maxL
+            else if(maxL>5){
+                return id+1<maxL
+            }
+            })" :key="idx" >
             <img :src="film.movieposter" :alt="film.filmName">
             
             <div class="infoAbout">
