@@ -18,13 +18,7 @@
             <button class="arrow forward" @click="maxL++" :disabled="maxL===films.length">&#8250;</button>
             <button class="arrow back" @click="maxL--" :disabled="maxL===5">&#8249;</button>
 
-        <div class="filmBlock" v-for="(film, idx) of films.filter((film,id)=>{
-            if(maxL===5)
-                return id<maxL
-            else if(maxL>5){
-                return id+1<maxL
-            }
-            })" :key="idx" >
+        <div class="filmBlock" v-for="(film, idx) of filmsAll" :key="idx" >
             <img :src="film.movieposter" :alt="film.filmName">
             
             <div class="infoAbout">
@@ -39,14 +33,59 @@
 </template>
 
 <script>
-import {onMounted, ref} from "vue"
+import {onMounted, ref, computed} from "vue"
+import { useStore } from 'vuex'
 export default {
-    props:['films'],
     setup(){
+        const store = useStore()
         const maxL = ref(5)
+        // const filmsAll = ref([])
+
+      onMounted( async()=>{
+        // await store.dispatch('gettingInfo/loadAll',['films','cinemas','services','sessions'])
+                await store.dispatch('gettingInfo/loadAll',['films','cinemas','sessions'])
+
+      })
+    //   onUpdated( async()=>{
+    //     await store.dispatch('gettingInfo/loadAll',['films','cinemas','services','sessions'])
+    //   })
+      const films = computed(()=> store.getters['gettingInfo/films']
+      .filter(film=>{
+          if(Date.parse(film.finishTime)>Date.parse(new Date()))
+          return film
+
+      })
+
+      )
+        const filmsAll =  computed(()=>{
+            if(films.length<=5){
+            filmsAll.value=films
+        }
+        else if(films.length>5){
+            if (maxL===5){
+                filmsAll.value=films.filter((film,id)=>{
+                        return id<5
+                })
+                
+            console.log(filmsAll.value);
+             }
+             else{
+                 filmsAll.value=filmsAll.value.shift().push(films[maxL])
+                 
+            console.log('changemaxL',filmsAll.value);
+              }
+        }
+       })
+       
+        
+
+
+
        
         return{
-            maxL
+            maxL,
+            films,
+            filmsAll
         }
         
     }
