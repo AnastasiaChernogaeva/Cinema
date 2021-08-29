@@ -1,8 +1,12 @@
 import { createStore, createLogger } from "vuex";
+
 import adminModule from "./modules/Admin/TheAdminModule";
-import clientsModule from "./modules/Client/TheClientsModule";
 import authAdmin from "./modules/Admin/auth.module";
 import requests from "./modules/Admin/request.module";
+
+import clientsModule from "./modules/Client/TheClientsModule";
+import gettingInfo from "./modules/Client/gettingInfo";
+
 
 const plugins = []
 
@@ -15,9 +19,11 @@ const store = createStore({
 
     modules:{
         admin:adminModule,
-        clients:clientsModule,
         authAdmin:authAdmin,
-        requests
+        requests,
+        
+        clients:clientsModule,
+        gettingInfo,
     },
 
     // state(){

@@ -17,11 +17,11 @@ const Orders = () => import ('../tabs/Admin_Portal/components/Orders');
 
 
 //клиентская часть
-const TheClientsView = () => import ('../tabs/Clients_Interface/components/TheClientsView');
+const TheClientsView = () => import ('../tabs/Clients_Interface/TheClientsView');
 const Main = () => import ('../tabs/Clients_Interface/pages/Main');
-const ForgottenPassword = () => import ('../tabs/Clients_Interface/components/ForgottenPassword');
-const SignupUser = () => import ('../tabs/Clients_Interface/components/SignupUser');
-const LoginUser = () => import ('../tabs/Clients_Interface/components/LoginUser');
+const ForgottenPassword = () => import ('../tabs/Clients_Interface/pages/ForgottenPassword');
+const SignupUser = () => import ('../tabs/Clients_Interface/pages/SignupUser');
+const LoginUser = () => import ('../tabs/Clients_Interface/pages/LoginUser');
 
 
 
@@ -129,7 +129,7 @@ const router = createRouter({
             ],
         },
 
-        {   path:"/cinema",
+        {   path:"/cinemaMain",
             component:TheClientsView, 
             alias:'', 
             children:[
@@ -146,6 +146,21 @@ const router = createRouter({
                 {
                      path:"forgottenPassword", 
                      component:ForgottenPassword,
+                },
+                {   
+                    path:"/cinema/film:idf?",
+                    // component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/FilmsTemplate'),
+                    name:'film',
+                },
+                {   
+                    path:"/cinema/session:ids?",
+                    // component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/SessionsTemplate'),
+                    name:'session',
+                },
+                {   
+                    path:"/admin/cinema:idc?",
+                    // component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/CinemasTemplate'),
+                    name:'cinema',
                 },
             ],
         },

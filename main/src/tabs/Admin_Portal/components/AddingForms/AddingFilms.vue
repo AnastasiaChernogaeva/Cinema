@@ -50,12 +50,13 @@
                 <input
                     type="text"
                     id="movieposter"
-                    v-model="movieposter"
-                    @blur="mpBlur"
+                    v-model="movieposter" @blur="mpBlur"
+                    
+                   
                 >
                 <small v-if="mpError">{{mpError}}</small>
   </div>
-
+<!--    @change="gettingFile"-->
     <div :class="['form-control', {'invalid':gError},]"> 
                 <label for="genre">Жанр</label>
                 <input
@@ -90,6 +91,14 @@ export default {
             
             
         }
+
+//         const gettingFile=(EO)=>{
+//   var files = e.target.files || e.dataTransfer.files;
+//   if (!files.length)
+//     return;
+//   this.createImage(files[0]);
+
+//         }
 
         return{
             ...useFilmsForms(submit)
