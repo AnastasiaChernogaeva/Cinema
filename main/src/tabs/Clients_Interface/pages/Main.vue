@@ -1,6 +1,5 @@
 <template> 
 <div class="card">
-    <the-nav-bar></the-nav-bar>
     <span>Main</span>
     <all-active-movies :films="films" ></all-active-movies>
 
@@ -21,13 +20,11 @@ import { useStore } from 'vuex';
 import { onMounted, onUpdated, ref, computed,watch} from "vue";
 // import AppModal from "../ui/AppModal.vue";
 // import ForgottenPassword from "../components/ForgottenPassword.vue";
-import TheNavBar from '../../Clients_Interface/ui/TheNavBar.vue';
 import AllActiveMovies from '../../Clients_Interface/components/AllActiveMovies.vue';
 
 export default {
     components:{
         // AppModal, ForgottenPassword,
-        TheNavBar,
         AllActiveMovies,
     },
     setup(){

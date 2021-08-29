@@ -14,45 +14,20 @@ export default {
     mutations:{
         setRequests(state, requests){
             state[requests.rType] = requests.info
-            // return 1
-        },
-        addRequest(state, request){
-            // console.log(request)
-            const value = {...request.value, id:request.id}
-            // console.log(value)
-            state[request.rType].push(value)
         },
 
     },
     actions:{
-        // async create({commit, dispatch}, payload){
-        //    try{
-        //     //    console.log(store);
-        //         const token = store.getters['authAdmin/token']
-        //         const {data} = await axios.post(`/${payload.rType}.json?auth=${token}`,payload.value)
-        //         commit('addRequest',{...payload, id:data.name});
-        //         // console.log({data})
-        //             const body_D = {value:'Добавление прошло успешно', type:'primary',}
-        //             dispatch('admin/setMess', body_D , {root:true,})
-        //    }catch(e){
-        //     const body_D = {value:e.message, type:'danger',}
-        //     dispatch('admin/setMess', body_D , {root:true,})
-        //    }
-        // },
         
          loadAll({commit,}, arr){
             try{
 
                  arr.forEach(async element => {
                  const {data} = await axios.get(`/${element}.json`)
-                //  console.log(Object.keys(data));
                  if(data){
                   const requests = Object.keys(data).map(id =>({...data[id], id}))
                   commit('setRequests',{rType:element, info:requests,});
                  }
-                
-                //  info[element]=requests;count+=
-                //  console.log(element,requests);
                 }
                     
                 );
@@ -64,36 +39,24 @@ export default {
                 return false
             }
          },
+         
+        async loadByID(_, payload){
+            try{
+                 const {data} = await axios.get(`/${payload.rType}/${payload.id}.json`)
+                 return data
+            }catch(e){
+            }
+         }, 
 
         async load({commit}, payload){
            try{
-                const token = store.getters['authAdmin/token']
-                const {data} = await axios.get(`/${payload.rType}.json?auth=${token}`)
+                const {data} = await axios.get(`/${payload.rType}.json`)
                 const requests = Object.keys(data).map(id =>({...data[id], id}))
                 commit('setRequests',{...payload, info:requests,});
+                return requests
            }catch(e){
            }
-        },
-        // async loadByID(_, payload){
-        //     try{
-        //          const token = store.getters['authAdmin/token']
-        //          const {data} = await axios.get(`/${payload.rType}/${payload.id}.json?auth=${token}`)
-        //          return data
-        //     }catch(e){
-        //     }
-        //  },   
-        //  async remove({dispatch}, payload){
-        //     try{
-        //          const token = store.getters['authAdmin/token']
-        //         await axios.delete(`/${payload.rType}/${payload.id}.json?auth=${token}`)
-        //         const body_D = {value:'Удаление прошло успешно', type:'primary',}
-        //         dispatch('admin/setMess', body_D , {root:true,})
-
-        //     }catch(e){
-        //         const body_D = {value:e.message, type:'danger',}
-        //         dispatch('admin/setMess', body_D , {root:true,})
-        //     }
-        //  },        
+        },       
     },
     getters:{
         films(state){

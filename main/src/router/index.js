@@ -147,21 +147,30 @@ const router = createRouter({
                      path:"forgottenPassword", 
                      component:ForgottenPassword,
                 },
-                // {   
-                //     path:"/cinema/film:idf?",
-                //     // component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/FilmsTemplate'),
-                //     name:'film',
-                // },
-                // {   
-                //     path:"/cinema/session:ids?",
-                //     // component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/SessionsTemplate'),
-                //     name:'session',
-                // },
-                // {   
-                //     path:"/admin/cinema:idc?",
-                //     // component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/CinemasTemplate'),
-                //     name:'cinema',
-                // },
+                {   
+                    path:"/cinema/film:idf?",
+                    component:()=>import('../tabs/Clients_Interface/components/Inside/MovieInside.vue'),
+                    name:'cfilm',
+                    meta:{
+                        authAdmin:false,
+                    },
+                },
+                {   
+                    path:"/cinema/session:ids?",
+                    // component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/SessionsTemplate'),
+                    name:'cession',
+                    meta:{
+                        authAdmin:false,
+                    },
+                },
+                {   
+                    path:"/cinema/cinema:idc?",
+                    // component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/CinemasTemplate'),
+                    name:'ccinema',
+                    meta:{
+                        authAdmin:false,
+                    },
+                },
             ],
         },
 

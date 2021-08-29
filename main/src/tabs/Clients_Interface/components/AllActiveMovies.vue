@@ -1,19 +1,21 @@
 <template>
-  <div class="card">
+  <div>
       <span>В прокате</span>
       <hr>
-      <div v-if="films.length<=5">
+      <!-- <div v-if="films.length<=5"> -->
         <div class="filmBlock" v-for="(film, idx) of films" :key="idx" >
-            <img :src="film.movieposter" :alt="film.filmName">
+            <router-link v-slot="{navigate}" custom :to="{name:'cfilm', params:{idf:film.id}}">
+            <img :src="film.movieposter" :alt="film.filmName" @click="navigate">
             
-            <div class="infoAbout">
+            <div class="infoAbout" @click="navigate">
                 <h3>{{film.filmName}}</h3>
                 <hr>
                 <p><b>Жанр:</b>{{film.genre}}</p>
                 <p><small>Для получения подробной информации нажмите на постер</small></p>
             </div>
-        </div>
-      </div>  
+             </router-link> 
+         </div>
+     <!-- </div>  
         <div v-else>
             <button class="arrow forward" @click="maxL++" :disabled="maxL===films.length">&#8250;</button>
             <button class="arrow back" @click="maxL--" :disabled="maxL===5">&#8249;</button>
@@ -28,27 +30,43 @@
                 <p><small>Для получения подробной информации нажмите на постер</small></p>
             </div>
         </div>
-      </div>
-  </div>
+      </div> -->
+  </div> 
 </template>
 
 <script>
-import {onMounted, ref, computed} from "vue"
+import {onMounted, ref, computed, onUpdated} from "vue"
 import { useStore } from 'vuex'
 export default {
     setup(){
         const store = useStore()
         const maxL = ref(5)
-        // const filmsAll = ref([])
+        const filmsAll = ref([])
 
       onMounted( async()=>{
-        // await store.dispatch('gettingInfo/loadAll',['films','cinemas','services','sessions'])
                 await store.dispatch('gettingInfo/loadAll',['films','cinemas','sessions'])
 
-      })
-    //   onUpdated( async()=>{
-    //     await store.dispatch('gettingInfo/loadAll',['films','cinemas','services','sessions'])
-    //   })
+      }, 
+    //   ()=>{
+    //         if(films.length<=5){
+    //         filmsAll.value=films
+    //     }
+    //     else if(films.length>5){
+    //         if (maxL===5){
+    //             filmsAll.value=films.filter((film,id)=>{
+    //                     return id<5
+    //             })
+                
+    //         console.log(filmsAll.value);
+    //          }
+    //          else{
+    //              filmsAll.value=filmsAll.value.shift().push(films[maxL])
+                 
+    //         console.log('changemaxL',filmsAll.value);
+    //           }
+    //     }
+    //    }
+      )
       const films = computed(()=> store.getters['gettingInfo/films']
       .filter(film=>{
           if(Date.parse(film.finishTime)>Date.parse(new Date()))
@@ -57,25 +75,26 @@ export default {
       })
 
       )
-        const filmsAll =  computed(()=>{
-            if(films.length<=5){
-            filmsAll.value=films
-        }
-        else if(films.length>5){
-            if (maxL===5){
-                filmsAll.value=films.filter((film,id)=>{
-                        return id<5
-                })
+    //     const func = ()=>{
+    //         if(films.length<=5){
+    //         filmsAll.value=films
+    //     }
+    //     else if(films.length>5){
+    //         if (maxL===5){
+    //             filmsAll.value=films.filter((film,id)=>{
+    //                     return id<5
+    //             })
                 
-            console.log(filmsAll.value);
-             }
-             else{
-                 filmsAll.value=filmsAll.value.shift().push(films[maxL])
+    //         console.log(filmsAll.value);
+    //          }
+    //          else{
+    //              filmsAll.value=filmsAll.value.shift().push(films[maxL])
                  
-            console.log('changemaxL',filmsAll.value);
-              }
-        }
-       })
+    //         console.log('changemaxL',filmsAll.value);
+    //           }
+    //     }
+    //    }
+    //    func()
        
         
 
