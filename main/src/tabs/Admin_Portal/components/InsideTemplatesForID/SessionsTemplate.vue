@@ -29,7 +29,7 @@
 
   </div>
     <h3 class="text-center text-white" v-else>
-      Сеанса с таким ID = {{$route.params.idf}} нет.
+      Сеанса с таким ID = {{$route.params.ids}} нет.
   </h3>
 </template>
 

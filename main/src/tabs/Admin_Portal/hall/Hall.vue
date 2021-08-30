@@ -3,30 +3,39 @@
 <!-- :id="id" -->
   <div class="card hall" >
       <h3>Зал №{{id}}</h3>
-      <row v-for="(row, idx) of info.rows " :key="idx" :places="info.places" :simplePl="info.simplePl" :vipPl="info.vipPl" :couplePl="info.couplePl" :rId="idx+1"></row>
+      <row v-for="(row, idx) of info.rows " :key="idx" :places="info.places" :simplePl="info.simplePl" :vipPl="info.vipPl" :couplePl="info.couplePl" :rId="idx+1" @choosePlace="choosePlace"></row>
   </div>
 </div>
 </template>
 
 <script>
+import {ref} from 'vue'
 import row from "./Row.vue"
 export default {
     components:{
         row,
     },
     props:['info'],
-    setup(props){
+    emit:['choosePlace'],
+    setup(props, {emit}){
         // console.log(props)
         // console.log(props.info.value.val)
+        const infoRowsandPlaces = ref(new Set())
 
         
 
         const infRes=(props.info.val!=undefined)?props.info.val:props.info.value.val
         const idRes=props.info.id?props.info.id:props.info.value.id
+        const choosePlace =(event)=>{
+            infoRowsandPlaces.value.add(event)
+            emit('choosePlace',infoRowsandPlaces.value)
+            // console.log(event);
+        }
 
         return{
             info:infRes,
-            id: idRes
+            id: idRes,
+            choosePlace
         }
     },
 }

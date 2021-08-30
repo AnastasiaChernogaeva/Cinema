@@ -157,21 +157,24 @@ const router = createRouter({
                 },
                 {   
                     path:"/cinema/session:ids?",
-                    // component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/SessionsTemplate'),
-                    name:'cession',
+                    component:()=>import('../tabs/Clients_Interface/components/Inside/SessionInside.vue'),
+                    name:'csession',
                     meta:{
                         authAdmin:false,
                     },
                 },
                 {   
-                    path:"/cinema/cinema:idc?",
-                    // component:()=>import('../tabs/Admin_Portal/components/InsideTemplatesForID/CinemasTemplate'),
+                    path:"/cinema/ccinema:idc?",
+                    component:()=>import('../tabs/Clients_Interface/components/Inside/CinemaInside.vue'),
                     name:'ccinema',
                     meta:{
                         authAdmin:false,
                     },
                 },
             ],
+            meta:{
+                authAdmin:false,
+            },
         },
 
         { path:"/:notFound(.*)", component:TheNotFound,},
@@ -195,7 +198,7 @@ router.beforeEach((to, from, next)=>{
         } else{
             next()
         }    
-    }else{
+    }else if(/^\/cinema/.test(to.path)||/^\//.test(to.path)){
         next()
     }
     

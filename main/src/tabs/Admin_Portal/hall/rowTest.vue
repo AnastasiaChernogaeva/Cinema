@@ -32,28 +32,20 @@ export default {
         const infoArr = ref([])
         const choosePlace = (idPlace, rId)=>{
             let type=''
-            if(infoArr.value.find(el=>el.place === idPlace && el.row === rId)){
-                let elem = infoArr.value.find(el=>el.place === idPlace && el.row === rId)
-                let indx = infoArr.value.indexOf(elem)
-                infoArr.value.splice(indx,1)
+            if(props.simplePl && props.simplePl.includes(rId)){
+                type='simplePl'
             }
-            else{
-
-           
-                if(props.simplePl && props.simplePl.includes(rId)){
-                    type='simplePl'
-                }
-                else if(props.vipPl&& props.vipPl.includes(rId)){
-                    type='vipPl'
-                }
-                else if(props.couplePl&&props.couplePl.includes(rId)){
-                    type='couplePl'
-                }
-                infoAboutPlaceAndRow.value={'row':props.rId,'place':idPlace, 'type':type }
-                infoArr.value.push(infoAboutPlaceAndRow.value)
-
-                // console.log(infoArr.value)
+            else if(props.vipPl&& props.vipPl.includes(rId)){
+                type='vipPl'
             }
+            else if(props.couplePl&&props.couplePl.includes(rId)){
+                type='couplePl'
+            }
+            infoAboutPlaceAndRow.value={'row':props.rId,'place':idPlace, 'type':type }
+            infoArr.value.push(infoAboutPlaceAndRow.value)
+
+            console.log(infoArr.value)
+
             emit('choosePlace', infoArr.value)
         }
         return{
