@@ -9,7 +9,7 @@
                 <router-link to="/main">Мои заказы</router-link>
             </li> -->
              <li>
-                <a href="#" @click.prevent="logout">Выйти</a>
+                <!-- <a href="#" @click.prevent="logout">Выйти</a> -->
             </li>
         </ul>
     </nav>

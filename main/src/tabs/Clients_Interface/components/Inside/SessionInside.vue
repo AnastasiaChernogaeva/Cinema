@@ -27,7 +27,7 @@
       <button class="btn" @click="findOut" v-if="!info">Выбрать места</button>
       <hall class="hall" v-if="info" :info="info={'val':{...info}, id:session.hallnumber}" @choosePlace="bookPlace"></hall>
       <div v-if="info && bookTickets">
-      <div :class="[{'bookTicket':bookTickets}, ]">
+      <div :class="[{'bookTicket':bookTickets}, ]" v-if="bookTickets.length!=0">
           <h2>Забронировать билеты</h2>
           <div v-for="(bookTicket, idx) of bookTickets" :key="idx">
               <div v-for="(rowPlaces, id) of bookTicket" :key="id">
