@@ -1,5 +1,5 @@
 <template>
-    <div class="row" >
+    <div class="row" v-if="$route.path.split('/')[1]==='cinema'" >
         <div class="small">{{rId}}</div>
 
         <div class="place" v-for="(place,idx) in places" :key="idx" @click="choosePlace(idx+1, rId)">
@@ -14,10 +14,26 @@
 
 
    </div>
+         <div class="row" v-else >
+        <div class="small">{{rId}}</div>
+
+        <div class="place" v-for="(place,idx) in places" :key="idx">
+            <span class="indx">
+                <span>{{idx+1}}</span>
+
+          <img src="./icons/2x/simple.png" alt="simple hall places " class="hallPlaces simple" v-if="simplePl &&simplePl.includes(rId)" >
+          <img src="./icons/2x/vip.png" alt="vip hall places" class="hallPlaces vip" v-if="vipPl&&vipPl.includes(rId)" >
+          <img src="./icons/2x/couple.png" alt="couple hall places" class="hallPlaces couple"  v-if="couplePl&&couplePl.includes(rId)" >
+</span>
+        </div>
+
+
+   </div>
 </template>
 
 <script>
 import {ref} from 'vue'
+import { useRoute } from 'vue-router'
 export default {
     props:[
         'rId',
@@ -28,6 +44,7 @@ export default {
     ],
     emits:['choosePlace'],
     setup(props, {emit}){
+        const route = useRoute()
         const infoAboutPlaceAndRow = ref({})
         const infoArr = ref([])
         const choosePlace = (idPlace, rId)=>{

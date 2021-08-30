@@ -75,6 +75,8 @@ export default {
                 rType:'cinemas',
                 id:route.params.idc,
             },)
+             document.title = `Кинотеатр "${cinema.value.cinemaName}" `
+
             loading.value = false
             // console.log(cinema);
 

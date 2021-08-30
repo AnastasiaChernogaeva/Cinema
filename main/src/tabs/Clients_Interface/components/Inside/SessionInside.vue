@@ -25,9 +25,9 @@
       
       <hr/>
       <button class="btn" @click="findOut" v-if="!info">Выбрать места</button>
-      <hall v-if="info" :info="info={'val':{...info}, id:session.hallnumber}" @choosePlace="bookPlace"></hall>
-      <div v-if="info">
-      <div :class="[{'bookTicket':bookTickets}]" v-if="bookTickets" >
+      <hall class="hall" v-if="info" :info="info={'val':{...info}, id:session.hallnumber}" @choosePlace="bookPlace"></hall>
+      <div v-if="info && bookTickets">
+      <div :class="[{'bookTicket':bookTickets}, ]">
           <h2>Забронировать билеты</h2>
           <div v-for="(bookTicket, idx) of bookTickets" :key="idx">
               <div v-for="(rowPlaces, id) of bookTicket" :key="id">
@@ -52,7 +52,7 @@
               </div>
             
         </div>
-        <button class="btn danger">Заказать билеты</button>
+        <button class="btn danger" @click="buyTickets">Заказать билеты</button>
     </div>
       </div>
 
@@ -86,13 +86,14 @@ export default {
         const info = ref()
         const bookTickets = ref([])
 
-
+// ${route.params.ids}|
         onMounted(async()=>{
             loading.value = true
             session.value = await store.dispatch('gettingInfo/loadByID',{
                 rType:'sessions',
                 id:route.params.ids,
             },)
+             document.title = `Сеанс "${session.value.sessionFilmName}" `
             await store.dispatch('gettingInfo/load',{
                 rType:'cinemas',
             },)
@@ -120,18 +121,34 @@ export default {
                    console.log(bookTickets.value);
                }
 
+               const buyTickets = async()=>{
+                //    bookTickets.value
+                await store.dispatch('gettingInfo/buyTickets',{
+                rType:'orders',
+                info:bookTickets.value,
+            },)
+            // await store.dispatch('gettingInfo/load',{
+            //     rType:'cinemas',
+            // },)
+
+        }
+
 
         return{
             loading,
-            // date,
+
             session,
             cinemas,
             id:route.params.ids,
+
             findOut,
             info,
+
             bookPlace,
             bookTickets,
-            currency
+            buyTickets,
+
+            currency,
 
         }
     }
@@ -143,13 +160,13 @@ export default {
         text-align:center;
     }
     .sessionT{
-      list-style-type: none;    }
-    hall{
-            text-align: center;
-            
-    }
+      list-style-type: none;    
+      }
     .bookTicket {
     text-align: center;
+    }
+    .hall{
+        text-align: center;
     }
     button{
         font-size:16px;

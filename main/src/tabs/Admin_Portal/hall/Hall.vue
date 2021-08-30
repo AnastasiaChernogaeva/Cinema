@@ -1,7 +1,7 @@
 <template>
 <div class="container">
 <!-- :id="id" -->
-  <div class="card hall" >
+  <div class="card " >
       <h3>Зал №{{id}}</h3>
       <row v-for="(row, idx) of info.rows " :key="idx" :places="info.places" :simplePl="info.simplePl" :vipPl="info.vipPl" :couplePl="info.couplePl" :rId="idx+1" @choosePlace="choosePlace"></row>
   </div>
@@ -66,7 +66,7 @@ export default {
     .hall{
         padding: 1%;
         clear:both;
-        border:2px solid black;
+        /* border:2px solid black; */
         min-width:350px;
         min-height:300px;
         position: relative;

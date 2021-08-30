@@ -88,6 +88,7 @@ export default {
                 rType:'films',
                 id:route.params.idf,
             },)
+             document.title = `Фильм "${film.value.filmName}" `
         
 
            await store.dispatch('gettingInfo/load',{
@@ -146,7 +147,7 @@ export default {
         color: #2c3e50;
     }
     li span:hover{
-        padding:3%;
+        padding:0%;
         border-radius:25%;
         background: #2c3e50;
         color:white;

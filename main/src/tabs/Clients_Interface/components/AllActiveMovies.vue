@@ -1,5 +1,6 @@
 <template>
-  <div>
+<app-loader v-if="loading"></app-loader>
+  <div class="card" v-else>
       <span>В прокате</span>
       <hr>
       <!-- <div v-if="films.length<=5"> -->
@@ -37,14 +38,23 @@
 <script>
 import {onMounted, ref, computed, onUpdated} from "vue"
 import { useStore } from 'vuex'
+import AppLoader from '../../Admin_Portal/ui/AppLoader.vue'
+
 export default {
+    components:{
+         AppLoader,
+    },
     setup(){
         const store = useStore()
         const maxL = ref(5)
         const filmsAll = ref([])
+        const loading = ref(false)
 
       onMounted( async()=>{
+                loading.value = true
+                
                 await store.dispatch('gettingInfo/loadAll',['films','cinemas','sessions'])
+                loading.value = false
 
       }, 
     //   ()=>{
@@ -102,6 +112,7 @@ export default {
 
        
         return{
+            loading,
             maxL,
             films,
             filmsAll
