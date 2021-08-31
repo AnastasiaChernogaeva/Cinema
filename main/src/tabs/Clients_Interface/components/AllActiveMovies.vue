@@ -1,10 +1,11 @@
 <template>
 <app-loader v-if="loading"></app-loader>
-  <div class="card" v-else>
-      <span>В прокате</span>
+  <div  v-else>
+      <!-- <spanclass=>В прокате</spanclass="card"> -->
+          <h2 class="title card">Фильмы в прокате:</h2>
       <hr>
       <!-- <div v-if="films.length<=5"> -->
-        <div class="filmBlock" v-for="(film, idx) of films" :key="idx" >
+        <div class="filmBlock card" v-for="(film, idx) of fFilms" :key="idx" >
             <router-link v-slot="{navigate}" custom :to="{name:'cfilm', params:{idf:film.id}}">
             <img :src="film.movieposter" :alt="film.filmName" @click="navigate">
             
@@ -16,7 +17,26 @@
             </div>
              </router-link> 
          </div>
-     <!-- </div>  
+
+
+
+
+
+   <!-- <div class="filmBlock card" v-for="(film, idx) of films" :key="idx" >
+            <router-link v-slot="{navigate}" custom :to="{name:'cfilm', params:{idf:film.id}}">
+            <img :src="film.movieposter" :alt="film.filmName" @click="navigate">
+            
+            <div class="infoAbout" @click="navigate">
+                <h3>{{film.filmName}}</h3>
+                <hr>
+                <p><b>Жанр:</b>{{film.genre}}</p>
+                <p><small>Для получения подробной информации нажмите на постер</small></p>
+            </div>
+             </router-link> 
+         </div> -->
+
+
+     <!-- </div>  fFilms
         <div v-else>
             <button class="arrow forward" @click="maxL++" :disabled="maxL===films.length">&#8250;</button>
             <button class="arrow back" @click="maxL--" :disabled="maxL===5">&#8249;</button>
@@ -77,14 +97,61 @@ export default {
     //     }
     //    }
       )
-      const films = computed(()=> store.getters['gettingInfo/films']
-      .filter(film=>{
-          if(Date.parse(film.finishTime)>Date.parse(new Date()))
-          return film
+    //   const films = computed(()=> store.getters['gettingInfo/films']
+    //   .filter(film=>{
+    //       if(Date.parse(film.finishTime)>Date.parse(new Date()))
+    //       return film
 
-      })
+    //   })
 
-      )
+    //   )
+      const fFilms = ref([])
+    //   console.log(films.value);
+    const films = computed(()=> store.getters['gettingInfo/films']
+                    .filter(film=>{
+                        if(Date.parse(film.finishTime)>Date.parse(new Date()))
+                        return film
+
+                    }))
+        // console.log('Получаем фильмы',films.value);
+        let count = ref(0)
+
+        function timerFilms(){
+            if(films.value.length>6){
+     setInterval(()=>{  if(count.value===0 &&fFilms.value.length!=0){
+                    fFilms.value=[]
+                }
+              if(fFilms.value.length===0){
+                  count.value++
+                  fFilms.value=films.value.filter((film, id)=>{if(id<6) return film})
+              }
+              else if(fFilms.value.length!=0){
+                  count.value=0
+                  fFilms.value=films.value.filter((film, id)=>{if(id>=6) return film})
+                  if(fFilms.value.length!==6){
+                      let amountToAdd= 6 - fFilms.value.length;
+                    //   console.log('amountToAdd',amountToAdd);
+                      for( let i=0; i<amountToAdd; i++){
+                        //   console.log('film',films.value[i]);
+                           fFilms.value.push(films.value[i])
+                      }
+                    //  console.log('Добавили фильмы,котрых не хватает.',fFilms.value);
+                  }
+                  
+
+              }
+          }  ,5000)
+          }
+          else{
+              fFilms.value = films.value
+          }
+        }
+
+        setTimeout(timerFilms, 1500)
+ 
+                
+         
+     
     //     const func = ()=>{
     //         if(films.length<=5){
     //         filmsAll.value=films
@@ -114,8 +181,9 @@ export default {
         return{
             loading,
             maxL,
-            films,
-            filmsAll
+            // films,
+            filmsAll,
+            fFilms
         }
         
     }
@@ -124,6 +192,13 @@ export default {
 </script>
 
 <style scoped>
+    .title{
+        /* background: #fff; */
+        align-items: center;
+        text-align: center;
+        display:block;
+        height: 4rem;
+    }
     .arrow{
         font-size: 20px;
         background:rgba(0, 0, 0, 0.096);
@@ -152,6 +227,11 @@ export default {
     display: block; */
     width: 20%;
     height: 300px;
+    margin-left: 7%;
+    margin-right: 6%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+
     text-align: center;
     display: inline-flex;
     /* border: chocolate 3px solid; */
@@ -182,7 +262,7 @@ export default {
    .filmBlock:hover .infoAbout{
        display: block;
        width: 200px;
-       height: 300px;
+       height: 270px;
        color:white;
        font-size:15px;
        position: absolute;

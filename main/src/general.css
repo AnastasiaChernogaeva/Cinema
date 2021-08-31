@@ -4,9 +4,9 @@
     .portal .admin {
         box-shadow: none;
         padding: -5.8em;
-        z-index: 27;
+        z-index: 47;
         width: 150px;
-        position: absolute;
+        position: fixed;
         left: 14%;
         top: 3%;
         background: transparent;
@@ -413,7 +413,7 @@ h3 {
     justify-content: space-between;
     align-items: center;
     position: fixed;
-    z-index: 20;
+    z-index: 40;
     top: 0;
     left: 0;
     right: 0;
