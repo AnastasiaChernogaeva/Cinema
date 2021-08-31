@@ -1,0 +1,48 @@
+import { createStore, createLogger } from "vuex";
+
+import adminModule from "./modules/Admin/TheAdminModule";
+import authAdmin from "./modules/Admin/auth.module";
+import requests from "./modules/Admin/request.module";
+
+import clientsModule from "./modules/Client/TheClientsModule";
+import gettingInfo from "./modules/Client/gettingInfo";
+
+
+const plugins = []
+
+if(process.env.NODE_ENV === 'development'){
+    plugins.push(createLogger())
+}
+
+
+const store = createStore({
+
+    modules:{
+        admin:adminModule,
+        authAdmin:authAdmin,
+        requests,
+        
+        clients:clientsModule,
+        gettingInfo,
+    },
+
+    // state(){
+    //     return{
+    //         isStarted:false,
+    //     }
+    // },
+    // mutations:{
+    //     ideas(state){
+    //         state.isStarted=true
+    //     }
+
+    // },
+    // getters:{
+    //     val(state){
+    //         return state.isStarted
+    //     }
+    // },
+
+})
+
+export default store;

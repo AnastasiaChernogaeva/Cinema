@@ -1,0 +1,41 @@
+<template>
+ <div class="container">
+  <app-page>
+            <!-- <div class="card">
+              <router-view :films="films" :additionalServices="addServices" :cinemas="cinemas" :sessions="sessions"></router-view> 
+            </div> -->
+            <router-view></router-view>
+   </app-page> 
+</div>
+</template>
+
+ <script> 
+
+// import { useStore } from 'vuex';
+// import {  computed, } from "vue";
+import AppPage from "../ui/AppPage.vue";
+export default {
+  components:{
+      AppPage,
+  },
+  setup(){
+
+      // const store = useStore()
+      
+
+
+      // const films = computed(()=> store.getters['requests/films'])
+      // const cinemas = computed(()=> store.getters['requests/cinemas'])
+      // const sessions = computed(()=> store.getters['requests/sessions'])
+      // const addServices = computed(()=> store.getters['requests/services'])
+
+
+      
+
+      // return{
+      //   films,cinemas,sessions,addServices,
+      // }
+
+  },
+}
+ </script>

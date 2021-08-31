@@ -1,9 +1,9 @@
 <template>
-    <div class="container">
+    <div>
     
-    <!-- <err-message></err-message> -->
+    <err-message></err-message>
     <form class="card" @submit.prevent="onSubmit" >  
-        <h1>Войдите в аккаунт</h1>
+        <h1>Войдите в систему</h1>
         <div :class="['form-control', {'invalid':eError},]">
                 <label for="Email">Email</label>
                 <input
@@ -45,25 +45,25 @@
 <script>
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-// import {  useLoginForm} from "../use/login-form";
-// import {error} from '../utils/error'
-// import ErrMessage from "../ui/ErrMessage.vue";
+import {  useLoginForm} from "../use/login-form";
+import {error} from '../utils/error'
+import ErrMessage from "../ui/ErrMessage.vue";
 
 
 export default {
     components:{
-        // ErrMessage,
+        ErrMessage,
     },
     setup() {
         const route = useRoute()
         const store = useStore()
-        // if(route.query.message){
-        //     const resER = error(route.query.message)
-        //     const body_D = { value:resER, type:'warning',}
-        //     store.dispatch('admin/setMess', body_D, {root:true,})
-        // }
+        if(route.query.message){
+            const resER = error(route.query.message)
+            const body_D = { value:resER, type:'warning',}
+            store.dispatch('admin/setMess', body_D, {root:true,})
+        }
 
-        // return {...useLoginForm()}
+        return {...useLoginForm()}
 
     }
     
