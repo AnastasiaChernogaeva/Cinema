@@ -21,8 +21,13 @@
             <span v-if="session.chosenAddServices && session.chosenAddServices.length>0"> <span v-for="(oneservice, idx) of session.chosenAddServices" v-bind:key="idx">{{oneservice}};&nbsp;</span></span>
           <span v-else>Нет</span>
           </li>
+
+          <li></li>
+         
        </ul>
-      
+
+      <p><label><b> Выберите дату:</b>&nbsp;<input type="date" @blur="checkDates"  v-model="dateChosen"></label></p>
+       <small v-if="error" :key="keyToChange">Фильм в прокате с {{film.startTime}} по {{film.finishTime}} </small>
       <hr/>
       <button class="btn" @click="findOut" v-if="!info">Выбрать места</button>
       <hall class="hall" v-if="info" :info="info={'val':{...info}, id:session.hallnumber}" @choosePlace="bookPlace"></hall>
@@ -31,6 +36,15 @@
           <h2>Забронировать билеты</h2>
           <div v-for="(bookTicket, idx) of bookTickets" :key="idx">
               <div v-for="(rowPlaces, id) of bookTicket" :key="id">
+                  <div>
+                      <h3><b>{{session.sessionFilmName}}</b></h3>
+                      <h4><b>Дата:</b>{{date(dateChosen)}}</h4>
+                      <h4><b>Время:</b>{{session.startSessionTime}}</h4>
+                    <p><b>Ряд:</b>&nbsp;{{rowPlaces.row}}</p>
+                    <p><b>Место:</b>&nbsp;{{rowPlaces.place}}</p>
+
+
+                  </div>
                     
                     <div v-if="rowPlaces.type=='couplePl'">
                         <h3>Место для двоих</h3>
@@ -45,8 +59,7 @@
                         <p><b>Цена за билет:</b>&nbsp;{{currency(session.pricesSPl)}}</p>
 
                     </div>
-                    <p><b>Ряд:</b>&nbsp;{{rowPlaces.row}}</p>
-                    <p><b>Место:</b>&nbsp;{{rowPlaces.place}}</p>
+                    
                     <hr>
 
               </div>
@@ -67,7 +80,7 @@
 import {ref, onMounted, computed, reactive} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 import { useStore } from "vuex";
-import {currency} from "../../../Admin_Portal/use/currency"
+import {currency, date} from "../../../Admin_Portal/use/currency"
 import  AppLoader from '../../../Admin_Portal/ui/AppLoader.vue'
 import Hall from '../../../Admin_Portal/hall/Hall.vue'
 
@@ -85,8 +98,9 @@ export default {
         const cinema = ref([])
         const info = ref()
         const bookTickets = ref([])
+        const error = ref(false)
+        const dateChosen = ref()
 
-// ${route.params.ids}|
         onMounted(async()=>{
             loading.value = true
             session.value = await store.dispatch('gettingInfo/loadByID',{
@@ -94,12 +108,21 @@ export default {
                 id:route.params.ids,
             },)
              document.title = `Сеанс "${session.value.sessionFilmName}" `
-            await store.dispatch('gettingInfo/load',{
+
+             await store.dispatch('gettingInfo/load',{
                 rType:'cinemas',
-            },)
+            },)  
+             await store.dispatch('gettingInfo/load',{
+                rType:'films',
+            },)           
+             
+
+
+            
             loading.value = false
 
         })
+
                const cinemas = computed(()=> store.getters['gettingInfo/cinemas'])
                const findOut = ()=>{
                 //    console.log(cinemas.value);
@@ -115,17 +138,39 @@ export default {
                     // console.log(info.value);
                     // console.log();
                }
+                const film = ref({})
+                const keyToChange = ref(0)
+                const films = computed(()=> store.getters['gettingInfo/films'])
+                const checkDates = (event)=>{
+                    film.value = films.value.find(film =>{
+                   if(session.value.sessionFilmName === film.filmName) {
+                        return film
+                   }
+                })
+                // if(new Date(event)<new Date(film.value.finishTime).getTime() && new Date(event)>new Date(film.value.startTime).getTime()){
+                //     error.value=false
+                //     keyToChange.value++
+
+                // }else{
+                //     error.value = true
+                //     keyToChange.value = 0
+                // }
+
+                
+                }
+
+  
 
                const bookPlace = (event)=>{
                    bookTickets.value = event
-                   console.log(bookTickets.value);
+                //    console.log(bookTickets.value);
                }
 
                const buyTickets = async()=>{
                 //    bookTickets.value
                 await store.dispatch('gettingInfo/buyTickets',{
                 rType:'orders',
-                info:bookTickets.value,
+                // info:bookTickets.value,
             },)
             // await store.dispatch('gettingInfo/load',{
             //     rType:'cinemas',
@@ -138,7 +183,9 @@ export default {
             loading,
 
             session,
-            cinemas,
+            // cinemas,
+            // cinema,
+            film,
             id:route.params.ids,
 
             findOut,
@@ -149,6 +196,12 @@ export default {
             buyTickets,
 
             currency,
+            // date,
+            dateChosen,
+            checkDates,
+            error,
+            keyToChange
+            // days
 
         }
     }
@@ -156,6 +209,9 @@ export default {
 </script>
 
 <style scoped>
+    small{
+        color:red;
+    }
     .row{
         text-align:center;
     }

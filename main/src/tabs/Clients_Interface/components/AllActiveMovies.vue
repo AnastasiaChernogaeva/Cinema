@@ -1,6 +1,6 @@
 <template>
 <app-loader v-if="loading"></app-loader>
-  <div  v-else>
+  <div  v-else-if="!loading">
       <!-- <spanclass=>В прокате</spanclass="card"> -->
           <h2 class="title card">Фильмы в прокате:</h2>
       <hr>
@@ -68,13 +68,13 @@ export default {
         const store = useStore()
         const maxL = ref(5)
         const filmsAll = ref([])
-        const loading = ref(false)
+        const loading = ref(true)
 
       onMounted( async()=>{
                 loading.value = true
                 
                 await store.dispatch('gettingInfo/loadAll',['films','cinemas','sessions'])
-                loading.value = false
+                // loading.value = false
 
       }, 
     //   ()=>{
@@ -107,21 +107,24 @@ export default {
     //   )
       const fFilms = ref([])
     //   console.log(films.value);
-    const films = computed(()=> store.getters['gettingInfo/films']
+    const films = computed(()=> {
+                    loading.value=true
+                    return store.getters['gettingInfo/films']
                     .filter(film=>{
                         if(Date.parse(film.finishTime)>Date.parse(new Date()))
                         return film
 
-                    }))
+                    })})
         // console.log('Получаем фильмы',films.value);
         let count = ref(0)
 
         function timerFilms(){
             if(films.value.length>6){
-     setInterval(()=>{  if(count.value===0 &&fFilms.value.length!=0){
+        setInterval(()=>{  
+                if(count.value===0 &&fFilms.value.length!=0){
                     fFilms.value=[]
                 }
-              if(fFilms.value.length===0){
+               if(fFilms.value.length===0){
                   count.value++
                   fFilms.value=films.value.filter((film, id)=>{if(id<6) return film})
               }
@@ -135,11 +138,13 @@ export default {
                         //   console.log('film',films.value[i]);
                            fFilms.value.push(films.value[i])
                       }
+
                     //  console.log('Добавили фильмы,котрых не хватает.',fFilms.value);
                   }
                   
 
               }
+              loading.value=false
           }  ,5000)
           }
           else{
