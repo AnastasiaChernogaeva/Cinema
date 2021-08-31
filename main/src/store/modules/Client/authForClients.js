@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from "../..";
-// import {error} from "../../../tabs/Admin_Portal/utils/error";
+import {error} from "../../../tabs/Admin_Portal/utils/error";
 
 const TOKEN_KEY = 'jwt-token'
 
@@ -36,6 +36,22 @@ export default{
                     throw new Error()
                 }
         },
+        async register({commit, dispatch,}, payload){
+
+            try{
+            const {data} = await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.VUE_APP_FB_KEY}`, {...payload, returnSecureToken:true,})
+            commit('setToken', data.idToken)
+            commit('clients/clearMessage', null, {root:true,})
+            } catch(e){
+                const resER = error(e.response.data.error.message)
+                const body_D = {value:resER, type:'danger',}
+                dispatch('clients/setMess', body_D , {root:true,})
+                dispatch('gettingInfo/load', {rType:"users"} , {root:true,})
+
+
+                throw new Error()
+            }
+    },
 
     },
     getters:{

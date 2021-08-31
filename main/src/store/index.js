@@ -6,7 +6,6 @@ import requests from "./modules/Admin/request.module";
 
 import clientsModule from "./modules/Client/TheClientsModule";
 import gettingInfo from "./modules/Client/gettingInfo";
-import authAdmin from "./modules/Admin/auth.module";
 import authForClients from "./modules/Client/authForClients";
 
 

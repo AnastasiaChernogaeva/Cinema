@@ -2,7 +2,7 @@
 <div>
     <!-- <span>Main</span> -->
 
-    <all-active-movies  ></all-active-movies>
+    <all-active-movies></all-active-movies>
     <all-sessions></all-sessions>
 
    

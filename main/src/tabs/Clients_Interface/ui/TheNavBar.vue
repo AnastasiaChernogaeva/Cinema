@@ -3,7 +3,13 @@
         <h3>Movie Time</h3>
         <ul class="navbar-menu">
             <li>
-                <router-link to="#">Поиск</router-link>
+                <router-link to="/cinemaMain">Поиск</router-link>
+            </li>
+            <li>
+                <router-link to="/cinemaMain/signupUser">Зарегистрироваться</router-link>
+            </li>
+            <li>
+                <router-link to="/cinemaMain/loginUser">Войти</router-link>
             </li>
             <!-- <li>
                 <router-link to="/main">Мои заказы</router-link>

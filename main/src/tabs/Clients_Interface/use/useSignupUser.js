@@ -4,7 +4,7 @@ import { useField, useForm } from "vee-validate";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
-export function useLoginFormsClient(){
+export function useSignupUser(){
 
         const store = useStore()
         const router = useRouter()
@@ -27,18 +27,11 @@ export function useLoginFormsClient(){
 
         const onSubmit = handleSubmit(async (values) =>{
             try{
-                await  store.dispatch('authClient/login', values)
-                router.push('/cinemaMain')
+                await  store.dispatch('authClient/register', values)
+                router.push('/cinemaMain/login')
             } catch(error){}
         })
 
-        watch(tooManyAttemptsAmount, valAtt=>{
-            if(valAtt){
-                setTimeout(()=> submitCount.value = 0, 2000)
-            }
-        })
-
-        // const forgottenPassword = 
 
         return{
             email,
@@ -49,8 +42,6 @@ export function useLoginFormsClient(){
             pBlur,
             onSubmit,
             isSubmitting,
-            tooManyAttemptsAmount,
-            // forgottenPassword,
         }
 
 };

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="card">
       <p>Забыли пароль</p>
   </div>
 </template>

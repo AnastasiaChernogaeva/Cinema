@@ -1,7 +1,7 @@
 <template>
     <div class="container">
     
-    <!-- <err-message></err-message> -->
+    <err-message></err-message>
     <form class="card" @submit.prevent="onSubmit" >  
         <h1>Войдите в аккаунт</h1>
         <div :class="['form-control', {'invalid':eError},]">
@@ -32,20 +32,19 @@
          
 
             <button class="btn primary" type="submit" :disabled="isSubmitting || tooManyAttemptsAmount" >Войти</button>
-
+            <button @click="forgottenPassword" class="btn danger">Забыли пароль?</button>    
             <p class="text-danger" v-if="tooManyAttemptsAmount">Большое количество попыток войти в систему. Попробуйте позже.</p>         
 
         </form> 
-           <!-- <button @click="forgottenPassword" class="btn danger">Забыли пароль?</button>     -->
    
         </div>
 
 </template>
 
 <script>
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import {  useLoginFormsClient} from "../use/useLoginFormsClient";
+import { useLoginFormsClient } from "../use/useLoginFormsClient";
 import {error} from '../../Admin_Portal/utils/error'
 import ErrMessage from "../ui/ErrMessage.vue";
 
@@ -56,14 +55,20 @@ export default {
     },
     setup() {
         const route = useRoute()
+        const router = useRouter()
         const store = useStore()
         if(route.query.message){
             const resER = error(route.query.message)
             const body_D = { value:resER, type:'warning',}
             store.dispatch('clients/setMess', body_D, {root:true,})
         }
+        const forgottenPassword = ()=>{router.push('/cinemaMain/forgottenPassword')}
 
-        return {...useLoginFormsClient()}
+
+        return {
+            ...useLoginFormsClient(),
+            forgottenPassword,
+        }
 
     }
     
