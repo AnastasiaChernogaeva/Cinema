@@ -45,25 +45,25 @@
 <script>
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-// import {  useLoginForm} from "../use/login-form";
-// import {error} from '../utils/error'
-// import ErrMessage from "../ui/ErrMessage.vue";
+import {  useLoginFormsClient} from "../use/useLoginFormsClient";
+import {error} from '../../Admin_Portal/utils/error'
+import ErrMessage from "../ui/ErrMessage.vue";
 
 
 export default {
     components:{
-        // ErrMessage,
+        ErrMessage,
     },
     setup() {
         const route = useRoute()
         const store = useStore()
-        // if(route.query.message){
-        //     const resER = error(route.query.message)
-        //     const body_D = { value:resER, type:'warning',}
-        //     store.dispatch('admin/setMess', body_D, {root:true,})
-        // }
+        if(route.query.message){
+            const resER = error(route.query.message)
+            const body_D = { value:resER, type:'warning',}
+            store.dispatch('clients/setMess', body_D, {root:true,})
+        }
 
-        // return {...useLoginForm()}
+        return {...useLoginFormsClient()}
 
     }
     

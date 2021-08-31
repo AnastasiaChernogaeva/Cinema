@@ -2,19 +2,31 @@ export default{
     namespaced:true,
     state(){
         return{
-            isStarted:false,
+            message:null,
         }
     },
     mutations:{
-        ideas(state){
-            state.isStarted=true
+        setMessage(state, message){
+            state.message = message
+        },
+        clearMessage(state){
+            state.message = null
         }
+    },
+    actions:{
+        setMess(state, message){
+            state.commit('setMessage', message)
+            setTimeout(()=>{
+                state.commit('clearMessage')
+            }
+            ,5000)
+        },
 
     },
     getters:{
-        val(state){
-            return state.isStarted
-        }
+        message(state){
+            return state.message
+        },
     },
 
 }

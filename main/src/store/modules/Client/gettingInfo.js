@@ -56,6 +56,7 @@ export default {
 
         async buyTickets({commit}, payload){
            try{
+               
                 const {data} = await axios.get(`/${payload.rType}.json`)
                 const requests = Object.keys(data).map(id =>({...data[id], id}))
                 // commit('setRequests',{...payload, info:requests,});

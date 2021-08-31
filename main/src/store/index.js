@@ -6,6 +6,10 @@ import requests from "./modules/Admin/request.module";
 
 import clientsModule from "./modules/Client/TheClientsModule";
 import gettingInfo from "./modules/Client/gettingInfo";
+import authAdmin from "./modules/Admin/auth.module";
+import authForClients from "./modules/Client/authForClients";
+
+
 
 
 const plugins = []
@@ -24,24 +28,9 @@ const store = createStore({
         
         clients:clientsModule,
         gettingInfo,
+        authClient:authForClients,
     },
 
-    // state(){
-    //     return{
-    //         isStarted:false,
-    //     }
-    // },
-    // mutations:{
-    //     ideas(state){
-    //         state.isStarted=true
-    //     }
-
-    // },
-    // getters:{
-    //     val(state){
-    //         return state.isStarted
-    //     }
-    // },
 
 })
 
