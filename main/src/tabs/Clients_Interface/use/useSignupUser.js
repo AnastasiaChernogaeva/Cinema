@@ -28,7 +28,7 @@ export function useSignupUser(){
         const onSubmit = handleSubmit(async (values) =>{
             try{
                 await  store.dispatch('authClient/register', values)
-                router.push('/cinemaMain/login')
+                router.push('/cinemaMain/loginUser')
             } catch(error){}
         })
 

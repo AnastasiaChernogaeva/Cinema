@@ -9,6 +9,7 @@ export default {
             cinemas:[],
             sessions:[],
             services:[],
+            users:[],
         }
     },
     mutations:{
@@ -18,6 +19,19 @@ export default {
 
     },
     actions:{
+        async create({commit, dispatch}, payload){
+            try{
+                 const token = store.getters['authClient/token']
+                 const {data} = await axios.post(`/${payload.rType}.json?auth=${token}`,payload.value)
+                 commit('addRequest',{...payload, id:data.name});
+                 // console.log({data})
+                     const body_D = {value:'Добавление прошло успешно', type:'primary',}
+                     dispatch('admin/setMess', body_D , {root:true,})
+            }catch(e){
+             const body_D = {value:e.message, type:'danger',}
+             dispatch('admin/setMess', body_D , {root:true,})
+            }
+         },
         
          loadAll({commit,}, arr){
             try{
@@ -78,6 +92,10 @@ export default {
           services(state){
             return  state.services
           },
+          users(state){
+            return  state.users
+          },
+        
         
     }
 }
