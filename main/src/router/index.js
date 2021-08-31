@@ -199,6 +199,7 @@ router.beforeEach((to, from, next)=>{
             next()
         }    
     }else if(/^\/cinema/.test(to.path)||/^\//.test(to.path)){
+        
         next()
     }
     

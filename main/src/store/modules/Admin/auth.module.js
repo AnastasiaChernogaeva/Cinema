@@ -14,6 +14,8 @@ export default{
     mutations:{
         setToken(state, token){
             state.token = token
+            // state.token = `${token}.admin`
+
             localStorage.setItem(TOKEN_KEY, token)
         },
         logout(state){
