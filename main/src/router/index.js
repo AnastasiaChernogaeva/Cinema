@@ -133,9 +133,13 @@ const router = createRouter({
             component:TheClientsView, 
             alias:'', 
             children:[
+
                 {   path:"main", 
-                    component:Main, 
+                    component:Main,
                     alias:'',
+               },
+                {   path:"uorders", 
+                    component:()=>import('../tabs/Clients_Interface/components/UserOrders.vue'),
                 },
                 {   path:"loginUser", 
                     component:LoginUser, 

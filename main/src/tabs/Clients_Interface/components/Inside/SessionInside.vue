@@ -26,8 +26,8 @@
          
        </ul>
 
-      <p><label><b> Выберите дату:</b>&nbsp;<input type="date" @blur="checkDates"  v-model="dateChosen"></label></p>
-       <small v-if="error" :key="keyToChange">Фильм в прокате с {{film.startTime}} по {{film.finishTime}} </small>
+      <!-- <p><label><b> Выберите дату:</b>&nbsp;<input type="date" @blur="checkDates"  v-model="dateChosen"></label></p>
+       <small v-if="error" :key="keyToChange">Фильм в прокате с {{film.startTime}} по {{film.finishTime}} </small> -->
       <hr/>
       <button class="btn" @click="findOut" v-if="!info">Выбрать места</button>
       <hall class="hall" v-if="info" :info="info={'val':{...info}, id:session.hallnumber}" @choosePlace="bookPlace"></hall>
@@ -38,7 +38,7 @@
               <div v-for="(rowPlaces, id) of bookTicket" :key="id">
                   <div>
                       <h3><b>{{session.sessionFilmName}}</b></h3>
-                      <h4><b>Дата:</b>{{date(dateChosen)}}</h4>
+                      <!-- <h4><b>Дата:</b>{{date(dateChosen)}}</h4> -->
                       <h4><b>Время:</b>{{session.startSessionTime}}</h4>
                     <p><b>Ряд:</b>&nbsp;{{rowPlaces.row}}</p>
                     <p><b>Место:</b>&nbsp;{{rowPlaces.place}}</p>
@@ -100,6 +100,7 @@ export default {
         const bookTickets = ref([])
         const error = ref(false)
         const dateChosen = ref()
+        const sum = ref(0)
 
         onMounted(async()=>{
             loading.value = true
@@ -167,11 +168,29 @@ export default {
                }
 
                const buyTickets = async()=>{
-                //    bookTickets.value
-                await store.dispatch('gettingInfo/buyTickets',{
-                rType:'orders',
-                // info:bookTickets.value,
-            },)
+                if(store.getters['authClient/isAuthenticated']){
+                    console.log('бронь мест', bookTickets.value)
+                     for (let value of bookTickets.value) {
+                         value.forEach(elem=>{
+                             console.log(elem);
+                             if(elem.type ==='vipPl')
+                                sum.value+=Number.parseFloat(session.value.pricesVPl)
+                             if(elem.type ==='couplePl')
+                                sum.value+=Number.parseFloat(session.value.pricesCPl)
+                             if(elem.type ==='simplePl')
+                                sum.value+=Number.parseFloat(session.value.pricesSPl)
+                             })
+                     }
+                    console.log(sum.value);
+                    console.log('К оплате', currency(sum.value));
+                }
+                else{
+                    console.log('Пожалуйста, ввойдите в аккаунт или зарегистрируйстесь')
+                }
+            //     await store.dispatch('gettingInfo/buyTickets',{
+            //     rType:'orders',
+            //     info:bookTickets.value,
+            // },)
             // await store.dispatch('gettingInfo/load',{
             //     rType:'cinemas',
             // },)

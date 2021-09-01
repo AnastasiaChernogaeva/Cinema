@@ -2,7 +2,7 @@ import axios from "axios";
 import store from "../..";
 import {error} from "../../../tabs/Admin_Portal/utils/error";
 
-const TOKEN_KEY_CLIENT = 'jwt-token'
+const TOKEN_KEY_CLIENT = 'jwt-token-client'
 
 export default{
     namespaced:true,

@@ -1,6 +1,7 @@
 <template> 
 <div>
     <!-- <span>Main</span> -->
+    <!-- <the-nav-bar></the-nav-bar> -->
 
     <all-active-movies></all-active-movies>
     <all-sessions></all-sessions>
@@ -24,6 +25,8 @@ import { onMounted, onUpdated, ref, computed,watch} from "vue";
 // import ForgottenPassword from "../components/ForgottenPassword.vue";
 import AllActiveMovies from '../../Clients_Interface/components/AllActiveMovies.vue';
 import AllSessions from '../../Clients_Interface/components/Inside/AllSessions.vue';
+// import TheNavBar from "../ui/TheNavBar.vue"
+
 
 // import AppLoader from '../../Admin_Portal/ui/AppLoader.vue'
 
@@ -33,6 +36,7 @@ export default {
         // AppLoader,
         AllActiveMovies,
         AllSessions,
+        // TheNavBar,
     },
     // setup(){
     //   const store = useStore()

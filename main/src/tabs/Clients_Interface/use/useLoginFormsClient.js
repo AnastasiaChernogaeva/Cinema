@@ -27,8 +27,20 @@ export function useLoginFormsClient(){
 
         const onSubmit = handleSubmit(async (values) =>{
             try{
-                await  store.dispatch('authClient/login', values)
-                router.push('/cinemaMain')
+                await  store.dispatch('gettingInfo/load', {rType:'users'})
+                let users = computed(()=>store.getters['gettingInfo/users'])
+                let ourUser = users.value.forEach(user=>{
+                    if(user.email === values.email && user.password === values.password){
+                        return user
+                    }
+                })
+                // console.log(values);
+                // console.log({'email':users.value[0].email,'password':users.value[0].password });
+                if(ourUser){
+                   await  store.dispatch('authClient/login', values)
+                   router.push('/cinemaMain') 
+                }
+                
             } catch(error){}
         })
 

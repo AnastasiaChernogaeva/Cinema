@@ -4,6 +4,30 @@
     <err-message></err-message>
     <form class="card" @submit.prevent="onSubmit" >  
         <h1>Зарегистрироваться</h1>
+        <div :class="['form-control', {'invalid':nError},]">
+                <label for="name">Имя</label>
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Введите имя"
+                    v-model="name"
+                    @blur="nBlur"
+                >
+                <small v-if="nError">{{nError}}</small>
+        </div>
+
+         <div :class="['form-control', {'invalid':sError},]">
+                <label for="surname">Имя</label>
+                <input
+                    type="text"
+                    id="surname"
+                    placeholder="Введите фамилию"
+                    v-model="surname"
+                    @blur="sBlur"
+                >
+                <small v-if="sError">{{sError}}</small>
+        </div>
+
         <div :class="['form-control', {'invalid':eError},]">
                 <label for="Email">Email</label>
                 <input
@@ -29,13 +53,27 @@
 
          </div>
 
+         <!-- <div :class="['form-control', {'invalid':reError},]" v-if="password">
+                <label for="repassword ">Подтвердите пароль</label>
+                <input
+                    type="password"
+                    id="repassword"
+                    placeholder="Введите пароль"
+                    v-model="repassword"
+                    @blur="reBlur"
+                >
+                <small v-if="reError">{{reError}}</small>
+                <br/>
+
+         </div> -->
+
          
 
-            <button class="btn primary" type="submit" :disabled="isSubmitting || tooManyAttemptsAmount" >Зарегистрироваться</button>        
+            <button class="btn primary" type="submit" :disabled="isSubmitting " >Зарегистрироваться</button>        
 
         </form> 
 
-   
+   <!-- || tooManyAttemptsAmount -->
         </div>
 
 </template>
