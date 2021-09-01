@@ -1,6 +1,7 @@
 <template>
-<app-loader v-if="loading"></app-loader>
-  <div  v-else-if="!loading">
+<!-- <app-loader v-if="loading"></app-loader>
+  <div  > -->
+      <div v-if="!loading">
       <!-- <spanclass=>В прокате</spanclass="card"> -->
           <h2 class="title card">Фильмы в прокате:</h2>
       <hr>
@@ -58,11 +59,11 @@
 <script>
 import {onMounted, ref, computed, onUpdated} from "vue"
 import { useStore } from 'vuex'
-import AppLoader from '../../Admin_Portal/ui/AppLoader.vue'
+// import AppLoader from '../../Admin_Portal/ui/AppLoader.vue'
 
 export default {
     components:{
-         AppLoader,
+        //  AppLoader,
     },
     setup(){
         const store = useStore()
@@ -145,14 +146,14 @@ export default {
 
               }
               loading.value=false
-          }  ,5000)
+          }  ,3000)
           }
           else{
               fFilms.value = films.value
           }
         }
 
-        setTimeout(timerFilms, 1500)
+        setTimeout(timerFilms, 500)
  
                 
          

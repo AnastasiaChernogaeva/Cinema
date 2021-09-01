@@ -180,8 +180,10 @@ const router = createRouter({
                 authAdmin:false,
             },
         },
-
+        { path:"/test", component:()=>import('../tabs/Test.vue'),},
         { path:"/:notFound(.*)", component:TheNotFound,},
+        
+
         // { path:"/hall", component:()=>import('../tabs/Admin_Portal/hall/Hall.vue'),},
 
 
