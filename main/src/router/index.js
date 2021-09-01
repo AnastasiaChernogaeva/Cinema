@@ -140,6 +140,9 @@ const router = createRouter({
                },
                 {   path:"uorders", 
                     component:()=>import('../tabs/Clients_Interface/components/UserOrders.vue'),
+                    meta:{
+                        authClient:true,
+                    }
                 },
                 {   path:"loginUser", 
                     component:LoginUser, 
@@ -205,8 +208,15 @@ router.beforeEach((to, from, next)=>{
             next()
         }    
     }else if(/^\/cinema/.test(to.path)||/^\//.test(to.path)){
-        
-        next()
+        const requireAuthClient = to.meta.authClient
+        if(requireAuthClient && !store.getters['authClient/isAuthenticated']){
+            next('/cinemaMain/loginUser')
+
+        }
+        else{
+            next() 
+        }
+       
     }
     
    

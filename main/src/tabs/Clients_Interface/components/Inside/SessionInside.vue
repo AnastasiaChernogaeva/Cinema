@@ -19,9 +19,7 @@
 
          
        </ul>
-<!-- 
-      <p><label><b> Выберите дату:</b>&nbsp;<input type="date" @blur="checkDates"  v-model="dateChosen"></label></p>
-      <small v-if="errorMessageForDay">{{errorMessageForDay}}</small> -->
+      <p><b> Выберите дату:</b>&nbsp;<input type="date"   :value="dateChosen" @blur="ch" :max="film.finishTime" :min="film.startTime"> </p>
 
       <hr/>
       <button class="btn" @click="findOut" v-if="!info">Выбрать места</button>
@@ -34,8 +32,8 @@
               <div v-for="(rowPlaces, id) of bookTicket" :key="id">
                   <div>
                       <h3><b>{{session.sessionFilmName}}</b></h3>
-                      <!-- <h4><b>Дата:</b>{{date(dateChosen)}}</h4> -->
-                      <h4><b>Время:</b>{{session.startSessionTime}}</h4>
+                      <h4><b>Дата:</b>&nbsp;{{date(dateChosen)}}</h4>
+                      <h4><b>Время:</b>&nbsp;{{session.startSessionTime}}</h4>
                     <p><b>Ряд:</b>&nbsp;{{rowPlaces.row}}</p>
                     <p><b>Место:</b>&nbsp;{{rowPlaces.place}}</p>
 
@@ -86,12 +84,11 @@
 </template>
 
 <script>
-import {ref, onMounted, computed, reactive} from 'vue'
+import {ref, onMounted, computed,} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 import { useStore } from "vuex";
-import * as yup from 'yup';
-import { useField, } from "vee-validate";
-import {currency, date} from "../../../Admin_Portal/use/currency"
+import {currency, } from "../../../Admin_Portal/use/currency"
+import { date } from "../../../Admin_Portal/use/date";
 import  AppLoader from '../../../Admin_Portal/ui/AppLoader.vue'
 import Hall from '../../../Admin_Portal/hall/Hall.vue'
 
@@ -109,12 +106,12 @@ export default {
         const cinema = ref([])
         const info = ref()
         const bookTickets = ref([])
-        // const dateChosen = ref()
+        const dateChosen = ref()
         const sum = ref(0)
         const isBooked = ref(false)
         const authErrorMessage = ref(false)
         const bookedTickets = ref()
-
+        const film = ref({})
         onMounted(async()=>{
             loading.value = true
             session.value = await store.dispatch('gettingInfo/loadByID',{
@@ -130,7 +127,15 @@ export default {
                 rType:'films',
             },)           
              
-
+            await store.dispatch('gettingInfo/load',{
+                rType:'films',
+            },)           
+              const films = computed(()=> store.getters['gettingInfo/films'])
+              film.value = films.value.find(filmO =>{
+                                    if(session.value.sessionFilmName === filmO.filmName) {
+                                        return filmO
+                                    }
+                            } )
 
             
             loading.value = false
@@ -139,10 +144,6 @@ export default {
 
                const cinemas = computed(()=> store.getters['gettingInfo/cinemas'])
                const findOut = ()=>{
-                //    console.log(cinemas.value);
-                //    console.log(session.value);
-
-                //    val[session.hallnumber]
                    cinema.value = cinemas.value.find(cinema=>{
                        if(cinema.cinemaName===session.value.chosenCinemaName){
                            return cinema
@@ -152,57 +153,7 @@ export default {
                }
 
 
-                const film = ref({})
-                const films = computed(()=> store.getters['gettingInfo/films'])
-                setTimeout(()=>{
-                    film.value = films.value.find(film =>{
-                        if(session.value.sessionFilmName === film.filmName) {
-                            return film
-                        }
-                        }
-                    )
-                }, 1000)
-                // const checkDates = (event)=>{
-                //   film.value = films.value.find(film =>{
-                //         if(session.value.sessionFilmName === film.filmName) {
-                //             return film
-                //         }}
-                //   )
-                //  if(new Date(event)<new Date(film.value.finishTime).getTime() && new Date(event)>new Date(film.value.startTime).getTime()){
-                //     errorMessageForDay.value=false
-
-                // }else{
-                //     console.log('errorMessageForDay.value', errorMessageForDay.value)
-                //     errorMessageForDay.value = true
-                // }
-
-                
-                // }  
-                // checkDates.value
-        //         console.log(films.value.find(film =>{
-        //                 if(session.value.sessionFilmName === film.filmName) {
-        //                     return film
-        //                 }
-        //                 }
-        //             ).startTime);
-
-        //   const {value:dateChosen, errorMessage:errorMessageForDay, handleBlur:checkDates} = useField('dateChosen',yup
-        //     .date()
-        //     .max(films.value.find(film =>{
-        //                 if(session.value.sessionFilmName === film.filmName) {
-        //                     return film
-        //                 }
-        //                 }
-        //             ).value.finishTime, `Фильм в прокате только ${film.value.startTime}- ${film.value.finishTime}`)
-        //     .min(films.value.find(film =>{
-        //                 if(session.value.sessionFilmName === film.filmName) {
-        //                     return film
-        //                 }
-        //                 }
-        //             ).value.startTime, `Фильм в прокате только ${film.value.startTime}- ${film.value.finishTime}`)
-        //     )
-
-  
+           
 
                const bookPlace = (event)=>{
                    bookTickets.value = event
@@ -241,6 +192,11 @@ export default {
         }
 
 
+        const ch = (event)=>{
+            dateChosen.value=event.target.value
+        }
+
+
         return{
             loading,
 
@@ -256,18 +212,15 @@ export default {
             buyTickets,
 
             currency,
-            // date,
-            // dateChosen,
-            // checkDates,
-            // errorMessageForDay,
-            // keyToChange,
+            dateChosen,
+            ch,
             sum,
             isBooked,
-            // days
 
             authErrorMessage,
 
-            bookedTickets
+            bookedTickets,
+            date
 
         }
     }
