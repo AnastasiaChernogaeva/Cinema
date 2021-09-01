@@ -45,7 +45,7 @@ export default {
 
         })
 
-        console.log(showSearch.value);
+        // console.log(showSearch.value);
 
         return{
             showSearch,

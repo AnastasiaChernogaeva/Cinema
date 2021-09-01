@@ -30,7 +30,8 @@
        <small v-if="error" :key="keyToChange">Фильм в прокате с {{film.startTime}} по {{film.finishTime}} </small> -->
       <hr/>
       <button class="btn" @click="findOut" v-if="!info">Выбрать места</button>
-      <hall class="hall" v-if="info" :info="info={'val':{...info}, id:session.hallnumber}" @choosePlace="bookPlace"></hall>
+      <hall class="hall" v-if="info" :info="info={'val':{...info}, id:session.hallnumber,}"  
+      @choosePlace="bookPlace"></hall>
       <div v-if="info && bookTickets">
       <div :class="[{'bookTicket':bookTickets}, ]" v-if="bookTickets.length!=0">
           <h2>Забронировать билеты</h2>
@@ -65,7 +66,20 @@
               </div>
             
         </div>
-        <button class="btn danger" @click="buyTickets">Заказать билеты</button>
+        <p>Оплата производится при получении билетов</p>
+        
+        <div v-if="isBooked">
+            <p>К оплате {{currency(sum)}}</p>
+
+        </div>
+        <button class="btn danger" @click="buyTickets" v-else>Забронировать билеты</button>
+        <br>
+        <div v-if="authErrorMessage" >
+            <p>
+                Пожалуйста, <router-link to="/cinemaMain/loginUser">ввойдите в аккаунт</router-link> или <router-link to="/cinemaMain/signupUser">зарегистрируйстесь</router-link> для дальнейшей брони билетов!
+
+            </p>
+        </div>
     </div>
       </div>
 
@@ -101,6 +115,9 @@ export default {
         const error = ref(false)
         const dateChosen = ref()
         const sum = ref(0)
+        const isBooked = ref(false)
+        const authErrorMessage = ref(false)
+        const bookedTickets = ref()
 
         onMounted(async()=>{
             loading.value = true
@@ -172,7 +189,7 @@ export default {
                     console.log('бронь мест', bookTickets.value)
                      for (let value of bookTickets.value) {
                          value.forEach(elem=>{
-                             console.log(elem);
+                            //  console.log(elem);
                              if(elem.type ==='vipPl')
                                 sum.value+=Number.parseFloat(session.value.pricesVPl)
                              if(elem.type ==='couplePl')
@@ -181,11 +198,16 @@ export default {
                                 sum.value+=Number.parseFloat(session.value.pricesSPl)
                              })
                      }
-                    console.log(sum.value);
-                    console.log('К оплате', currency(sum.value));
+                    // console.log(sum.value);
+                    // console.log('К оплате', currency(sum.value));
+                    // sum.value=0
+                    isBooked.value = true
+                    bookedTickets.value = info.value
+                    info.value = {}
                 }
                 else{
-                    console.log('Пожалуйста, ввойдите в аккаунт или зарегистрируйстесь')
+                    authErrorMessage.value = true
+                    // console.log('Пожалуйста, ввойдите в аккаунт или зарегистрируйстесь')
                 }
             //     await store.dispatch('gettingInfo/buyTickets',{
             //     rType:'orders',
@@ -202,8 +224,6 @@ export default {
             loading,
 
             session,
-            // cinemas,
-            // cinema,
             film,
             id:route.params.ids,
 
@@ -219,8 +239,14 @@ export default {
             dateChosen,
             checkDates,
             error,
-            keyToChange
+            keyToChange,
+            sum,
+            isBooked,
             // days
+
+            authErrorMessage,
+
+            bookedTickets
 
         }
     }

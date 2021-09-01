@@ -15,7 +15,7 @@ export default {
     components:{
         row,
     },
-    props:['info'],
+    props:['info',],
     emit:['choosePlace'],
     setup(props, {emit}){
         // console.log(props)

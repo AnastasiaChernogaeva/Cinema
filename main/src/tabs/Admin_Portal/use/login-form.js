@@ -26,10 +26,24 @@ export function useLoginForm(){
         const tooManyAttemptsAmount = computed(()=> submitCount.value>=6)
 
         const onSubmit = handleSubmit(async (values) =>{
-        //    console.log(values)
             try{
-                await  store.dispatch('authAdmin/login', values)
-                router.push('/admin')
+                await  store.dispatch('gettingInfo/load', {rType:'users'})
+                let users = computed(()=>store.getters['gettingInfo/users'])
+                let ourUser = users.value.find(user=>{
+                    if(user.email === values.email && user.password === values.password){
+                        return user
+                    }
+                })
+                if(ourUser==undefined){
+                    await  store.dispatch('authAdmin/login', values)
+                    router.push('/admin')
+                }
+                else{
+                    // await  store.dispatch('authClient/login', values)
+                    router.push('/cinemaMain/loginUser') 
+                }
+                // await  store.dispatch('authAdmin/login', values)
+                // router.push('/admin')
             } catch(error){}
         })
 

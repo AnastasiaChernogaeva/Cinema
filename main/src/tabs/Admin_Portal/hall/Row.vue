@@ -3,12 +3,32 @@
         <div class="small">{{rId}}</div>
 
         <div class="place" v-for="(place,idx) in places" :key="idx" @click="choosePlace(idx+1, rId)">
-            <span class="indx" :class="[{'chosenSpan':infoArr.find(info=>info.place===idx+1)}]">
+    <span class="indx" 
+            :class="[
+                 {'chosenSpan':infoArr.find(info=>info.place===idx+1)},
+                 //&&info.isBooked===false&&info.isBooked
+                 {'isBooked':infoArr.find(info=>info.place===idx+1)}]"
+            >
                 <span>{{idx+1}}</span>
 
-          <img src="./icons/2x/simple.png" alt="simple hall places " class="hallPlaces simple" :class="[{'chosen':infoArr.find(info=>info.place===idx+1)}]" v-if="simplePl &&simplePl.includes(rId)" >
-          <img src="./icons/2x/vip.png" alt="vip hall places" class="hallPlaces vip" :class="[{'chosen':infoArr.find(info=>info.place===idx+1)}]" v-if="vipPl&&vipPl.includes(rId)" >
-          <img src="./icons/2x/couple.png" alt="couple hall places" class="hallPlaces couple"  :class="[{'chosen':infoArr.find(info=>info.place===idx+1)}]" v-if="couplePl&&couplePl.includes(rId)" >
+          <img src="./icons/2x/simple.png" alt="simple hall places " class="hallPlaces simple" 
+          :class="[
+                {'chosen':infoArr.find(info=>info.place===idx+1)},
+                //&&info.isBooked===false&&info.isBooked
+                {'isBooked':infoArr.find(info=>info.place===idx+1)}]" 
+                v-if="simplePl &&simplePl.includes(rId)" >
+          <img src="./icons/2x/vip.png" alt="vip hall places" class="hallPlaces vip" 
+          :class="[
+                {'chosen':infoArr.find(info=>info.place===idx+1)},
+                //&&info.isBooked===false&&info.isBooked
+                {'isBooked':infoArr.find(info=>info.place===idx+1)}]" 
+                v-if="vipPl&&vipPl.includes(rId)" >
+          <img src="./icons/2x/couple.png" alt="couple hall places" class="hallPlaces couple"
+          :class="[
+                {'chosen':infoArr.find(info=>info.place===idx+1)},
+                //&&info.isBooked===false) &&info.isBooked
+                {'isBooked':infoArr.find(info=>info.place===idx+1)}]"
+                v-if="couplePl&&couplePl.includes(rId)" >
 </span>
         </div>
 
@@ -36,8 +56,8 @@ import {ref} from 'vue'
 import { useRoute } from 'vue-router'
 export default {
     props:[
-        'rId',
-         'simplePl',
+            'rId',
+            'simplePl',
             'vipPl',
             'couplePl',
             'places',
@@ -94,6 +114,9 @@ export default {
     }
     .hallPlaces:hover{
         cursor:pointer;
+    }
+    .isBooked{
+         background: rgb(236, 165, 204);
     }
     .chosen{
         background: #999;
