@@ -26,8 +26,9 @@
          
        </ul>
 
-      <!-- <p><label><b> Выберите дату:</b>&nbsp;<input type="date" @blur="checkDates"  v-model="dateChosen"></label></p>
-       <small v-if="error" :key="keyToChange">Фильм в прокате с {{film.startTime}} по {{film.finishTime}} </small> -->
+      <p><label><b> Выберите дату:</b>&nbsp;<input type="date" @blur="checkDates"  v-model="dateChosen"></label></p>
+       <small v-if="error" :key="keyToChange">Фильм в прокате с {{film.startTime}} по {{film.finishTime}} </small>
+
       <hr/>
       <button class="btn" @click="findOut" v-if="!info">Выбрать места</button>
       <hall class="hall" v-if="info" :info="info={'val':{...info}, id:session.hallnumber,}"  
@@ -165,14 +166,14 @@ export default {
                         return film
                    }
                 })
-                // if(new Date(event)<new Date(film.value.finishTime).getTime() && new Date(event)>new Date(film.value.startTime).getTime()){
-                //     error.value=false
-                //     keyToChange.value++
+                if(new Date(event)<new Date(film.value.finishTime).getTime() && new Date(event)>new Date(film.value.startTime).getTime()){
+                    error.value=false
+                    keyToChange.value++
 
-                // }else{
-                //     error.value = true
-                //     keyToChange.value = 0
-                // }
+                }else{
+                    error.value = true
+                    keyToChange.value = 0
+                }
 
                 
                 }
