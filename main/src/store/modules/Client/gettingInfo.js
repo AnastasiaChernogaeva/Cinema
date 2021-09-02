@@ -26,10 +26,10 @@ export default {
                  commit('addRequest',{...payload, id:data.name});
                  // console.log({data})
                      const body_D = {value:'Добавление прошло успешно', type:'primary',}
-                     dispatch('admin/setMess', body_D , {root:true,})
+                     dispatch('client/setMess', body_D , {root:true,})
             }catch(e){
              const body_D = {value:e.message, type:'danger',}
-             dispatch('admin/setMess', body_D , {root:true,})
+             dispatch('client/setMess', body_D , {root:true,})
             }
          },
         
@@ -70,9 +70,12 @@ export default {
 
         async buyTickets({commit}, payload){
            try{
-               
-                const {data} = await axios.get(`/${payload.rType}.json`)
-                const requests = Object.keys(data).map(id =>({...data[id], id}))
+                const token = store.getters['authClient/token']
+                const {data} = await axios.get(`/${payload.rType}/${payload.id}.json?auth=${token}`)
+                console.log(data);
+                // let sessionInfo=data.sessionInfo||{}
+                // sessionInfo[payload.value.id] = payload.value.info
+                // const requests ={...data, }
                 // commit('setRequests',{...payload, info:requests,});
                 return requests
            }catch(e){

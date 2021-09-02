@@ -176,10 +176,13 @@ export default {
                     isBooked.value = true
                     bookedTickets.value = info.value
                     info.value = {}
+                //  await store.dispatch('gettingInfo/buyTickets',{
+                //         rType:'users',
+                //         info:bookTickets.value,
+                //  },)
                 }
                 else{
                     authErrorMessage.value = true
-                    // console.log('Пожалуйста, ввойдите в аккаунт или зарегистрируйстесь')
                 }
             //     await store.dispatch('gettingInfo/buyTickets',{
             //     rType:'orders',
