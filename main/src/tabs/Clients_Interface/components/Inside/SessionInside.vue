@@ -23,9 +23,8 @@
 
       <hr/>
       <button class="btn" @click="findOut" v-if="!info" :disabled="!dateChosen">Выбрать места</button>
-      <hall class="hall" v-if="info" :info="info={'val':{...info}, id:session.hallnumber,}"  
+      <hall class="hall" v-if="info" :info="info={'val':{...info}, id:session.hallnumber,}"  :book="isBooked" 
       @choosePlace="bookPlace" ></hall> 
-      <!--  :boughtTickets="isBooked"-->
       <div v-if="info && bookTickets">
       <div :class="[{'bookTicket':bookTickets}, ]" v-if="bookTickets.length!=0">
           <h2>Забронировать билеты</h2>
@@ -111,7 +110,7 @@ export default {
         const sum = ref(0)
         const isBooked = ref(false)
         const authErrorMessage = ref(false)
-        const boughtTickets = ref()
+        // const boughtTickets = ref()
         const film = ref({})
         onMounted(async()=>{
             loading.value = true
@@ -175,10 +174,12 @@ export default {
                              })
                      }
                     isBooked.value = true
-                    console.log('изменения в sessions', isBooked.value);
-                    boughtTickets.value = bookTickets.value
-                    bookTickets.value = {}
-                    emit('bought',isBooked.value)
+                    // console.log('изменения в sessions', isBooked.value);
+                    // boughtTickets.value = bookTickets.value
+                    // bookTickets.value = {}
+                   
+                    // emit('bought',isBooked.value)
+                    //  console.log('emitted');
                     // console.log(boughtTickets.value.filter(arr=>arr.filter(elem=>elem.row===1)));
                     // console.log(boughtTickets.value.find(arr=>arr.filter(elem=>elem.row===1)));
 
@@ -232,7 +233,7 @@ export default {
 
             authErrorMessage,
 
-            boughtTickets,
+            // boughtTickets,
             date
 
         }

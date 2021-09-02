@@ -1,7 +1,7 @@
 <template>
-    <div class="row" v-if="$route.path.split('/')[1]==='cinema'" @bought="boughtTickets" >
+    <div class="row" v-if="$route.path.split('/')[1]==='cinema'"  >
         <div class="small">{{rId}}</div>
-
+<!-- @bought="boughtTickets" -->
         <div class="place" v-for="(place,idx) in places" :key="idx" @click="choosePlace(idx+1, rId)">
     <span class="indx" 
             :class="[
@@ -61,6 +61,7 @@ export default {
             'vipPl',
             'couplePl',
             'places',
+            'book',
             // 'boughtTickets'
     ],
     emits:['choosePlace'],
@@ -96,12 +97,21 @@ export default {
             emit('choosePlace', infoArr.value)
         }
 
-        const boughtTickets= (event)=>{
-            console.log(event);
-            // console.log(boughtT.value );
+        // const boughtTickets= (event)=>{
+        //     console.log(event);
+        //     // boughtT.value = event;
+        //     //infoArr.value = [];
 
-        }
+        // }
 
+        watch(props.book, (newValue, oldValue) => {
+             console.log('The old counter value is: ' +oldValue)
+
+             console.log('The new counter value is: ' +newValue)
+
+             props.book.value = newValue
+             console.log(props.book);
+        })
         // const res = computed(()=>{
         //     if(props.boughtTickets){
         //         boughtT.value = infoArr.value
@@ -131,7 +141,7 @@ export default {
             choosePlace,
             infoArr,
             boughtT,
-            boughtTickets
+            // boughtTickets
 
         }
     }

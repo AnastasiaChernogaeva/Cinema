@@ -3,9 +3,9 @@
 <!-- :id="id" -->
   <div class="card " >
       <h3>Зал №{{id}}</h3>
-      <row v-for="(row, idx) of info.rows " :key="idx" :places="info.places" :simplePl="info.simplePl" :vipPl="info.vipPl" :couplePl="info.couplePl" :rId="idx+1" @choosePlace="choosePlace" :boughtTickets='boughtTickets' ></row>
+      <row v-for="(row, idx) of info.rows " :key="idx" :places="info.places" :simplePl="info.simplePl" :vipPl="info.vipPl" :couplePl="info.couplePl" :rId="idx+1" @choosePlace="choosePlace" :book="book" ></row>
   </div>
-  <!--  :boughtTickets="boughtTickets.find(arr=>arr.filter(elem=>elem.row===row))"-->
+  <!--  :boughtTickets="boughtTickets.find(arr=>arr.filter(elem=>elem.row===row))":boughtTickets='boughtTickets'-->
 </div>
 </template>
 
@@ -17,7 +17,7 @@ export default {
         row,
     },
     //  'boughtTickets'
-    props:['info',],
+    props:['info', 'book'],
     emit:['choosePlace'],
     setup(props, {emit}){
         // console.log(props)
