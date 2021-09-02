@@ -12,8 +12,8 @@
      <div class="session container" v-for="(session, idx) of sessions" :key="idx">
          <h3>{{session.sessionFilmName}}</h3>
               <ul>
+                  <!-- <li><b>фильм в показе:</b>&nbsp;{{films.find(film=>film.filmName===session.sessionFilmName).startTime}}-{{films.find(film=>film.filmName===session.sessionFilmName).finishTime}}</li> -->
                   <li><b>город:</b>&nbsp;{{session.cityName}}</li>
-            
                   <li><router-link class="insideIfo" v-slot="{navigate}" custom :to="{name:'ccinema', params:{idc:cinemas.find(cinema=>cinema.cinemaName===session.chosenCinemaName).id}}"><b>кинотеатр:</b>&nbsp;<span @click="navigate">{{session.chosenCinemaName}}</span></router-link></li>
                   <li><router-link class="insideIfo" v-slot="{navigate}" custom :to="{name:'csession', params:{ids:session.id}}"><b>время показа:</b>&nbsp;<span @click="navigate">{{session.startSessionTime}}</span></router-link></li>
               </ul>
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import {onMounted, ref, computed} from "vue"
+import {onMounted, ref, computed, watch} from "vue"
 import { useStore } from 'vuex'
 import AppLoader from '../../../Admin_Portal/ui/AppLoader.vue'
 
@@ -34,20 +34,38 @@ export default {
     setup(){
         const store = useStore()
         const loading = ref(false)
+        // const finishDates = ref([])
+        // const sessions = ref()
+        // const cinemas = ref()
+        // const films = ref()
+
+
 
       onMounted( async()=>{
                 loading.value = true 
                 await store.dispatch('gettingInfo/loadAll',['cinemas','films','sessions'])
                 loading.value = false
+                // sessions.value = computed(()=> store.getters['gettingInfo/sessions'])
+                // cinemas.value = computed(()=> store.getters['gettingInfo/cinemas'])
+                // films.value = computed(()=> store.getters['gettingInfo/films']
+                //     .filter(film=>{
+                //     finishDates.value.push(film.finishTime)
+                //     return film.finishTime>Date.now()}))
+                //     console.log(cinemas.value.value);
+                //     console.log(sessions.value.value);
+            },  
+      
+    )
 
-      }, 
-      )
-      const sessions = computed(()=> store.getters['gettingInfo/sessions'])
-      const cinemas = computed(()=> store.getters['gettingInfo/cinemas'])
-    //   const films = computed(()=> store.getters['gettingInfo/films'])
-      const films = computed(()=> store.getters['gettingInfo/films']
-      .filter(film=>film.finishTime>Date.now())
-      )
+
+
+
+                const sessions = computed(()=> store.getters['gettingInfo/sessions'])
+                const cinemas = computed(()=> store.getters['gettingInfo/cinemas'])
+                const films = computed(()=> store.getters['gettingInfo/films']
+                    .filter(film=>{
+                    // finishDates.value.push(film.finishTime)
+                    return film.finishTime>Date.now()}))
 
     //   const dateArr = ref([])
     //   let numberMonth = new Date().getMonth()<10?'0':0
