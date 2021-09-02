@@ -1,13 +1,7 @@
 <template>
-<app-loader v-if="loading"></app-loader>
-  <div class="card " v-else>
+<!-- <app-loader v-if="loading"></app-loader> -->
+  <div class="card " v-if="sessions.length!=0">
      <h1>Сеансы:</h1>
-
-     <!-- <h2 v-for="film of films" :key="film.id">
-         <span></span>
-     </h2>
-         -->
-
 
      <div class="session container" v-for="(session, idx) of sessions" :key="idx">
          <h3>{{session.sessionFilmName}}</h3>
