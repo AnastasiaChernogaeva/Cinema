@@ -1,5 +1,5 @@
 <template>
-    <div class="row" v-if="$route.path.split('/')[1]==='cinema'" >
+    <div class="row" v-if="$route.path.split('/')[1]==='cinema'" @bought="boughtTickets" >
         <div class="small">{{rId}}</div>
 
         <div class="place" v-for="(place,idx) in places" :key="idx" @click="choosePlace(idx+1, rId)">
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import {computed, ref, watch} from 'vue'
+import {computed, onMounted, ref, watch} from 'vue'
 import { useRoute } from 'vue-router'
 export default {
     props:[
@@ -61,7 +61,7 @@ export default {
             'vipPl',
             'couplePl',
             'places',
-            'boughtTickets'
+            // 'boughtTickets'
     ],
     emits:['choosePlace'],
     setup(props, {emit}){
@@ -95,21 +95,43 @@ export default {
             }
             emit('choosePlace', infoArr.value)
         }
-        const res = computed(()=>{
-            if(props.boughtTickets){
-                boughtT.value = infoArr.value
-                infoArr.value={}
-                console.log('изменения!!!!');
-            }
-            else{
 
-            }
-            })
+        const boughtTickets= (event)=>{
+            console.log(event);
+            // console.log(boughtT.value );
+
+        }
+
+        // const res = computed(()=>{
+        //     if(props.boughtTickets){
+        //         boughtT.value = infoArr.value
+        //         infoArr.value={}
+        //         console.log('изменения!!!!');
+        //     }
+        //     else{
+
+        //     }
+        //     })
+
+        // onMounted(()=>{
+        //     if(props.boughtTickets===true){
+        //         boughtT.value = infoArr.value
+        //         infoArr.value={}
+        //         console.log('изменения!!!!', props.boughtTickets);
+        //     }
+        //     else{
+        //         console.log('изменений нет(((((!', props.boughtTickets);
+        //     }
+        // })
+
+        //             console.log('изменения в hall', props.boughtTickets);
+
 
         return{
             choosePlace,
             infoArr,
-            boughtT
+            boughtT,
+            boughtTickets
 
         }
     }

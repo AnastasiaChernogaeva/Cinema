@@ -19,13 +19,13 @@
 
          
        </ul>
-      <p><b> Выберите дату:</b>&nbsp;<input type="date"   :value="dateChosen" @blur="ch" :max="film.finishTime" :min="film.startTime"> </p>
+      <p><b> Выберите дату:</b>&nbsp;<input type="date"   :value="dateChosen" @change="ch" :max="film.finishTime" :min="film.startTime"> </p>
 
       <hr/>
       <button class="btn" @click="findOut" v-if="!info" :disabled="!dateChosen">Выбрать места</button>
       <hall class="hall" v-if="info" :info="info={'val':{...info}, id:session.hallnumber,}"  
-      @choosePlace="bookPlace" :boughtTickets="isBooked"></hall> 
-      <!--  -->
+      @choosePlace="bookPlace" ></hall> 
+      <!--  :boughtTickets="isBooked"-->
       <div v-if="info && bookTickets">
       <div :class="[{'bookTicket':bookTickets}, ]" v-if="bookTickets.length!=0">
           <h2>Забронировать билеты</h2>
@@ -98,7 +98,7 @@ export default {
         AppLoader,
         Hall,
     },
-    setup(){
+    setup(_,{emit}){
         const route = useRoute()
         const router = useRouter()
         const store = useStore()
@@ -162,7 +162,7 @@ export default {
 
                const buyTickets = async()=>{
                 if(store.getters['authClient/isAuthenticated']){
-                    console.log('бронь мест', bookTickets.value)
+                    // console.log('бронь мест', bookTickets.value)
                      for (let value of bookTickets.value) {
                          value.forEach(elem=>{
                             //  console.log(elem);
@@ -175,8 +175,10 @@ export default {
                              })
                      }
                     isBooked.value = true
+                    console.log('изменения в sessions', isBooked.value);
                     boughtTickets.value = bookTickets.value
                     bookTickets.value = {}
+                    emit('bought',isBooked.value)
                     // console.log(boughtTickets.value.filter(arr=>arr.filter(elem=>elem.row===1)));
                     // console.log(boughtTickets.value.find(arr=>arr.filter(elem=>elem.row===1)));
 

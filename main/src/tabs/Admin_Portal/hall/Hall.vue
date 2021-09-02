@@ -16,7 +16,8 @@ export default {
     components:{
         row,
     },
-    props:['info', 'boughtTickets'],
+    //  'boughtTickets'
+    props:['info',],
     emit:['choosePlace'],
     setup(props, {emit}){
         // console.log(props)
@@ -25,6 +26,7 @@ export default {
 
         // console.log(props.boughtTickets.find(arr=>arr.filter(elem=>elem.row===1)));
 
+                    // console.log('изменения в hall', props.boughtTickets);
         
 
         const infRes=(props.info.val!=undefined)?props.info.val:props.info.value.val
