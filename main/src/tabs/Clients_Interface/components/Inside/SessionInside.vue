@@ -22,9 +22,10 @@
       <p><b> Выберите дату:</b>&nbsp;<input type="date"   :value="dateChosen" @blur="ch" :max="film.finishTime" :min="film.startTime"> </p>
 
       <hr/>
-      <button class="btn" @click="findOut" v-if="!info">Выбрать места</button>
+      <button class="btn" @click="findOut" v-if="!info" :disabled="!dateChosen">Выбрать места</button>
       <hall class="hall" v-if="info" :info="info={'val':{...info}, id:session.hallnumber,}"  
-      @choosePlace="bookPlace"></hall>
+      @choosePlace="bookPlace" :boughtTickets="boughtTickets"></hall> 
+      <!--  -->
       <div v-if="info && bookTickets">
       <div :class="[{'bookTicket':bookTickets}, ]" v-if="bookTickets.length!=0">
           <h2>Забронировать билеты</h2>
@@ -110,7 +111,7 @@ export default {
         const sum = ref(0)
         const isBooked = ref(false)
         const authErrorMessage = ref(false)
-        const bookedTickets = ref()
+        const boughtTickets = ref()
         const film = ref({})
         onMounted(async()=>{
             loading.value = true
@@ -174,8 +175,15 @@ export default {
                              })
                      }
                     isBooked.value = true
-                    bookedTickets.value = info.value
-                    info.value = {}
+                    boughtTickets.value = bookTickets.value
+                    bookTickets.value = {}
+                    console.log(boughtTickets.value.filter(arr=>arr.filter(elem=>elem.row===1)));
+                    // console.log(boughtTickets.value.find(arr=>arr.filter(elem=>elem.row===1)));
+
+
+                    // console.log(boughtTickets.value);
+
+
                 //  await store.dispatch('gettingInfo/buyTickets',{
                 //         rType:'users',
                 //         info:bookTickets.value,
@@ -222,7 +230,7 @@ export default {
 
             authErrorMessage,
 
-            bookedTickets,
+            boughtTickets,
             date
 
         }
