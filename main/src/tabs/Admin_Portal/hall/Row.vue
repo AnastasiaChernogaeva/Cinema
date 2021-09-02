@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import {ref} from 'vue'
+import {computed, ref, watch} from 'vue'
 import { useRoute } from 'vue-router'
 export default {
     props:[
@@ -61,12 +61,14 @@ export default {
             'vipPl',
             'couplePl',
             'places',
+            'boughtTickets'
     ],
     emits:['choosePlace'],
     setup(props, {emit}){
         const route = useRoute()
         const infoAboutPlaceAndRow = ref({})
         const infoArr = ref([])
+        const boughtT = ref([])
         const choosePlace = (idPlace, rId)=>{
             let type=''
             if(infoArr.value.find(el=>el.place === idPlace && el.row === rId)){
@@ -93,9 +95,21 @@ export default {
             }
             emit('choosePlace', infoArr.value)
         }
+        const res = computed(()=>{
+            if(props.boughtTickets){
+                boughtT.value = infoArr.value
+                infoArr.value={}
+                console.log('изменения!!!!');
+            }
+            else{
+
+            }
+            })
+
         return{
             choosePlace,
-            infoArr
+            infoArr,
+            boughtT
 
         }
     }

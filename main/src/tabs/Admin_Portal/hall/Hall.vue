@@ -3,7 +3,7 @@
 <!-- :id="id" -->
   <div class="card " >
       <h3>Зал №{{id}}</h3>
-      <row v-for="(row, idx) of info.rows " :key="idx" :places="info.places" :simplePl="info.simplePl" :vipPl="info.vipPl" :couplePl="info.couplePl" :rId="idx+1" @choosePlace="choosePlace" ></row>
+      <row v-for="(row, idx) of info.rows " :key="idx" :places="info.places" :simplePl="info.simplePl" :vipPl="info.vipPl" :couplePl="info.couplePl" :rId="idx+1" @choosePlace="choosePlace" :boughtTickets='boughtTickets' ></row>
   </div>
   <!--  :boughtTickets="boughtTickets.find(arr=>arr.filter(elem=>elem.row===row))"-->
 </div>
