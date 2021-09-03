@@ -70,14 +70,16 @@ export default {
 
         async buyTickets({commit}, payload){
            try{
-                const token = store.getters['authClient/token']
-                const {data} = await axios.get(`/${payload.rType}/${payload.id}.json?auth=${token}`)
-                console.log(data);
-                // let sessionInfo=data.sessionInfo||{}
-                // sessionInfo[payload.value.id] = payload.value.info
-                // const requests ={...data, }
-                // commit('setRequests',{...payload, info:requests,});
-                return requests
+                const {data} = await axios.get(`/users.json`)
+                const email = store.getters['authClient/activeUserEmail']
+                const keys = Object.keys(data)
+                let key 
+                keys.forEach((kkey, )=>{
+                    if (data[kkey].email===email){
+                        key = kkey
+                    }
+                })
+                const {data:inData} =  await axios.post(`/${payload.rType}.json`, {...payload.info, uid:key, })
            }catch(e){
            }
         },     

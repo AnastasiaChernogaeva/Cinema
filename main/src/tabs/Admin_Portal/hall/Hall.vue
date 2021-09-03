@@ -3,7 +3,7 @@
 <!-- :id="id" -->
   <div class="card " >
       <h3>Зал №{{id}}</h3>
-      <row v-for="(row, idx) of info.rows " :key="idx" :places="info.places" :simplePl="info.simplePl" :vipPl="info.vipPl" :couplePl="info.couplePl" :rId="idx+1" @choosePlace="choosePlace" :book="book" ></row>
+      <row v-for="(row, idx) of info.rows " :key="idx" :places="info.places" :simplePl="info.simplePl" :vipPl="info.vipPl" :couplePl="info.couplePl" :rId="idx+1" @choosePlace="choosePlace" :book="book" @buyPlaces="buyPlaces"></row>
   </div>
   <!--  :boughtTickets="boughtTickets.find(arr=>arr.filter(elem=>elem.row===row))":boughtTickets='boughtTickets'-->
 </div>
@@ -23,6 +23,7 @@ export default {
         // console.log(props)
         // console.log(props.info.value.val)
         const infoRowsandPlaces = ref(new Set())
+        const arrBoughtTickets = ref([])
 
         // console.log(props.boughtTickets.find(arr=>arr.filter(elem=>elem.row===1)));
 
@@ -37,10 +38,18 @@ export default {
             // console.log(event);
         }
 
+        const buyPlaces=(event)=>{
+            arrBoughtTickets.value.push(...event)
+            // emit('buyPlaces', arrBoughtTickets.value);
+
+        }
+
         return{
             info:infRes,
             id: idRes,
-            choosePlace
+            choosePlace,
+            buyPlaces,
+            arrBoughtTickets
         }
     },
 }

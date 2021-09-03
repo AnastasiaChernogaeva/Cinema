@@ -1,33 +1,31 @@
 <template>
     <div class="row" v-if="$route.path.split('/')[1]==='cinema'"  >
         <div class="small">{{rId}}</div>
-<!-- @bought="boughtTickets" -->
-        <div class="place" v-for="(place,idx) in places" :key="idx" @click="choosePlace(idx+1, rId)">
+        <div class="place" v-for="(place,idx) in places" :key="idx" @click="choosePlace(idx+1, rId)" >
     <span class="indx" 
             :class="[
-                 {'chosenSpan':infoArr.find(info=>info.place===idx+1)},
-                 //&&info.isBooked===false&&info.isBooked
-                 {'isBooked':infoArr.find(info=>info.place===idx+1)}]"
+                 {'chosenSpan':infoArr && infoArr.find(info=>info.place===idx+1)},
+                 {'isBooked':boughtT.find(boughtTInfo=>boughtTInfo.place===idx+1) },
+                 ]"
             >
                 <span>{{idx+1}}</span>
 
           <img src="./icons/2x/simple.png" alt="simple hall places " class="hallPlaces simple" 
           :class="[
-                {'chosen':infoArr.find(info=>info.place===idx+1)},
-                //&&info.isBooked===false&&info.isBooked
-                {'isBooked':infoArr.find(info=>info.place===idx+1)}]" 
+                {'chosen':infoArr && infoArr.find(info=>info.place===idx+1)},
+                {'isBooked':boughtT.find(boughtTInfo=>boughtTInfo.place===idx+1) }                ]" 
                 v-if="simplePl &&simplePl.includes(rId)" >
           <img src="./icons/2x/vip.png" alt="vip hall places" class="hallPlaces vip" 
           :class="[
-                {'chosen':infoArr.find(info=>info.place===idx+1)},
-                //&&info.isBooked===false&&info.isBooked
-                {'isBooked':infoArr.find(info=>info.place===idx+1)}]" 
+                {'chosen':infoArr && infoArr.find(info=>info.place===idx+1)},
+                {'isBooked':boughtT.find(boughtTInfo=>boughtTInfo.place===idx+1) },
+                ]" 
                 v-if="vipPl&&vipPl.includes(rId)" >
           <img src="./icons/2x/couple.png" alt="couple hall places" class="hallPlaces couple"
           :class="[
-                {'chosen':infoArr.find(info=>info.place===idx+1)},
-                //&&info.isBooked===false) &&info.isBooked
-                {'isBooked':infoArr.find(info=>info.place===idx+1)}]"
+                {'chosen':infoArr && infoArr.find(info=>info.place===idx+1)},
+                {'isBooked':boughtT.find(boughtTInfo=>boughtTInfo.place===idx+1) },
+                ]"
                 v-if="couplePl&&couplePl.includes(rId)" >
 </span>
         </div>
@@ -52,7 +50,7 @@
 </template>
 
 <script>
-import {computed, onMounted, ref, watch} from 'vue'
+import {ref, watch} from 'vue'
 import { useRoute } from 'vue-router'
 export default {
     props:[
@@ -62,7 +60,6 @@ export default {
             'couplePl',
             'places',
             'book',
-            // 'boughtTickets'
     ],
     emits:['choosePlace'],
     setup(props, {emit}){
@@ -71,6 +68,7 @@ export default {
         const infoArr = ref([])
         const boughtT = ref([])
         const choosePlace = (idPlace, rId)=>{
+        if(boughtT.value.find(el=>el.place === idPlace && el.row === rId)===undefined){
             let type=''
             if(infoArr.value.find(el=>el.place === idPlace && el.row === rId)){
                 let elem = infoArr.value.find(el=>el.place === idPlace && el.row === rId)
@@ -91,58 +89,36 @@ export default {
                 }
                 infoAboutPlaceAndRow.value={'row':props.rId,'place':idPlace, 'type':type }
                 infoArr.value.push(infoAboutPlaceAndRow.value)
-
-                // console.log(infoArr.value)
             }
             emit('choosePlace', infoArr.value)
         }
+        else{
+                // console.log('Nothing has changed');
+        }
+        }
+            watch(()=>props.book, (newValue, oldValue) => {
+                if(newValue!==oldValue){
+                    if(newValue === true){
+                        if(infoArr.value.length!==0){
+                            boughtT.value=infoArr.value
+                            emit('buyPlaces', boughtT.value)
+                            infoArr.value = []
+                        }
+                    }
+                    else if(newValue === false){
+                        // console.log(boughtT.value);
+                    }
+                } else{
+                    // console.log('have no changes');
+                }
 
-        // const boughtTickets= (event)=>{
-        //     console.log(event);
-        //     // boughtT.value = event;
-        //     //infoArr.value = [];
-
-        // }
-
-        watch(props.book, (newValue, oldValue) => {
-             console.log('The old counter value is: ' +oldValue)
-
-             console.log('The new counter value is: ' +newValue)
-
-             props.book.value = newValue
-             console.log(props.book);
         })
-        // const res = computed(()=>{
-        //     if(props.boughtTickets){
-        //         boughtT.value = infoArr.value
-        //         infoArr.value={}
-        //         console.log('изменения!!!!');
-        //     }
-        //     else{
-
-        //     }
-        //     })
-
-        // onMounted(()=>{
-        //     if(props.boughtTickets===true){
-        //         boughtT.value = infoArr.value
-        //         infoArr.value={}
-        //         console.log('изменения!!!!', props.boughtTickets);
-        //     }
-        //     else{
-        //         console.log('изменений нет(((((!', props.boughtTickets);
-        //     }
-        // })
-
-        //             console.log('изменения в hall', props.boughtTickets);
 
 
         return{
             choosePlace,
             infoArr,
             boughtT,
-            // boughtTickets
-
         }
     }
 }
@@ -162,13 +138,13 @@ export default {
         cursor:pointer;
     }
     .isBooked{
-         background: rgb(236, 165, 204);
+         background: rgb(255, 191, 226);
     }
     .chosen{
         background: #999;
     }
     .chosenSpan span{
-            z-index: 20;
+    z-index: 20;
     position: relative;
     top: 2%;
     left: 2%;
@@ -178,9 +154,7 @@ export default {
     }
      .row{
          padding: 0%;
-        height: 30px
-        /* padding: 1%;
-        height:30px; */
+        height: 30px;
     }
     .place{
         text-align: center;

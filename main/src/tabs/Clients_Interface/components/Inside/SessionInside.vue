@@ -24,7 +24,7 @@
       <hr/>
       <button class="btn" @click="findOut" v-if="!info" :disabled="!dateChosen">Выбрать места</button>
       <hall class="hall" v-if="info" :info="info={'val':{...info}, id:session.hallnumber,}"  :book="isBooked" 
-      @choosePlace="bookPlace" ></hall> 
+      @choosePlace="bookPlace"></hall> 
       <div v-if="info && bookTickets">
       <div :class="[{'bookTicket':bookTickets}, ]" v-if="bookTickets.length!=0">
           <h2>Забронировать билеты</h2>
@@ -76,8 +76,47 @@
     </div>
       </div>
 
+            <!-- <div v-if=" boughtTickets">
+      <div :class="[{'bookTicket':boughtTickets}, ]" v-if="boughtTickets.length!=0">
+          <h2>Ваши билеты</h2>
+          <div v-for="(bookTicket, idx) of boughtTickets" :key="idx">
+              <div v-for="(rowPlaces, id) of boughtTickets" :key="id">
+                  <div>
+                      <h3><b>{{session.sessionFilmName}}</b></h3>
+                      <h4><b>Дата:</b>&nbsp;{{date(dateChosen)}}</h4>
+                      <h4><b>Время:</b>&nbsp;{{session.startSessionTime}}</h4>
+                    <p><b>Ряд:</b>&nbsp;{{rowPlaces.row}}</p>
+                    <p><b>Место:</b>&nbsp;{{rowPlaces.place}}</p>
 
-  </div>
+
+                  </div>
+                    
+                    <div v-if="rowPlaces.type=='couplePl'">
+                        <h3>Место для двоих</h3>
+                        <p><b>Цена за билет:</b>&nbsp;{{currency(session.pricesCPl)}}</p>
+                    </div>
+                    <div v-if="rowPlaces.type=='vipPl'">
+                        <h3>VIP место</h3>
+                        <p><b>Цена за билет:</b>&nbsp;{{currency(session.pricesVPl)}}</p>
+                    </div>
+                    <div v-if="rowPlaces.type=='simplePl'">
+                        <h3>Обычное место</h3>
+                        <p><b>Цена за билет:</b>&nbsp;{{currency(session.pricesSPl)}}</p>
+
+                    </div>
+                    
+                    <hr>
+
+              </div>
+            
+        </div>
+        <p>Оплата производится при получении билетов</p>
+         <p>К оплате {{currency(sumTickets)}}</p>
+
+        </div>
+    </div> -->
+      </div>
+
     <h3 class="text-center text-white" v-else>
       Сеанса с таким ID = {{$route.params.ids}} нет.
   </h3>
@@ -108,9 +147,10 @@ export default {
         const bookTickets = ref([])
         const dateChosen = ref()
         const sum = ref(0)
+        const sumTickets = ref(0)
         const isBooked = ref(false)
         const authErrorMessage = ref(false)
-        // const boughtTickets = ref()
+        const boughtTickets = ref()
         const film = ref({})
         onMounted(async()=>{
             loading.value = true
@@ -161,7 +201,6 @@ export default {
 
                const buyTickets = async()=>{
                 if(store.getters['authClient/isAuthenticated']){
-                    // console.log('бронь мест', bookTickets.value)
                      for (let value of bookTickets.value) {
                          value.forEach(elem=>{
                             //  console.log(elem);
@@ -174,34 +213,23 @@ export default {
                              })
                      }
                     isBooked.value = true
-                    // console.log('изменения в sessions', isBooked.value);
-                    // boughtTickets.value = bookTickets.value
-                    // bookTickets.value = {}
-                   
-                    // emit('bought',isBooked.value)
-                    //  console.log('emitted');
-                    // console.log(boughtTickets.value.filter(arr=>arr.filter(elem=>elem.row===1)));
-                    // console.log(boughtTickets.value.find(arr=>arr.filter(elem=>elem.row===1)));
+                    boughtTickets.value = bookTickets.value
+                    // bookTickets.value = []
+                    // sumTickets.value = sum.value
+                    // sum.value = 0
+                    console.log('boughtTickets', );
 
+                     await store.dispatch('gettingInfo/buyTickets',{
+                            rType:'orders',
+                            info:{places:Array.from(boughtTickets.value), date:dateChosen.value, sessionId:route.params.ids, sum:sum.value}
+                    },)
 
-                    // console.log(boughtTickets.value);
+                    setTimeout(()=> router.push('/cinemMain/uorders'),6000)
 
-
-                //  await store.dispatch('gettingInfo/buyTickets',{
-                //         rType:'users',
-                //         info:bookTickets.value,
-                //  },)
                 }
                 else{
                     authErrorMessage.value = true
                 }
-            //     await store.dispatch('gettingInfo/buyTickets',{
-            //     rType:'orders',
-            //     info:bookTickets.value,
-            // },)
-            // await store.dispatch('gettingInfo/load',{
-            //     rType:'cinemas',
-            // },)
 
         }
 
@@ -233,7 +261,8 @@ export default {
 
             authErrorMessage,
 
-            // boughtTickets,
+            boughtTickets,
+            sumTickets,
             date
 
         }
