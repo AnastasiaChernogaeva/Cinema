@@ -221,7 +221,7 @@ export default {
 
                      await store.dispatch('gettingInfo/buyTickets',{
                             rType:'orders',
-                            info:{places:Array.from(boughtTickets.value), date:dateChosen.value, sessionId:route.params.ids, sum:sum.value}
+                            info:{places:Array.from(boughtTickets.value), date:dateChosen.value, dateToBuy:`${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`,sessionId:route.params.ids, sum:sum.value}
                     },)
 
                     setTimeout(()=> router.push('/cinemMain/uorders'),6000)

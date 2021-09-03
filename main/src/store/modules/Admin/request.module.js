@@ -10,6 +10,7 @@ export default {
             sessions:[],
             services:[],
             orders:[],
+            users:[],
             all:'',
         }
     },
@@ -122,6 +123,9 @@ export default {
           },
           orders(state){
             return  state.orders
+          },
+          users(state){
+            return  state.users
           },
           all(state){
             return  state.all

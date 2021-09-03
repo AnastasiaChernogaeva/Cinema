@@ -42,6 +42,8 @@ import FilmsFilter from '../components/FilterForms/FilmsFilter.vue'
 import ServicesFilter from '../components/FilterForms/ServicesFilter.vue'
 import CinemasFilter from '../components/FilterForms/CinemasFilter.vue'
 import SessionsFilter from '../components/FilterForms/SessionsFilter.vue'
+import OrdersFilter from '../components/FilterForms/OrdersFilter.vue'
+
 
 
 
@@ -50,7 +52,7 @@ export default {
       AppLoader,
       AppModal,
       AddingServices, AddingFilms, AddingCinemas, AddingSessions,
-      FilmsFilter, ServicesFilter,CinemasFilter, SessionsFilter
+      FilmsFilter, ServicesFilter,CinemasFilter, SessionsFilter, OrdersFilter
   },
   setup(){
 
@@ -100,14 +102,6 @@ export default {
           }
           else return film
         })
-        // .filter(film =>{
-        //   if(filter.value.genre){
-        //     return film.genre.toLowerCase().includes(filter.value.genre.toLowerCase())
-        //   }
-        //   else return film
-        // }
-
-        // )
       )
       const cinemas = computed(()=> store.getters['requests/cinemas']        
       .filter(cinema =>{
@@ -150,15 +144,44 @@ export default {
           }
           else  return service
         })
-        // .filter(service =>{
-        //   if(filter.value.priceServices){
-        //     return service.addServicesPrice.includes(filter.value.priceServices)
-        //   }
-        //   else return service
-        // })
       )
 
-      const orders = computed(()=> store.getters['requests/orders'])
+      const orders = computed(()=> store.getters['requests/orders']
+      .filter(order=>{
+        if(filter.value.dateSearch){
+          if(filter.value.dateSearch === order.date  || filter.value.dateSearch === order.dateToBuy)
+          return order
+        }
+        else{
+          return order
+        }
+      })
+      // .filter(order=>{
+      //   if(filter.value.userName){
+      //     const users = computed(()=> store.getters['requests/users'])
+      //     if(users&&users.find(user=>user.name===filter.value.userName||user.surname===filter.value.userName)){
+      //       return order
+      //     }
+
+      //   }
+      //   else{
+      //     return order
+      //   }
+      // })
+      // .filter(order=>{
+      //   if(filter.value.userName){
+      //     const users = computed(()=> store.getters['requests/users'])
+      //     if(users&&users.find(user=>user.name===filter.value.userName||user.surname===filter.value.userName)){
+      //       return order
+      //     }
+
+      //   }
+      //   else{
+      //     return order
+      //   }
+      // })
+
+      )
 
 
         onMounted(async() => await store.dispatch('requests/load' ) )
@@ -170,7 +193,6 @@ export default {
           )
         )
 
-    //watch(filter, values => console.log(values))
       
 
       return{

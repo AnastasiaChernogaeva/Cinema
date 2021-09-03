@@ -6,46 +6,75 @@
       <thead>
         <tr>
           <th>#</th>
-          <th>ФИО</th>
-          <th>Фильм</th>
-          <th>Дата</th>
-          <th>Время начала сеанса</th>
-          <th>Количество билетов</th>
+          <th>Инфо о покупателе</th>
+          <th>Инфо о сеансе</th>
+          <th>Дата сеанса</th>
+          <th>Дата покупки</th>
+          <th>Выручка</th>
+          <!-- <th>Количество билетов</th> -->
         </tr>
       </thead>
       <tbody>
         <tr v-for="(order,idx) in orders" :key="idx">
-<router-link v-slot="{navigate}" custom :to="{name:'order', params:{ido:order.id}}">
+<!-- <router-link v-slot="{navigate}" custom :to="{name:'order', params:{ido:order.id}}"> -->
           <td>{{ idx + 1}}</td>
-          <td @click="navigate">{{film.filmName}}</td>
+          <!-- <td @click="navigate">{{film.filmName}}</td> -->
+          <td>{{users.find(user=>user.id===order.uid)!=undefined?`${users.find(user=>user.id===order.uid).name} ${users.find(user=>user.id===order.uid).surname}`:order.uid}}</td>
+          <td>{{sessions.find(session=>session.id===order.sessionId)!=undefined?`Название фильма - ${sessions.find(session=>session.id===order.sessionId).sessionFilmName }.
+          
+
+           Дата - ${sessions.find(session=>session.id===order.sessionId).startSessionTime}`:order.sessionId}}</td>
           <td>
-              <!-- {{date(film.startTime)}} -->
-              </td>
-          <td>
-              <!-- {{date(film.finishTime)}} -->
-              </td>
-          <td></td>
-       </router-link>
+              {{date(order.date)}}
+           </td>
+                     <td>
+              {{date(order.dateToBuy)}}
+           </td>           
+           <td>
+              {{currency(order.sum)}}
+            </td>
+       <!-- </router-link> -->
         </tr>
       </tbody>
     </table>
-    <hr/>
-    <small>Для получения подробной информации о фильме нажмите на строку с ним</small>
+    <!-- <hr/>
+    <small>Для получения подробной информации о фильме нажмите на строку с ним</small> -->
     </div>
 </template>
 
 <script>
-import {date} from '../use/date'
+import {date,} from '../use/date'
+import { currency  } from "../use/currency";
 import AppStatus from "../ui/AppStatus.vue";
+import { onMounted, computed } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
-  props:['orders'],
+  props:['orders', 'sessions'],
   components:{
     AppStatus,
   },
   setup(){
+
+    const store = useStore()
+
+    onMounted(
+      async() => await store.dispatch('requests/loadAll',['sessions', 'users'] )
+    )
+
+      const sessions = computed(()=> store.getters['requests/sessions'])
+      const users = computed(()=> store.getters['requests/users'])
+
+
+setTimeout(() => {
+
+}, 1500);
+
     return{
-      date
+      users,
+      sessions,
+      date,
+      currency
     }
   }
 }
