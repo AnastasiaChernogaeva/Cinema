@@ -8,7 +8,8 @@
               <ul>
                   <!-- <li><b>фильм в показе:</b>&nbsp;{{films.find(film=>film.filmName===session.sessionFilmName).startTime}}-{{films.find(film=>film.filmName===session.sessionFilmName).finishTime}}</li> -->
                   <li><b>город:</b>&nbsp;{{session.cityName}}</li>
-                  <li><router-link class="insideIfo" v-slot="{navigate}" custom :to="{name:'ccinema', params:{idc:cinemas.find(cinema=>cinema.cinemaName===session.chosenCinemaName).id}}"><b>кинотеатр:</b>&nbsp;<span @click="navigate">{{session.chosenCinemaName}}</span></router-link></li>
+                  <li><router-link class="insideIfo" v-slot="{navigate}" custom :to="{name:'ccinema', params:{idc:cinemas.find(cinema=>{
+                      if(cinema && cinema.cinemaName===session.chosenCinemaName) return cinema}).id}}"><b>кинотеатр:</b>&nbsp;<span @click="navigate">{{session.chosenCinemaName}}</span></router-link></li>
                   <li><router-link class="insideIfo" v-slot="{navigate}" custom :to="{name:'csession', params:{ids:session.id}}"><b>время показа:</b>&nbsp;<span @click="navigate">{{session.startSessionTime}}</span></router-link></li>
               </ul>
               

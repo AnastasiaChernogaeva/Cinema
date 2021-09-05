@@ -1,12 +1,12 @@
 <template>
-<!-- <app-loader v-if="loading"></app-loader>
-  <div  > -->
-      <div v-if="!loading">
+<!-- <app-loader v-if="loading"></app-loader> -->
+ 
+      <div v-if="!loading" >
       <!-- <spanclass=>В прокате</spanclass="card"> -->
           <h2 class="title card">Фильмы в прокате:</h2>
       <hr>
       <!-- <div v-if="films.length<=5"> -->
-        <div class="filmBlock card" v-for="(film, idx) of fFilms" :key="idx" >
+        <div class="filmBlock card" v-for="(film, idx) of fFilms" :key="idx" @mouseenter="clearTimer" @mouseleave="startTimer">
             <router-link v-slot="{navigate}" custom :to="{name:'cfilm', params:{idf:film.id}}">
             <img :src="film.movieposter" :alt="film.filmName" @click="navigate">
             
@@ -19,7 +19,7 @@
              </router-link> 
          </div>
 
-
+<!--  <div  >-->
 
 
 
@@ -118,10 +118,11 @@ export default {
                     })})
         // console.log('Получаем фильмы',films.value);
         let count = ref(0)
+        const timer = ref()
 
         function timerFilms(){
             if(films.value.length>6){
-        setInterval(()=>{  
+        timer.value = setInterval(()=>{  
                 if(count.value===0 &&fFilms.value.length!=0){
                     fFilms.value=[]
                 }
@@ -154,6 +155,14 @@ export default {
         }
 
         setTimeout(timerFilms, 500)
+
+        const clearTimer = ()=>{
+            clearInterval(timer.value)
+        }
+
+        const startTimer = ()=>{
+            timerFilms();
+        }
  
                 
          
@@ -189,7 +198,10 @@ export default {
             maxL,
             // films,
             filmsAll,
-            fFilms
+            fFilms,
+            clearTimer,
+            startTimer
+
         }
         
     }

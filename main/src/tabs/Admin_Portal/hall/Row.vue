@@ -50,8 +50,9 @@
 </template>
 
 <script>
-import {ref, watch} from 'vue'
+import {computed, ref, watch, onMounted} from 'vue'
 import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 export default {
     props:[
             'rId',
@@ -64,9 +65,12 @@ export default {
     emits:['choosePlace'],
     setup(props, {emit}){
         const route = useRoute()
+        const store = useStore()
+        const places = ref([])
         const infoAboutPlaceAndRow = ref({})
         const infoArr = ref([])
         const boughtT = ref([])
+
         const choosePlace = (idPlace, rId)=>{
         if(boughtT.value.find(el=>el.place === idPlace && el.row === rId)===undefined){
             let type=''
@@ -101,6 +105,7 @@ export default {
                     if(newValue === true){
                         if(infoArr.value.length!==0){
                             boughtT.value=infoArr.value
+                            console.log(boughtT.value);
                             emit('buyPlaces', boughtT.value)
                             infoArr.value = []
                         }
@@ -113,6 +118,17 @@ export default {
                 }
 
         })
+
+        // onMounted(
+        //     async()=>{
+        //         await store.dispatch('gettingInfo/load', {rType:'orders'})
+        //     }
+        // )
+        // const orders = computed(()=> store.getters['gettingInfo/orders']
+        // .forEach(order => {
+        //     places.value.push(order.places)
+        // })
+        // )
 
 
         return{

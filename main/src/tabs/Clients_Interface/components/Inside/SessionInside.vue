@@ -217,14 +217,23 @@ export default {
                     // bookTickets.value = []
                     // sumTickets.value = sum.value
                     // sum.value = 0
-                    console.log('boughtTickets', );
+                    // console.log('boughtTickets', );
 
                      await store.dispatch('gettingInfo/buyTickets',{
                             rType:'orders',
-                            info:{places:Array.from(boughtTickets.value), date:dateChosen.value, dateToBuy:`${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`,sessionId:route.params.ids, sum:sum.value}
+                            info:{places:Array.from(boughtTickets.value), date:dateChosen.value, dateToBuy:`${new Date().getFullYear()}-${new Date().getMonth()+1>9?new Date().getMonth()+1:'0'+(new Date().getMonth()+1)}-${new Date().getDate()>9?new Date().getDate():'0'+new Date().getDate()}`,sessionId:route.params.ids, sum:sum.value}
                     },)
 
-                    setTimeout(()=> router.push('/cinemMain/uorders'),6000)
+                    setTimeout(()=> {
+                        if(route.path.includes('cinema/session'+route.params.ids)){
+                             router.push('/cinemaMain/uorders')
+                            //  console.log('I have worked out');
+                        }
+                        // else
+                            //  console.log("I won't work out");
+
+                       
+                        },1000)
 
                 }
                 else{

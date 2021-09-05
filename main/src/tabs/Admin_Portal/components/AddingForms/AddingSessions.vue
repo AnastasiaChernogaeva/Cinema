@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import { ref, onMounted, reactive, } from "vue";
+import { ref, onMounted, reactive, computed, } from "vue";
 import * as yup from 'yup';
 import { useField, useForm } from "vee-validate";
 import { useStore } from "vuex";
@@ -179,6 +179,17 @@ export default {
           // console.log( info.value.cinemas.forEach(cinema=>cinema.cinemaName==='Lovi_Movie'?halls.value=cinema.val:null))
           // console.log(halls.value);
           },2000)
+
+
+        
+         
+          // const cinemas = computed(()=>store.getters['requests/cinemas'])
+          // const films =  computed(()=>store.getters['requests/films'])
+          // const services =  computed(()=>store.getters['requests/services'])
+
+          // info.value['cinemas'] =  cinemas.value
+          // info.value['films'] = films.value
+          // info.value['services'] = services.value
 
         const halls=ref({})
         const hallInfo = reactive({})

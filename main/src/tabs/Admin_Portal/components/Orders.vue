@@ -23,7 +23,7 @@
           <td>{{sessions.find(session=>session.id===order.sessionId)!=undefined?`Название фильма - ${sessions.find(session=>session.id===order.sessionId).sessionFilmName }.
           
 
-           Дата - ${sessions.find(session=>session.id===order.sessionId).startSessionTime}`:order.sessionId}}</td>
+           Время - ${sessions.find(session=>session.id===order.sessionId).startSessionTime}`:order.sessionId}}</td>
           <td>
               {{date(order.date)}}
            </td>
@@ -37,12 +37,13 @@
         </tr>
       </tbody>
     </table>
-    <!-- <hr/>
-    <small>Для получения подробной информации о фильме нажмите на строку с ним</small> -->
+    <hr/>
+    <span>Всего:&nbsp;{{currency(total)}}</span>
     </div>
 </template>
 
 <script>
+import { ref, watch } from "vue";
 import {date,} from '../use/date'
 import { currency  } from "../use/currency";
 import AppStatus from "../ui/AppStatus.vue";
@@ -54,9 +55,10 @@ export default {
   components:{
     AppStatus,
   },
-  setup(){
+  setup(props){
 
     const store = useStore()
+    const total = ref(0)
 
     onMounted(
       async() => await store.dispatch('requests/loadAll',['sessions', 'users'] )
@@ -65,12 +67,27 @@ export default {
       const sessions = computed(()=> store.getters['requests/sessions'])
       const users = computed(()=> store.getters['requests/users'])
 
+              watch(()=>props.orders, (newValue, oldValue) => {
+                if(newValue!==oldValue){
+                  let arrOrdersKey = Object.keys(props.orders)
+                    for (let index = 0; index < arrOrdersKey.length; index++) {
+                      total.value.push(newValue[index].sum)
+                      
+                    }
+                    console.log(total.value);
+                } else{
+                }})
 
-setTimeout(() => {
+let arrOrdersKey = Object.keys(props.orders)
+                    for (let index = 0; index < arrOrdersKey.length; index++) {
+                      total.value+=props.orders[index].sum
+                      
+                    }
 
-}, 1500);
+
 
     return{
+      total,
       users,
       sessions,
       date,

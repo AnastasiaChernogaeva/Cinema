@@ -146,22 +146,53 @@ export default {
         })
       )
 
+
+    
+
+//       const users = computed(()=> store.getters['requests/users'])
+//       const arrUsersAppropriate = ref([])
+//       if(filter.value.userName){
+          
+//           let arrUsers = Object.keys(users.value);
+//           if(users.value){
+//            arrUsersAppropriate.value = arrUsers.filter(userkey=>{
+//             if( users.value[userkey].name.toLowerCase().includes(filter.value.userName)||users.value[userkey].surname.toLowerCase().includes(filter.value.userName)){
+//               return users.value[userkey].id
+           
+//            }}) 
+            
+          
+//           }
+
+//         }
+//|| filter.value.dateSearch === order.dateToBuy
       const orders = computed(()=> store.getters['requests/orders']
       .filter(order=>{
         if(filter.value.dateSearch){
-          if(filter.value.dateSearch === order.date  || filter.value.dateSearch === order.dateToBuy)
+          if(filter.value.dateSearch === order.date  )
           return order
         }
         else{
           return order
         }
       })
-      // .filter(order=>{
-      //   if(filter.value.userName){
-      //     const users = computed(()=> store.getters['requests/users'])
-      //     if(users&&users.find(user=>user.name===filter.value.userName||user.surname===filter.value.userName)){
-      //       return order
-      //     }
+      .filter(order=>{
+        if(filter.value.dateBuy){
+          if(filter.value.dateBuy === order.dateToBuy)
+          return order
+        }
+        else{
+          return order
+        }
+      })
+      // .foreach(order=>{
+      //   if(filter.value.userName&&arrUsersAppropriate.value){
+          
+      //    for (let i=0; i<arrUsersAppropriate.value.length; i++){
+      //      if(arrUsersAppropriate.value[i]===order.uid){
+      //        arrOrders.value.push(order)
+      //      }
+      //    }
 
       //   }
       //   else{
