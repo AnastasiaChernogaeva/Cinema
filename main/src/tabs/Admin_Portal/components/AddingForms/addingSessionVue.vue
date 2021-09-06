@@ -1,18 +1,27 @@
 <template>
+<!-- <div class="card">{{info}}</div> -->
      <form class="card" @submit.prevent="submit"  >  
          <div :class="['form-control', ]">  
                 <label for="cityName">Город</label>
+                <!-- <select  id="cityName" v-model="cityName"   v-if="chosenCinemaName">
+                      <option default selected>Выберите город</option>
+                       <option v-for="(cinema,idx) of info.cinemas" :value="cinema.city" :key="idx" >{{ chosenCinemaName.includes(cinema.cinemaName)?cinema.city:null}}</option> v-else
+                </select> -->
                 <select  id="cinemaName" v-model="cityName">
                       <option default selected>Выберите город</option>
-                       <option v-for="(city,idx) of info.cities" :value="city" :key="idx" >{{city}}</option>
+                       <option v-for="(cinema,idx) of info.cinemas" :value="cinema.city" :key="idx" >{{cinema.city}}</option>
                 </select>
          </div>
 
           <div :class="['form-control', ]">  
                 <label for="cinemaName">Кинотеатр</label>
-                <select  id="cinemaName" v-model="chosenCinemaName"  >
+                <select  id="cinemaName" v-model="chosenCinemaName" v-if="cityName"  >
                       <option default selected>Выберите кинотеатр</option>
-                       <option v-for="(cinemaName,idx) of info.cinemaNames" :value="cinemaName" :key="idx" >{{cinemaName}}</option>
+                       <option v-for="(cinema,idx) of info.cinemas" :value="cinema.cinemaName" :key="idx" >{{ cityName.includes(cinema.city)?cinema.cinemaName:null}}</option>
+                </select>
+                <select  id="cinemaName" v-model="chosenCinemaName" v-else>
+                      <option default selected>Выберите кинотеатр</option>
+                       <option v-for="(cinema,idx) of info.cinemas" :value="cinema.cinemaName" :key="idx" >{{cinema.cinemaName}}</option>
                 </select>
          </div>
           <div :class="['form-control', ]" v-if="chosenCinemaName">  
@@ -88,17 +97,21 @@
                 <small style="color:green;" >Учтите время работы кинотеатра( рабочие часы: 10:00 - 24:00 )</small>
                 <small v-if="startSessionTimeError">{{startSessionTimeError}}</small>
   </div> 
+<!-- v-if="!cinemasCity.includes(cinema.city) && cinemasCity.push(cinema.city)" -->
             <button class="btn primary" type="submit" :disabled="isSubmitting" >Добавить</button>      
 
         </form> 
 </template>
 
 <script>
-import { ref, onMounted, reactive, computed, watch, } from "vue";
+import { ref, onMounted, reactive, computed, } from "vue";
 import * as yup from 'yup';
 import { useField, useForm } from "vee-validate";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+
+// import { useStore } from 'vuex';
+// import { useSessionsForms } from "../../use/sessions-forms";
 import Hall from "../../hall/Hall.vue";
 
 export default {
@@ -107,72 +120,78 @@ export default {
   },
     emits:['added'],
     setup( _, {emit},){
-    const store = useStore()
+  const store = useStore()
     const router = useRouter()
+    // const {handleSubmit, isSubmitting, } = useForm({
+    //   initialErrors:{
+
+    //   }
+    // })handleSubmit,
     const { isSubmitting, } = useForm()
 
-    const {value:chosenCinemaName,} = useField('chosenCinemaName',yup.string()
+      const {value:chosenCinemaName,} = useField('chosenCinemaName',yup.string()
       )
-    const {value:cityName,} = useField('cityName',yup.string()
+      const {value:cityName,} = useField('cityName',yup.string()
       )
 
-    const {value:sessionFilmName,} = useField('sessionFilmName',yup.string()
+     const {value:sessionFilmName,} = useField('sessionFilmName',yup.string()
       )
+
+    //  const {value:chosenAddServices,} = useField('chosenAddServices',yup.array()
+    //   )
     const {value:hallnumber, errorMessage:hError, handleBlur:Blur} = useField('hallnumber',yup.number()
       )
       
+    // const {value:places,} = useField('places',yup.string()
+      // )
     const {value:startSessionTime, errorMessage:startSessionTimeError, handleBlur:startSessionTimeBlur} = useField('startSessionTime', yup
         .string()
         .trim()
         .required('Это обязательное поле! Пожалуйста, введите время начала сеанса.')
         )
-    const chosenAddServices = ref([])
-    const serVices=()=>{
+      const chosenAddServices = ref([])
+      // chosenAddServices.yup.oneOf()
+  //     const {value:chosenAddServices,} = useField('chosenAddServices',yup.array()
+  //     .default([])
+  // );
+      const serVices=()=>{
           console.log('chosenAddservices',chosenAddServices.value);
       }
    
 
-    const arr = ref(['films', 'services', 'cinemas',])
-    const cinemasCity = ref([])
-    const info = ref({})
 
-    onMounted(async ()=>{
+        // const onSubmit = handleSubmit(func)
+        const arr = ref(['films', 'services', 'cinemas',])
+        const cinemasCity = ref([])
+        const info = ref({})
+
+        onMounted(async ()=>{
           await store.dispatch('requests/loadAll', arr.value );
-    }) 
+        }) 
+         setTimeout(()=> {  
+          const cinemas =  store.getters['requests/cinemas']
+          const films =  store.getters['requests/films']
+          const services =  store.getters['requests/services']
+          // console.log(  cinemas);
+          info.value['cinemas'] =  cinemas
+          info.value['films'] = films
+          info.value['services'] = services
+          // console.log( info.value.cinemas.forEach(cinema=>cinema.cinemaName==='Lovi_Movie'?halls.value=cinema.val:null))
+          // console.log(halls.value);
+          },2000)
 
 
         
          
-          const cinemas = computed(()=>store.getters['requests/cinemas'])
-          const films =  computed(()=>store.getters['requests/films'])
-          const services =  computed(()=>store.getters['requests/services'])
+        //   const cinemas = computed(()=>store.getters['requests/cinemas'])
+        //   const films =  computed(()=>store.getters['requests/films'])
+        //   const services =  computed(()=>store.getters['requests/services'])
 
-          
-          watch(()=>[cinemas.value, films.value,  services.value, cityName.value, chosenCinemaName.value] , (newValue, oldValue)=>{
-
-          if(chosenCinemaName.value){
-            info.value['cities'] = cinemas.value.filter(cinema=> cinema.cinemaName === chosenCinemaName.value).map(cinema=>cinema.city)
-          }else{
-            info.value['cities'] = [... new Set( cinemas.value.map(cinema=> cinema.city))]
-          }  
-          
-          if(cityName.value){
-            info.value['cinemaNames'] =  cinemas.value.filter(cinema=>cinema.city===cityName.value).map(cinema=>cinema.cinemaName)
-          }else{
-            info.value['cinemaNames'] =  cinemas.value.map(cinema=> cinema.cinemaName)
-          }
-          
-          info.value['cinemas'] =  cinemas.value
-          info.value['films'] = films.value
-          info.value['services'] = services.value
-
-          })
-          // watch(()=>cityName,  (newValue, oldValue)=>{
-          //   console.log('NN', newValue);
-          //   console.log('OO', oldValue);
-
-          // })
-          console.log(info.value)
+        //   info.value['cities'] =  cinemas.value.map(cinema=> cinema.city)
+        //   info.value['cinemaNames'] =  cinemas.value.map(cinema=> cinema.cinemaName)
+        //   info.value['cinemas'] =  cinemas.value
+        //   info.value['films'] = films.value
+        //   info.value['services'] = services.value
 
         const halls=ref({})
         const hallInfo = reactive({})
