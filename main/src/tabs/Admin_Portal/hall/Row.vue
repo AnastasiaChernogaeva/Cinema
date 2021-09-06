@@ -5,7 +5,7 @@
     <span class="indx" 
             :class="[
                  {'chosenSpan':infoArr && infoArr.find(info=>info.place===idx+1)},
-                 {'isBooked':boughtT.find(boughtTInfo=>boughtTInfo.place===idx+1) },
+                 {'isBooked':boughtT.find(boughtTInfo=>boughtTInfo.place===idx+1)||placesrowsBooked.find(placeOccupied=>placeOccupied.place===idx+1) },
                  ]"
             >
                 <span>{{idx+1}}</span>
@@ -13,18 +13,18 @@
           <img src="./icons/2x/simple.png" alt="simple hall places " class="hallPlaces simple" 
           :class="[
                 {'chosen':infoArr && infoArr.find(info=>info.place===idx+1)},
-                {'isBooked':boughtT.find(boughtTInfo=>boughtTInfo.place===idx+1) }                ]" 
+                {'isBooked':boughtT.find(boughtTInfo=>boughtTInfo.place===idx+1)||placesrowsBooked.find(placeOccupied=>placeOccupied.place===idx+1) }                ]" 
                 v-if="simplePl &&simplePl.includes(rId)" >
           <img src="./icons/2x/vip.png" alt="vip hall places" class="hallPlaces vip" 
           :class="[
                 {'chosen':infoArr && infoArr.find(info=>info.place===idx+1)},
-                {'isBooked':boughtT.find(boughtTInfo=>boughtTInfo.place===idx+1) },
+                {'isBooked':boughtT.find(boughtTInfo=>boughtTInfo.place===idx+1)||placesrowsBooked.find(placeOccupied=>placeOccupied.place===idx+1) },
                 ]" 
                 v-if="vipPl&&vipPl.includes(rId)" >
           <img src="./icons/2x/couple.png" alt="couple hall places" class="hallPlaces couple"
           :class="[
                 {'chosen':infoArr && infoArr.find(info=>info.place===idx+1)},
-                {'isBooked':boughtT.find(boughtTInfo=>boughtTInfo.place===idx+1) },
+                {'isBooked':boughtT.find(boughtTInfo=>boughtTInfo.place===idx+1)||placesrowsBooked.find(placeOccupied=>placeOccupied.place===idx+1) },
                 ]"
                 v-if="couplePl&&couplePl.includes(rId)" >
 </span>
@@ -61,15 +61,24 @@ export default {
             'couplePl',
             'places',
             'book',
+            'occupiedPlaces'
     ],
     emits:['choosePlace'],
     setup(props, {emit}){
         const route = useRoute()
         const store = useStore()
-        const places = ref([])
+        const placesrowsBooked = ref([])
         const infoAboutPlaceAndRow = ref({})
         const infoArr = ref([])
         const boughtT = ref([])
+
+// ??????????????????????????????
+        if(props.occupiedPlaces!==undefined){
+       placesrowsBooked.value = props.occupiedPlaces.find(arr=>arr.filter(row=>row.row===props.rId))
+       console.log( placesrowsBooked.value);
+        }
+
+
 
         const choosePlace = (idPlace, rId)=>{
         if(boughtT.value.find(el=>el.place === idPlace && el.row === rId)===undefined){
@@ -100,6 +109,7 @@ export default {
                 // console.log('Nothing has changed');
         }
         }
+         
             watch(()=>props.book, (newValue, oldValue) => {
                 if(newValue!==oldValue){
                     if(newValue === true){
@@ -119,6 +129,8 @@ export default {
 
         })
 
+     
+
         // onMounted(
         //     async()=>{
         //         await store.dispatch('gettingInfo/load', {rType:'orders'})
@@ -135,6 +147,7 @@ export default {
             choosePlace,
             infoArr,
             boughtT,
+            placesrowsBooked
         }
     }
 }
