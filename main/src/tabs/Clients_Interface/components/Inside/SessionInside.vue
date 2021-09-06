@@ -162,7 +162,7 @@ export default {
                 else{
                     occupiedPlaces.value = undefined
                 }
-                // console.log('occupiedPlaces.value',occupiedPlaces.value);
+                console.log('occupiedPlaces.value',occupiedPlaces.value);
             }
         })
         

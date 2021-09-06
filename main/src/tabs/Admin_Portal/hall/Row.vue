@@ -74,12 +74,15 @@ export default {
 
 // ??????????????????????????????
     if(props.occupiedPlaces!==undefined){
+        // console.log('Occupy Places',props.occupiedPlaces);
+        // console.log('Array', Array.from(props.occupiedPlaces));
        let row = props.occupiedPlaces.find(arr=>arr.filter(row=>row.row===props.rId))
+    //    console.log('row',row);
        row.forEach(element => {
            placesrowsBooked.value.push(element.place)
        });
        
-       console.log( placesrowsBooked.value);
+    //    console.log( placesrowsBooked.value);
     }
 
 
@@ -119,7 +122,7 @@ export default {
                     if(newValue === true){
                         if(infoArr.value.length!==0){
                             boughtT.value=infoArr.value
-                            console.log(boughtT.value);
+                            // console.log(boughtT.value);
                             emit('buyPlaces', boughtT.value)
                             infoArr.value = []
                         }

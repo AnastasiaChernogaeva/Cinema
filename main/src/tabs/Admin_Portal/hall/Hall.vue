@@ -19,6 +19,7 @@ export default {
     props:['info', 'book', 'occupiedPlaces'],
     emit:['choosePlace'],
     setup(props, {emit}){
+        console.log('hall',Array.from(props.occupiedPlaces));
         const infoRowsandPlaces = ref(new Set())
         const arrBoughtTickets = ref([])
         
