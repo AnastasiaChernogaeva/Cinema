@@ -17,7 +17,7 @@
         </div>
 
          <div :class="['form-control', {'invalid':sError},]">
-                <label for="surname">Имя</label>
+                <label for="surname">Фамилия</label>
                 <input
                     type="text"
                     id="surname"

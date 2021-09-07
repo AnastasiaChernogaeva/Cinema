@@ -147,7 +147,7 @@ export default {
 
               }
               loading.value=false
-          }  ,3000)
+          }  ,2500)
           }
           else{
               fFilms.value = films.value

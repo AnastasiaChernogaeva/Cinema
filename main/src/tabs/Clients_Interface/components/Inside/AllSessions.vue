@@ -1,6 +1,7 @@
 <template>
 <!-- <app-loader v-if="loading"></app-loader> -->
   <div class="card " v-if="sessions.length!=0">
+    <h1 v-if="search">{{search}}</h1>
      <h1>Сеансы:</h1>
 
      <div class="session container" v-for="(session, idx) of sessions" :key="idx">
@@ -18,15 +19,19 @@
 </template>
 
 <script>
+// добавить валидацию + сделать поиск по слову!!!
+
 import {onMounted, ref, computed, watch} from "vue"
 import { useStore } from 'vuex'
 import AppLoader from '../../../Admin_Portal/ui/AppLoader.vue'
 
 export default {
+    props:['search'],
     components:{
          AppLoader,
     },
-    setup(){
+    setup(props){
+        // watch(()=>props.search)
         const store = useStore()
         const loading = ref(false)
         // const finishDates = ref([])

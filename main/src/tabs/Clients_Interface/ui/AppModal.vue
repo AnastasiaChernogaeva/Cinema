@@ -1,7 +1,7 @@
 <template>
   <div class="modal-backdrop" @click="$emit('close')">
       <div class="modal">
-          <h3>Title</h3>
+          <h2>Поиск</h2>
           <slot/>
       </div>
   </div>
@@ -13,6 +13,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+ .modal{
+       text-align: center;
+ }
 </style>
