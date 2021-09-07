@@ -146,23 +146,22 @@ export default {
         })
 
         const occupiedPlaces = ref([])
-        // places.value.push(order.places)
         const ordersM = computed(()=> store.getters['gettingInfo/orders']
-        .filter(order => route.params.ids===order.sessionId
-            
-        ))
+        .filter(order => route.params.ids===order.sessionId)
+        )
         watch(()=>[ordersM.value, dateChosen.value ], ()=>{
 
             if(dateChosen.value){
-                let orderWeNeed = ordersM.value.find(order=>order.date===dateChosen.value)
-                // console.log(orderWeNeed);
-                if(orderWeNeed!==undefined){
-                    occupiedPlaces.value = orderWeNeed.places
+                let ordersWeNeed = ordersM.value.filter(order=>order.date===dateChosen.value)
+                console.log('orderWeNeed',ordersWeNeed);
+                if(ordersWeNeed!==undefined){
+                    occupiedPlaces.value = ordersWeNeed.map(order=>order.places)
+                    // console.log(occupiedPlaces.value);
                 }
                 else{
                     occupiedPlaces.value = undefined
                 }
-                console.log('occupiedPlaces.value',occupiedPlaces.value);
+
             }
         })
         
@@ -198,11 +197,15 @@ export default {
                      }
                     isBooked.value = true
                     boughtTickets.value = bookTickets.value
+                
 
-                     await store.dispatch('gettingInfo/buyTickets',{
+                    await store.dispatch('gettingInfo/buyTickets',{
                             rType:'orders',
                             info:{places:Array.from(boughtTickets.value), date:dateChosen.value, dateToBuy:`${new Date().getFullYear()}-${new Date().getMonth()+1>9?new Date().getMonth()+1:'0'+(new Date().getMonth()+1)}-${new Date().getDate()>9?new Date().getDate():'0'+new Date().getDate()}`,sessionId:route.params.ids, sum:sum.value}
                     },)
+
+                    await store.dispatch('gettingInfo/load', {rType:'orders'})
+
 
                     setTimeout(()=> {
                         if(route.path.includes('cinema/session'+route.params.ids)){

@@ -5,7 +5,7 @@
     <span class="indx" 
             :class="[
                  {'chosenSpan':infoArr && infoArr.find(info=>info.place===idx+1)},
-                 {'isBooked':boughtT.find(boughtTInfo=>boughtTInfo.place===idx+1)||placesrowsBooked.includes(idx+1) },
+                 {'isBooked':boughtT.find(boughtTInfo=>boughtTInfo.place===idx+1)||occupiedPlaces&&occupiedPlaces.find(elem=>elem.place === idx+1) },
                  ]"
             >
                 <span>{{idx+1}}</span>
@@ -13,18 +13,18 @@
           <img src="./icons/2x/simple.png" alt="simple hall places " class="hallPlaces simple" 
           :class="[
                 {'chosen':infoArr && infoArr.find(info=>info.place===idx+1)},
-                {'isBooked':boughtT.find(boughtTInfo=>boughtTInfo.place===idx+1)||placesrowsBooked.includes(idx+1)  }                ]" 
+                {'isBooked':boughtT.find(boughtTInfo=>boughtTInfo.place===idx+1)||occupiedPlaces&&occupiedPlaces.find(elem=>elem.place === idx+1) }                ]" 
                 v-if="simplePl &&simplePl.includes(rId)" >
           <img src="./icons/2x/vip.png" alt="vip hall places" class="hallPlaces vip" 
           :class="[
                 {'chosen':infoArr && infoArr.find(info=>info.place===idx+1)},
-                {'isBooked':boughtT.find(boughtTInfo=>boughtTInfo.place===idx+1)||placesrowsBooked.includes(idx+1)  },
+                {'isBooked':boughtT.find(boughtTInfo=>boughtTInfo.place===idx+1)||occupiedPlaces&&occupiedPlaces.find(elem=>elem.place === idx+1)  },
                 ]" 
                 v-if="vipPl&&vipPl.includes(rId)" >
           <img src="./icons/2x/couple.png" alt="couple hall places" class="hallPlaces couple"
           :class="[
                 {'chosen':infoArr && infoArr.find(info=>info.place===idx+1)},
-                {'isBooked':boughtT.find(boughtTInfo=>boughtTInfo.place===idx+1)||placesrowsBooked.includes(idx+1)  },
+                {'isBooked':boughtT.find(boughtTInfo=>boughtTInfo.place===idx+1)||occupiedPlaces&&occupiedPlaces.find(elem=>elem.place === idx+1) },
                 ]"
                 v-if="couplePl&&couplePl.includes(rId)" >
 </span>
@@ -72,23 +72,28 @@ export default {
         const infoArr = ref([])
         const boughtT = ref([])
 
+        watch(()=>props.occupiedPlaces, ()=>{
+            // console.log('rowOccupiedPlaces', props.occupiedPlaces);
+        })
+
 // ??????????????????????????????
-    if(props.occupiedPlaces!==undefined){
+    // if(props.occupiedPlaces!==undefined){
         // console.log('Occupy Places',props.occupiedPlaces);
         // console.log('Array', Array.from(props.occupiedPlaces));
-       let row = props.occupiedPlaces.find(arr=>arr.filter(row=>row.row===props.rId))
-    //    console.log('row',row);
-       row.forEach(element => {
-           placesrowsBooked.value.push(element.place)
-       });
+    //    let row = props.occupiedPlaces.find(arr=>arr.filter(row=>row.row===props.rId))
+    // //    console.log('row',row);
+    //    row.forEach(element => {
+    //        placesrowsBooked.value.push(element.place)
+    //    });
        
     //    console.log( placesrowsBooked.value);
-    }
+    // }
 
 
 
         const choosePlace = (idPlace, rId)=>{
-        if(boughtT.value.find(el=>el.place === idPlace && el.row === rId)===undefined){
+
+        if(boughtT.value.find(el=>el.place === idPlace && el.row === rId)===undefined && props.occupiedPlaces?props.occupiedPlaces.find(el=>el.place === idPlace && el.row === rId)===undefined:!props.occupiedPlaces ) {
             let type=''
             if(infoArr.value.find(el=>el.place === idPlace && el.row === rId)){
                 let elem = infoArr.value.find(el=>el.place === idPlace && el.row === rId)

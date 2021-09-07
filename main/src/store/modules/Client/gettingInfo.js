@@ -17,6 +17,9 @@ export default {
         setRequests(state, requests){
             state[requests.rType] = requests.info
         },
+        // addRequestsMeaning(state, requests){
+        //     state[requests.rType].push(requests.info)
+        // },
 
     },
     actions:{
@@ -81,6 +84,11 @@ export default {
                     }
                 })
                 const {data:inData} =  await axios.post(`/${payload.rType}.json`, {...payload.info, uid:key, })
+                // console.log(inData);
+                // await store.dispatch('gettingInfo/load', {rType:'orders'})
+                // commit('addRequestsMeaning',{rType:payload.rType, info:{...payload.info, uid:key, },});
+
+
            }catch(e){
            }
         },     

@@ -3,7 +3,7 @@
   <div class="card " >
       <h3>Зал №{{id}}</h3>
       <row v-for="(row, idx) of info.rows " :key="idx" :places="info.places" :simplePl="info.simplePl" :vipPl="info.vipPl" :couplePl="info.couplePl" :rId="idx+1" @choosePlace="choosePlace" :book="book" @buyPlaces="buyPlaces"
-      :occupiedPlaces="occupiedPlaces"></row>
+      :occupiedPlaces="occupiedPlaces && Array.from(occupiedPlaces).flat(2).filter(info=>info.row===idx+1)"></row>
       <!-- .filter(occupiedRow=>occupiedRow.filter(occupyPlaces=>occupyPlaces.row===idx+1) -->
   </div>
 </div>
@@ -19,7 +19,9 @@ export default {
     props:['info', 'book', 'occupiedPlaces'],
     emit:['choosePlace'],
     setup(props, {emit}){
-        console.log('hall',Array.from(props.occupiedPlaces));
+        watch(()=>props.occupiedPlaces, (newValue, oldValue)=>{
+            // console.log('nn', props.occupiedPlaces);
+        })
         const infoRowsandPlaces = ref(new Set())
         const arrBoughtTickets = ref([])
         
