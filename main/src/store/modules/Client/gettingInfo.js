@@ -57,6 +57,7 @@ export default {
         async loadByID(_, payload){
             try{
                  const {data} = await axios.get(`/${payload.rType}/${payload.id}.json`)
+                //  console.log(data);
                  return data
             }catch(e){
             }
@@ -91,7 +92,21 @@ export default {
 
            }catch(e){
            }
-        },     
+        },   
+
+        async resetPassword({commit}, payload){
+           try{
+                let res= await store.dispatch('gettingInfo/loadByID',{rType: payload.rType, id:payload.id })
+                console.log(res);
+                const {data:inData} =  await axios.post(`/${payload.rType}/${payload.id}.json`, payload.info)
+                console.log(inData);
+                // await store.dispatch('gettingInfo/load', {rType:'orders'})
+                // commit('addRequestsMeaning',{rType:payload.rType, info:{...payload.info, uid:key, },});
+
+
+           }catch(e){
+           }
+        },       
     },
     getters:{
         films(state){

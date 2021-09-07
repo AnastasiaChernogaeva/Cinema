@@ -125,13 +125,14 @@ export default {
    })
 
 
-
+    const user = ref()
     const changePassword = ()=>{
       const users = computed(()=>store.getters['gettingInfo/users'])
-      console.log(users.value);
+      // console.log(users.value);
         if(users.value){
-         let user = users.value.find(user=>user.email===email.value && user.name===name.value && user.surname===surname.value )
-         if(user!==undefined){
+         user.value = users.value.find(user=>user.email===email.value && user.name===name.value && user.surname===surname.value )
+         if(user.value!==undefined){
+           
              dontHaveSuchAUser.value = false
          }else{
           dontHaveSuchAUser.value = true
@@ -142,7 +143,9 @@ export default {
 
     }
     const saveNewPassword = handleSubmit(async(values)=>{
-        console.log(values);
+      console.log(values);
+      await store.dispatch('gettingInfo/resetPassword',{rType:'users', id:user.value.id, info:values})
+        // console.log(values);
     })
     return{
         changePassword,
