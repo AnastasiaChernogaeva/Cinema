@@ -9,8 +9,11 @@
               <ul>
                   <!-- <li><b>фильм в показе:</b>&nbsp;{{films.find(film=>film.filmName===session.sessionFilmName).startTime}}-{{films.find(film=>film.filmName===session.sessionFilmName).finishTime}}</li> -->
                   <li><b>город:</b>&nbsp;{{session.cityName}}</li>
-                  <li><router-link class="insideIfo" v-slot="{navigate}" custom :to="{name:'ccinema', params:{idc:cinemas.find(cinema=>{
-                      if(cinema && cinema.cinemaName===session.chosenCinemaName) return cinema}).id}}"><b>кинотеатр:</b>&nbsp;<span @click="navigate">{{session.chosenCinemaName}}</span></router-link></li>
+                  <li>
+                      <!-- <router-link class="insideIfo" v-slot="{navigate}" custom :to="{name:'ccinema', params:{idc:cinemas&&cinemas.find(cinema=>{
+                      if(cinema && cinema.cinemaName===session.chosenCinemaName) return cinema}).id}}"> -->
+                         <router-link class="insideIfo" v-slot="{navigate}" custom :to="{name:'ccinema', params:{idc:foundNeededId(session.chosenCinemaName)}}">
+                      <b>кинотеатр:</b>&nbsp;<span @click="navigate">{{session.chosenCinemaName}}</span></router-link></li>
                   <li><router-link class="insideIfo" v-slot="{navigate}" custom :to="{name:'csession', params:{ids:session.id}}"><b>время показа:</b>&nbsp;<span @click="navigate">{{session.startSessionTime}}</span></router-link></li>
               </ul>
               
@@ -31,7 +34,9 @@ export default {
          AppLoader,
     },
     setup(props){
-        // watch(()=>props.search)
+        watch(()=>props.search,()=>{
+            console.log(props.search);
+        })
         const store = useStore()
         const loading = ref(false)
         // const finishDates = ref([])
@@ -56,6 +61,11 @@ export default {
             },  
       
     )
+
+                const foundNeededId = (word)=>{
+                   return cinemas.value.find(cinema=>{
+                      if( cinema.cinemaName===word) return cinema}).id
+                }
 
 
 
@@ -100,7 +110,8 @@ export default {
             loading,
             sessions,
             cinemas,
-            films
+            films,
+            foundNeededId
         }
         
     }}
