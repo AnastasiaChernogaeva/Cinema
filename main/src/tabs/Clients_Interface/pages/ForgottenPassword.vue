@@ -1,5 +1,5 @@
 <template>
-  <div class="card container">
+  <div class="card container" v-if="!successfulyChanged">
     <h2>Забыли пароль?</h2>
     <div v-if="beforeChangePassword">
       <div :class="['form-control', {'invalid':nError},]">
@@ -58,13 +58,21 @@
                 <br/>
 
          </div>
-    </div>
     <button class="btn primary" @click="saveNewPassword" :disabled="isSubmitting">
       Сохранить новый пароль
     </button>
+    </div>
+  
 </div>
       
   </div>
+    <div v-else-if="successfulyChanged">
+    <p>
+      Пароль успешно изменен!
+      <router-link to="/cinemaMain">Вернуться на главную</router-link>
+    </p>
+  </div>
+
 </template>
 
 <script>
@@ -72,10 +80,12 @@ import {computed, onMounted, ref} from 'vue'
 import { useStore } from 'vuex'
 import * as yup from 'yup';
 import { useField, useForm } from "vee-validate";
+import { useRouter } from 'vue-router';
 
 export default {
   setup(){
     const store = useStore()
+    const router = useRouter()
     // const email = ref()
     // const name = ref()
     // const surname = ref()
@@ -124,6 +134,7 @@ export default {
      )
    })
 
+    const successfulyChanged = ref(false)
 
     const user = ref()
     const changePassword = ()=>{
@@ -145,7 +156,10 @@ export default {
     const saveNewPassword = handleSubmit(async(values)=>{
       console.log(values);
       await store.dispatch('gettingInfo/resetPassword',{rType:'users', id:user.value.id, info:values})
-        // console.log(values);
+         successfulyChanged.value = true
+       setTimeout(() => {
+         router.push('/loginUser')
+      }, 2500);
     })
     return{
         changePassword,
@@ -159,7 +173,8 @@ export default {
             isSubmitting,
             name, nError, nBlur,
             surname, sError, sBlur,
-            saveNewPassword
+            saveNewPassword,
+            successfulyChanged
     }
   }
 
