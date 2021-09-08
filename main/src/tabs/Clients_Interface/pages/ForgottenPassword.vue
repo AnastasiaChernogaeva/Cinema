@@ -2,6 +2,7 @@
   <div class="card container" v-if="!successfulyChanged">
     <h2>Забыли пароль?</h2>
     <div v-if="beforeChangePassword">
+      <!-- <form> -->
       <div :class="['form-control', {'invalid':nError},]">
                 <label for="name">Имя</label>
                 <input
@@ -38,13 +39,15 @@
                 <small v-if="eError">{{eError}}</small>
         </div>
       <br>
-        <button class="btn danger" @click="changePassword" :disabled="isSubmitting">Изменить пароль</button>
+        <button class="btn danger" @click="changePassword" :disabled="!surname || !name || !email || eError || sError || nError">Изменить пароль</button>
+        <!-- </form> -->
     </div>
     <div v-else>
         <div v-if="dontHaveSuchAUser">
           <span>Такого пользователя нет. Пройти регистрацию можно <router-link to="/signupUser">здесь</router-link>.</span><br><p><router-link to="/cinemaMain">Вернуться на главную</router-link></p>
         </div>
         <div v-else>
+        <!-- <form> -->
         <div :class="['form-control', {'invalid':pError},]" >
                 <label for="password">Пароль</label>
                 <input
@@ -60,13 +63,14 @@
          </div>
     <button class="btn primary" @click="saveNewPassword" :disabled="isSubmitting">
       Сохранить новый пароль
-    </button>
+    </button> 
+    <!-- </form> -->
     </div>
-  
+ 
 </div>
       
   </div>
-    <div v-else-if="successfulyChanged">
+    <div class="card container" v-else-if="successfulyChanged">
     <p>
       Пароль успешно изменен!
       <router-link to="/cinemaMain">Вернуться на главную</router-link>
@@ -93,7 +97,7 @@ export default {
 
 
         const passwordMinLength = 6
-        const {handleSubmit, isSubmitting, submitCount} = useForm()
+        const {handleSubmit, isSubmitting} = useForm()
 
         const {value:name, errorMessage:nError, handleBlur:nBlur} = useField('name',yup
         .string()
@@ -137,7 +141,7 @@ export default {
     const successfulyChanged = ref(false)
 
     const user = ref()
-    const changePassword = ()=>{
+    const changePassword = async()=>{
       const users = computed(()=>store.getters['gettingInfo/users'])
       // console.log(users.value);
         if(users.value){
