@@ -9,71 +9,101 @@
 <script>// @change="checkDates"
 import {ref, onMounted, computed, watch, } from 'vue'
 import { useStore } from "vuex";
-import {Storage} from '@google-cloud/storage'
+import firebase from 'firebase/app'
+import { initializeApp } from "firebase/app";
+import { getStorage } from "firebase/storage";
+
+
 
 export default {
     setup(){
         const store = useStore()
         const image = ref()
-        // Creates a client using Application Default Credentials
-// const storage = new Storage();
+        // const storage = getStorage(firebase);
 
-// // Creates a client from a Google service account key
-// // const storage = new Storage({keyFilename: 'key.json'});
+const firebaseConfig = {
+  apiKey: "AIzaSyD7dWwQcB0EA9irJBYRWMAP4cQsGpsH_Vc",
+  authDomain: "cinema-vue-project.firebaseapp.com",
+  databaseURL: "https://cinema-vue-project-default-rtdb.firebaseio.com",
+  projectId: "cinema-vue-project",
+  storageBucket: "cinema-vue-project.appspot.com",
+  messagingSenderId: "578123914941",
+  appId: "1:578123914941:web:a438171e4709b786de21d4"
+};
 
-// /**
-//  * TODO(developer): Uncomment these variables before running the sample.
-//  */
-// // The ID of your GCS bucket
-// // const bucketName = 'your-unique-bucket-name';
+const firebase = initializeApp(firebaseConfig);
+console.log(firebase);
+const storage = getStorage(firebase);
+console.log(storage);
 
-// async function createBucket() {
-//   // Creates the new bucket
-//   await storage.createBucket(bucketName);
-//   console.log(`Bucket ${bucketName} created.`);
-// }
 
-// createBucket().catch(console.error);
+
+
+
+
+
+
+
+
+
+
+        console.log(firebase);
          
-        // const session = ref({})
-        //         const film = ref({})
-        //         const dateChosen =ref()
-        // onMounted(async()=>{
-        //     session.value = await store.dispatch('gettingInfo/loadByID',{
-        //         rType:'sessions',
-        //         id:'-MiGwOycpHIYSXxYaOtt',
-        //     },)
 
-        //      await store.dispatch('gettingInfo/load',{
-        //         rType:'films',
-        //     },)           
-        //       const films = computed(()=> store.getters['gettingInfo/films'])
-        //       film.value = films.value.find(filmO =>{
-        //                             if(session.value.sessionFilmName === filmO.filmName) {
-        //                                 return filmO
-        //                             }
-        //                     } )
-        // })
-
-
-
-
-        // const ch = (event)=>{
-        //     console.log(event.target.value);
-        // }
-
-    const ch = (event)=>{
+    const ch = async (event)=>{
             image.value = event.target.value
+            firebase.
+            storage.
+            console.log(event.target.files[0]);
             console.log(event.target.value);
-            // console.log(image.value);
+
+            // const fd = new FormData()
+            // fd.append('image', event.target.files[0], event.target.files[0].name )
+            // var storageRef = firebase.storageRef("gs://MyProject.appspot.com/")
+
+            // const str = firebase.getInstance();
+            // const storageRef = str.getReferenceFromUrl("gs://MyProject.appspot.com/");
+            // console.log(storageRef);
+            // storage.post(`images/${event.target.files[0].name}`).put(event.target.files[0])
+            //const {data} = await axios.post(url(event.target.value), fd )
+            // console.log(data);
+
+            // storage.ref(`images/${event.target.name}`).put(event.target)
+            // createBucket()
         }
+    // async function url(uri) {
+//     // Why are we using XMLHttpRequest? See:
+//     // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+//     const blob = await new Promise((resolve, reject) => {
+//         const xhr = new XMLHttpRequest();
+//         xhr.onload = function () {
+//             resolve(xhr.response);
+//         };
+//         xhr.onerror = function (e) {
+//             console.log(e);
+//             reject(new TypeError('Network request failed'));
+//         };
+//         xhr.responseType = 'blob';
+//         xhr.open('GET', uri, true);
+//         xhr.send(null);
+//     });
+
+//     const ref = firebase
+//         .storage()
+//         .ref()
+//         .child(uuid.v4());
+//     const snapshot = await ref.put(blob);
+
+//     // We're done with the blob, close and release it
+//     blob.close();
+
+//     let url = await snapshot.ref.getDownloadURL();
+//     console.log("Вот такой фот урл получился! ", url)
+//     return url;
+// }
 
 
         return{
-            // session,
-            // film,
-
-            // dateChosen,
             ch,
             image
 
