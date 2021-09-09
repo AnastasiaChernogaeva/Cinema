@@ -1,24 +1,24 @@
 <template>
   <div class="card">
          <!-- :value="dateChosen" @blur="ch" :max="film.finishTime" :min="film.startTime" -->
-        <input type="file" :value="image" @change="ch">
+        <input type="file"  @change="ch">
         <img :src="image" alt="image">
   </div>
 </template>
 
-<script>// @change="checkDates"
-import {ref, onMounted, computed, watch, } from 'vue'
+<script>// @change="checkDates":value="image"
+// import {ref, onMounted, computed, watch, } from 'vue'
 import { useStore } from "vuex";
 import firebase from 'firebase/app'
 import { initializeApp } from "firebase/app";
-import { getStorage } from "firebase/storage";
+import { getStorage, ref } from "firebase/storage";
 
 
 
 export default {
     setup(){
         const store = useStore()
-        const image = ref()
+        // const image = ref()
         // const storage = getStorage(firebase);
 
 const firebaseConfig = {
@@ -51,13 +51,19 @@ console.log(storage);
          
 
     const ch = async (event)=>{
-            image.value = event.target.value
-            firebase.
-            storage.
+            const mountainsRef = ref(storage, `${event.target.files[0].name}`);
+            console.log(mountainsRef);
             console.log(event.target.files[0]);
             console.log(event.target.value);
+    }
 
-            // const fd = new FormData()
+
+
+
+
+
+            // console.log(res);
+            // const fd = new FormData()post(`images/${event.target.files[0].name}`)
             // fd.append('image', event.target.files[0], event.target.files[0].name )
             // var storageRef = firebase.storageRef("gs://MyProject.appspot.com/")
 
@@ -70,7 +76,7 @@ console.log(storage);
 
             // storage.ref(`images/${event.target.name}`).put(event.target)
             // createBucket()
-        }
+        
     // async function url(uri) {
 //     // Why are we using XMLHttpRequest? See:
 //     // https://github.com/expo/expo/issues/2402#issuecomment-443726662
@@ -105,7 +111,7 @@ console.log(storage);
 
         return{
             ch,
-            image
+            // image
 
         }
     }
