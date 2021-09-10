@@ -1,10 +1,13 @@
 <template>
-<!-- <app-loader v-if="loading"></app-loader> -->
-  <div class="card " v-if="sessions.length!=0">
-    <h1 v-if="search">{{search}}</h1>
-     <h1>Сеансы:</h1>
+  <div class="card container" v-if="sessions.length!=0">
+        <div v-for="(city, idx) of cities" :key = "idx">
+            <button class="btn">
+                {{city}}
+            </button>
+        </div>
 
-     <div class="session container" v-for="(session, idx) of sessions" :key="idx">
+     <h1>Сеансы&nbsp;{{searchFilms?`по поиску "${search}"`:null}}:</h1>
+     <div class="session container" v-for="(session, idx) of searchFilms?searchFilms:sessions" :key="idx">
          <h3>{{session.sessionFilmName}}</h3>
               <ul>
                   <!-- <li><b>фильм в показе:</b>&nbsp;{{films.find(film=>film.filmName===session.sessionFilmName).startTime}}-{{films.find(film=>film.filmName===session.sessionFilmName).finishTime}}</li> -->
@@ -18,6 +21,7 @@
               </ul>
               
      </div>
+     <a href="#" @click="comeBackToAllSessions" v-if="searchFilms"> Показать все сеансы </a>
   </div> 
 </template>
 
@@ -34,15 +38,9 @@ export default {
          AppLoader,
     },
     setup(props){
-        watch(()=>props.search,()=>{
-            console.log(props.search);
-        })
+
         const store = useStore()
         const loading = ref(false)
-        // const finishDates = ref([])
-        // const sessions = ref()
-        // const cinemas = ref()
-        // const films = ref()
 
 
 
@@ -50,74 +48,72 @@ export default {
                 loading.value = true 
                 await store.dispatch('gettingInfo/loadAll',['cinemas','films','sessions'])
                 loading.value = false
-                // sessions.value = computed(()=> store.getters['gettingInfo/sessions'])
-                // cinemas.value = computed(()=> store.getters['gettingInfo/cinemas'])
-                // films.value = computed(()=> store.getters['gettingInfo/films']
-                //     .filter(film=>{
-                //     finishDates.value.push(film.finishTime)
-                //     return film.finishTime>Date.now()}))
-                //     console.log(cinemas.value.value);
-                //     console.log(sessions.value.value);
             },  
       
     )
 
                 const foundNeededId = (word)=>{
-                   return cinemas.value.find(cinema=>{
-                      if( cinema.cinemaName===word) return cinema}).id
+                //    return cinemas.value.find(cinema=>{
+                //       if( cinema.cinemaName===word) return cinema}).id
                 }
 
 
 
-
+                const cities = ref([])
                 const sessions = computed(()=> store.getters['gettingInfo/sessions'])
                 const cinemas = computed(()=> store.getters['gettingInfo/cinemas'])
                 const films = computed(()=> store.getters['gettingInfo/films']
                     .filter(film=>{
-                    // finishDates.value.push(film.finishTime)
                     return film.finishTime>Date.now()}))
+                
+                
 
-    //   const dateArr = ref([])
-    //   let numberMonth = new Date().getMonth()<10?'0':0
-    //   let numberDay = new Date().getDate()<10?'0':0
+
+        const searchFilms = ref()
+
+        watch(()=>props.search,()=>{
+            searchFilms.value = sessions.value.filter(session=>{if(session.sessionFilmName.includes(props.search))return session})
+            console.log(props.search);
+            console.log(searchFilms.value);
+            if(searchFilms.value){
+                cities.value = [... new Set( searchFilms.value.map(session=> session.cityName))]
+            }
+            else{
+                cities.value = [... new Set( sessions.value.map(session=> session.cityName))]
+            } 
+        })
 
       
-
-    //   const today = new Date()
-    //   const date = numberDay + new Date().getDate() + "-" + numberMonth + (new Date().getMonth()+1) + "-" + new Date().getFullYear() 
-    //     console.log(today);
-
-    // if([0, 2, 4, 6, 7, 9, 11].includes(today.getMonth())){
-    //     for (let i = 0; i <= 30; i++) {  
-    //     dateArr.value.push(today.setDate(today.getDate() + 1));
-    //     // console.log(currentDate);
-    //  }
-    // }
-    // else{
-    //    for (let i = 0; i <= 30; i++) {  
-    //     dateArr.value.push(today.setDate(today.getDate() + 1));
-    //     // console.log(currentDate);
-    //  }
-    // }
-    //     // console.log(new Date(dateArr.value[2]).getDay());
-
-
-
-    
-        
+        const comeBackToAllSessions = () =>{
+            searchFilms.value = null
+        }
 
         return{
             loading,
             sessions,
             cinemas,
             films,
-            foundNeededId
+            searchFilms,
+            comeBackToAllSessions,
+            foundNeededId,
+            cities
         }
         
     }}
 </script>
 
 <style scoped>
+.session{
+    display:flex;
+    justify-content: flex-start;
+}
+.session h3{
+    width: 50%;
+}
+
+.search{
+    border: 2px solid black;
+}
 .card{
     padding-left:10%;
 }

@@ -9,17 +9,14 @@
 <script>// @change="checkDates":value="image"
 // import {ref, onMounted, computed, watch, } from 'vue'
 import { useStore } from "vuex";
-import firebase from 'firebase/app'
 import { initializeApp } from "firebase/app";
-import { getStorage, ref } from "firebase/storage";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
 
 
 
 export default {
     setup(){
         const store = useStore()
-        // const image = ref()
-        // const storage = getStorage(firebase);
 
 const firebaseConfig = {
   apiKey: "AIzaSyD7dWwQcB0EA9irJBYRWMAP4cQsGpsH_Vc",
@@ -32,9 +29,13 @@ const firebaseConfig = {
 };
 
 const firebase = initializeApp(firebaseConfig);
-console.log(firebase);
-const storage = getStorage(firebase);
-console.log(storage);
+// console.log('firebase',firebase);
+const storage = getStorage(firebase, 'gs://cinema-vue-project.appspot.com');
+// console.log('storage',storage);
+
+
+// const storage = getStorage();
+// const storageRef = ref(storage, 'child');
 
 
 
@@ -44,17 +45,30 @@ console.log(storage);
 
 
 
-
-
-
-        console.log(firebase);
+        // console.log(firebase);
          
 
     const ch = async (event)=>{
+console.log('firebase',firebase);
+console.log('storage',storage);
+            const pathReference = ref(storage, `images/${event.target.files[0].name}`);
+            console.log('rRef', pathReference);
+            const gsReference = ref(storage, `gs://cinema-vue-project.appspot.com/images/${event.target.files[0].name}.jpg`);
+            console.log('ref 000', gsReference);
+
+// Create a reference from an HTTPS URL
+// Note that in the URL, characters are URL escaped!
+// const httpsReference = ref(storage, `https://firebasestorage.googleapis.com/b/cinema-vue-project.appspot.com/o/images%20${event.target.files[0].name}.jpg`); 
+// console.log('ref ', httpsReference); 
+
             const mountainsRef = ref(storage, `${event.target.files[0].name}`);
-            console.log(mountainsRef);
-            console.log(event.target.files[0]);
-            console.log(event.target.value);
+            const mountainImagesRef = ref(storage, `images/${event.target.files[0]}`);
+            uploadBytes(storageRef, event.target.files[0].name).then((snapshot) => {
+  console.log('Uploaded a blob or file!');
+});
+            console.log('mountainsRef',mountainsRef);
+            console.log('file image',event.target.files[0]);
+            console.log('image path',event.target.value);
     }
 
 

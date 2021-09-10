@@ -1,6 +1,6 @@
 <template> 
 <div>
-    <div class="card">{{search}}</div>
+    <!-- <div class="card">{{search}}</div> -->
     <all-active-movies></all-active-movies>
     <all-sessions :search="search"></all-sessions>
     </div>
