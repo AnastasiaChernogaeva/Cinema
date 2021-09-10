@@ -52,7 +52,7 @@ export default {
         // },
 
     draw() {
-        console.log(this.info.value.val)
+        // console.log(this.info.value.val)
 
         this.ctx.height=800;
         // this.ctx.width=800;

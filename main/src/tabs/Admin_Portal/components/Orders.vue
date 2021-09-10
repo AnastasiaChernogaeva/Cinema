@@ -74,7 +74,7 @@ export default {
                       total.value.push(newValue[index].sum)
                       
                     }
-                    console.log(total.value);
+                    // console.log(total.value);
                 } else{
                 }})
 

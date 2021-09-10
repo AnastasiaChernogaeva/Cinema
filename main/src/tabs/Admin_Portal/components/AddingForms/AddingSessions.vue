@@ -172,7 +172,7 @@ export default {
           //   console.log('OO', oldValue);
 
           // })
-          console.log(info.value)
+          // console.log(info.value)
 
         const halls=ref({})
         const hallInfo = reactive({})
@@ -205,7 +205,7 @@ export default {
          
           const submit = async () =>{
             const v={'pricesCPl':pricesCPl.value,'pricesSPl':pricesSPl.value,'pricesVPl':pricesVPl.value, 'chosenAddServices':chosenAddServices.value, 'startSessionTime':startSessionTime.value, 'hallnumber':hallnumber.value, 'sessionFilmName':sessionFilmName.value, 'cityName':cityName.value, 'chosenCinemaName':chosenCinemaName.value, }
-            console.log('VALUES',v)
+            // console.log('VALUES',v)
             await store.dispatch('requests/create',{'value':v, 'rType':'sessions', } );
             emit('added')
         }

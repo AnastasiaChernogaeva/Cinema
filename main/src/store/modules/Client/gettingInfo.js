@@ -27,7 +27,7 @@ export default {
             try{
                  const token = store.getters['authClient/token']
                  const {data} = await axios.post(`/${payload.rType}.json?auth=${token}`,payload.value)
-                 commit('addRequest',{...payload, id:data.name});
+                //  commit('addRequest',{...payload, id:data.name});
                  // console.log({data})
                      const body_D = {value:'Добавление прошло успешно', type:'primary',}
                      dispatch('client/setMess', body_D , {root:true,})
@@ -96,7 +96,7 @@ export default {
 
         async resetPassword({commit}, payload){
            try{
-                const {data:inData} =  await axios.put(`/${payload.rType}/${payload.id}.json`, {...payload.info})
+                const {data:inData} =  await axios.patch(`/${payload.rType}/${payload.id}.json`, {...payload.info,nPassword:payload.nPassword})
               
 
 

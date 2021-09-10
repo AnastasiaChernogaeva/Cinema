@@ -151,7 +151,7 @@ export default {
           async ()=>{
           await store.dispatch('requests/loadAll',['films', 'cinemas', 'services',])
           allInfo.value = store.getters['requests/all']
-          console.log(allInfo.value);
+          <!-- console.log(allInfo.value); -->
         }
         // ()=>{
         //   films.value = store.getters['requests/films']

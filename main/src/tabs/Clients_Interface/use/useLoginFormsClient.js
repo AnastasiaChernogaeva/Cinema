@@ -28,16 +28,19 @@ export function useLoginFormsClient(){
         const onSubmit = handleSubmit(async (values) =>{
             try{
                 await  store.dispatch('gettingInfo/load', {rType:'users'})
-                let users = computed(()=>store.getters['gettingInfo/users'])
-                let ourUser = users.value.find(user=>{
-                    if(user.email === values.email && user.password === values.password){
+                let user = computed(()=>store.getters['gettingInfo/users'].find(user=>{
+                    if(user.email === values.email && (user.nPassword === values.password||user.password === values.password)){
                         return user
-                    }
-                })
-                if(ourUser){
-                   await  store.dispatch('authClient/login', values)
+                    }}))
+                // let ourUser = users.value.find(user=>{
+                //     if(user.email === values.email && (user.nPassword === values.password||user.password === values.password)){
+                //         return user
+                //     }
+                // })
+                   let hhInfoUser = {email:values.email, password:user.password}
+                   await  store.dispatch('authClient/login', user.nPassword?hhInfoUser:values)
                    router.push('/cinemaMain') 
-                }
+                
                 
             } catch(error){}
         })

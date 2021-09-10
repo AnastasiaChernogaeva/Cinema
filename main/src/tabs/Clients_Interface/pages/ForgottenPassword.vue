@@ -2,7 +2,6 @@
   <div class="card container" v-if="!successfulyChanged">
     <h2>Забыли пароль?</h2>
     <div v-if="beforeChangePassword">
-      <!-- <form> -->
       <div :class="['form-control', {'invalid':nError},]">
                 <label for="name">Имя</label>
                 <input
@@ -40,21 +39,19 @@
         </div>
       <br>
         <button class="btn danger" @click="changePassword" :disabled="!surname || !name || !email || eError || sError || nError">Изменить пароль</button>
-        <!-- </form> -->
     </div>
     <div v-else>
         <div v-if="dontHaveSuchAUser">
           <span>Такого пользователя нет. Пройти регистрацию можно <router-link to="/signupUser">здесь</router-link>.</span><br><p><router-link to="/cinemaMain">Вернуться на главную</router-link></p>
         </div>
         <div v-else>
-        <!-- <form> -->
         <div :class="['form-control', {'invalid':pError},]" >
-                <label for="password">Пароль</label>
+                <label for="newpassword">Пароль</label>
                 <input
                     type="password"
-                    id="password"
+                    id="newpassword"
                     placeholder="Введите новый пароль"
-                    v-model="password"
+                    v-model="newpassword"
                     @blur="pBlur"
                 >
                 <small v-if="pError">{{pError}}</small>
@@ -64,7 +61,6 @@
     <button class="btn primary" @click="saveNewPassword" :disabled="isSubmitting">
       Сохранить новый пароль
     </button> 
-    <!-- </form> -->
     </div>
  
 </div>
@@ -90,10 +86,6 @@ export default {
   setup(){
     const store = useStore()
     const router = useRouter()
-    // const email = ref()
-    // const name = ref()
-    // const surname = ref()
-    // const password = ref()    
 
 
         const passwordMinLength = 6
@@ -116,7 +108,7 @@ export default {
             .required('Это обязательное поле! Пожалуйста, введите email.')
             .email('Необходим ввести корректный email.'))
 
-        const {value:password, errorMessage:pError, handleBlur:pBlur} = useField('password', yup
+        const {value:newpassword, errorMessage:pError, handleBlur:pBlur} = useField('password', yup
             .string()
             .trim()
             .required('Это обязательное поле! Пожалуйста, введите пароль.')
@@ -147,8 +139,7 @@ export default {
         if(users.value){
          user.value = users.value.find(user=>user.email===email.value && user.name===name.value && user.surname===surname.value )
          if(user.value!==undefined){
-           
-             dontHaveSuchAUser.value = false
+          dontHaveSuchAUser.value = false
          }else{
           dontHaveSuchAUser.value = true
         }        
@@ -158,8 +149,13 @@ export default {
 
     }
     const saveNewPassword = handleSubmit(async(values)=>{
-      console.log(values);
-      await store.dispatch('gettingInfo/resetPassword',{rType:'users', id:user.value.id, info:values})
+      // console.log(values);
+      // console.log(values.password);
+      let nPassword = values.password;
+      delete values.password
+      // console.log(values);
+
+      await store.dispatch('gettingInfo/resetPassword',{rType:'users', id:user.value.id, info:values, nPassword:nPassword,})
          successfulyChanged.value = true
        setTimeout(() => {
          router.push('/loginUser')
@@ -167,13 +163,10 @@ export default {
     })
     return{
         changePassword,
-        // name, surname, email,
         beforeChangePassword,
         dontHaveSuchAUser,
-        // password
             email, eError,eBlur,
-            password, pError,pBlur,
-            // onSubmit,
+            newpassword, pError,pBlur,
             isSubmitting,
             name, nError, nBlur,
             surname, sError, sBlur,

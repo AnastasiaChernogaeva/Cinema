@@ -2,6 +2,7 @@
 const   ERROR_CODES = {
     EMAIL_NOT_FOUND: 'Пользователь с таким email не был найден.',
     INVALID_PASSWORD:'Неверный пароль.',
+    EMAIL_EXISTS:'Такой пользователь уже существует. Измените имя и email.',
     login:'Пожалуйста, войдите в систему.'
 }
 

@@ -1,22 +1,20 @@
 <template>
   <div class="card container" v-if="sessions.length!=0">
-
-      <div class="button-filter">
-        <div  v-for="(city, idx) of cities" :key = "idx">
-            <button :class="['btn',{'primary':chosen===city}]" @click="findCity(city)">
+        <div class="button-filter" v-for="(city, idx) of cities" :key = "idx">
+            <button class="btn" @click="findCity(city)">
                 {{city}}
             </button>
         </div>
-    </div>
+
      <h1>Сеансы&nbsp;{{searchWord?`по поиску "${searchWord}"`:null}}:</h1>
-
-
-
      <div class="session container" v-for="(session, idx) of searchFilms?searchFilms:sessions" :key="idx">
          <h3>{{session.sessionFilmName}}</h3>
               <ul>
+                  <!-- <li><b>фильм в показе:</b>&nbsp;{{films.find(film=>film.filmName===session.sessionFilmName).startTime}}-{{films.find(film=>film.filmName===session.sessionFilmName).finishTime}}</li> -->
                   <li><b>город:</b>&nbsp;{{session.cityName}}</li>
                   <li>
+                      <!-- <router-link class="insideIfo" v-slot="{navigate}" custom :to="{name:'ccinema', params:{idc:cinemas&&cinemas.find(cinema=>{
+                      if(cinema && cinema.cinemaName===session.chosenCinemaName) return cinema}).id}}"> -->
                          <router-link class="insideIfo" v-slot="{navigate}" custom :to="{name:'ccinema', params:{idc:foundNeededId(session.chosenCinemaName)}}">
                       <b>кинотеатр:</b>&nbsp;<span @click="navigate">{{session.chosenCinemaName}}</span></router-link></li>
                   <li><router-link class="insideIfo" v-slot="{navigate}" custom :to="{name:'csession', params:{ids:session.id}}"><b>время показа:</b>&nbsp;<span @click="navigate">{{session.startSessionTime}}</span></router-link></li>
@@ -28,6 +26,8 @@
 </template>
 
 <script>
+// добавить валидацию + сделать поиск по слову!!!
+
 import {onMounted, ref, computed, watch} from "vue"
 import { useStore } from 'vuex'
 import AppLoader from '../../../Admin_Portal/ui/AppLoader.vue'
@@ -39,26 +39,23 @@ export default {
     },
     setup(props){
 
-                const store = useStore()
-                const loading = ref(false)
-                const searchWord = ref()
-                const chosen = ref()
+        const store = useStore()
+        const loading = ref(false)
+        const searchWord = ref()
 
 
 
-                onMounted( async()=>{
-                            loading.value = true 
-                            await store.dispatch('gettingInfo/loadAll',['cinemas','films','sessions'])
-                            loading.value = false
-                        },  
-                
-                )
+      onMounted( async()=>{
+                loading.value = true 
+                await store.dispatch('gettingInfo/loadAll',['cinemas','films','sessions'])
+                loading.value = false
+            },  
+      
+    )
 
                 const foundNeededId = (word)=>{
-                    if(cinemas.value){
-                        let cinema = cinemas.value.find(cinema=>{if( cinema.cinemaName===word) return cinema})
-                        return cinema.id
-                    }
+                //    return cinemas.value.find(cinema=>{
+                //       if( cinema.cinemaName===word) return cinema}).id
                 }
 
 
@@ -66,50 +63,64 @@ export default {
                 const cities = ref([])
                 const sessions = computed(()=> store.getters['gettingInfo/sessions'])
                 const cinemas = computed(()=> store.getters['gettingInfo/cinemas'])
-                const films = computed(()=> store.getters['gettingInfo/films'])
+                const films = computed(()=> store.getters['gettingInfo/films']
+                    .filter(film=>{
+                    return film.finishTime>Date.now()}))
+           watch(()=>sessions.value,()=>{
+                if(sessions.value){
+                    cities.value = [... new Set( sessions.value.map(session=> session.cityName))]
+                }
 
-                watch(()=>sessions.value,()=>{
-                        if(sessions.value){
-                            cities.value = [... new Set( sessions.value.map(session=> session.cityName))]
-                        }
+           }) 
 
-                }) 
+        const searchFilms = ref()
 
-                const searchFilms = ref()
+        watch(()=>props.search,()=>{
+            searchWord.value = props.search
+            searchFilms.value = sessions.value.filter(session=>{if(session.sessionFilmName.includes(searchWord.value ))return session})
+            // console.log(props.search);
+            // console.log(searchFilms.value);
+            if(searchFilms.value){
+                cities.value = [... new Set( searchFilms.value.map(session=> session.cityName))]
+            }
+            else{
+                cities.value = [... new Set( sessions.value.map(session=> session.cityName))]
+            } 
+        })
+        watch(()=>searchFilms.value, ()=>{
+            if(searchFilms.value){
+                cities.value = [... new Set( searchFilms.value.map(session=> session.cityName))]
+            }
+            else{
+                cities.value = [... new Set( sessions.value.map(session=> session.cityName))]
+            } 
+        })
 
-                watch(()=>props.search,()=>{
-                    searchWord.value = props.search
-                    if(searchWord.value ){
-                        searchFilms.value = searchFilms.value.filter(session=>{if(session.sessionFilmName.includes(searchWord.value ))return session})
-                    }
-                    else{
-                    searchFilms.value = sessions.value.filter(session=>{if(session.sessionFilmName.includes(searchWord.value ))return session})
+        // const citySession = ref()
 
-                    }
-                        cities.value = [... new Set( sessions.value.map(session=> session.cityName))]
-                })
-
-               
-
-
-                const findCity = (ev)=>{
-                        chosen.value = ev
-                        searchFilms.value = sessions.value.filter(session=>{
-                                        if(session.cityName===ev){
-                                            return session
-                                        }
-                                    })
-                        if(searchWord.value ){
-                            searchFilms.value =  searchFilms.value.filter(session=>{if(session.sessionFilmName.includes(searchWord.value ))return session})
-                        }
-                    }
+        const findCity = (ev)=>{
+            if(searchFilms.value){
+                searchFilms.value = searchFilms.value.filter(session=>{
+                                if(session.cityName===ev){
+                                    return session
+                                }
+                            })
+            }
+            else{
+                searchFilms.value = sessions.value.filter(session=>{
+                                if(session.cityName===ev){
+                                    return session
+                                }
+                            })
+            }
+            
+        }
 
       
-                const comeBackToAllSessions = () =>{
-                    searchFilms.value = null
-                    searchWord.value = null
-                    chosen.value = null
-                }
+        const comeBackToAllSessions = () =>{
+            searchFilms.value = null
+            searchWord.value = null
+        }
 
         return{
             loading,
@@ -121,8 +132,8 @@ export default {
             comeBackToAllSessions,
             foundNeededId,
             findCity,
-            chosen,
-            cities,
+            // citySession,
+            cities
         }
         
     }}
@@ -130,10 +141,8 @@ export default {
 
 <style scoped>
 .button-filter{
-    margin-top: 2%;
-    width: 100%;
-    display: inline-flex;
-    justify-content: flex-end;
+    display:inline-flex;
+    justify-content:stretch;
 }
 .session{
     display:flex;

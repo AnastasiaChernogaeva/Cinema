@@ -25,6 +25,8 @@ export default{
         logout(state){
             state.token = null
             localStorage.removeItem(TOKEN_KEY_CLIENT)
+            localStorage.removeItem('emailActiveUser')
+
         },
     },
     actions:{
@@ -52,6 +54,7 @@ export default{
             dispatch('gettingInfo/create', {rType:"users", value:{...payload} } , {root:true,})
             } catch(e){
                 const resER = error(e.response.data.error.message)
+                console.log(e.response.data.error);
                 const body_D = {value:resER, type:'danger',}
                 dispatch('clients/setMess', body_D , {root:true,})
                 

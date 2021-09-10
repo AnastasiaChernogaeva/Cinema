@@ -49,12 +49,12 @@ const storage = getStorage(firebase, 'gs://cinema-vue-project.appspot.com');
          
 
     const ch = async (event)=>{
-console.log('firebase',firebase);
-console.log('storage',storage);
+// console.log('firebase',firebase);
+// console.log('storage',storage);
             const pathReference = ref(storage, `images/${event.target.files[0].name}`);
-            console.log('rRef', pathReference);
+            // console.log('rRef', pathReference);
             const gsReference = ref(storage, `gs://cinema-vue-project.appspot.com/images/${event.target.files[0].name}.jpg`);
-            console.log('ref 000', gsReference);
+            // console.log('ref 000', gsReference);
 
 // Create a reference from an HTTPS URL
 // Note that in the URL, characters are URL escaped!
@@ -64,11 +64,11 @@ console.log('storage',storage);
             const mountainsRef = ref(storage, `${event.target.files[0].name}`);
             const mountainImagesRef = ref(storage, `images/${event.target.files[0]}`);
             uploadBytes(storageRef, event.target.files[0].name).then((snapshot) => {
-  console.log('Uploaded a blob or file!');
+  // console.log('Uploaded a blob or file!');
 });
-            console.log('mountainsRef',mountainsRef);
-            console.log('file image',event.target.files[0]);
-            console.log('image path',event.target.value);
+    //         console.log('mountainsRef',mountainsRef);
+    //         console.log('file image',event.target.files[0]);
+    //         console.log('image path',event.target.value);
     }
 
 
