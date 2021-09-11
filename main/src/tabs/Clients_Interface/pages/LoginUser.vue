@@ -33,7 +33,7 @@
 
             <button class="btn primary" type="submit" :disabled="isSubmitting" >Войти</button>
             <button @click="forgottenPassword" class="btn danger">Забыли пароль?</button>    
-            <p class="text-danger" v-if="tooManyAttemptsAmount">Большое количество попыток войти в систему. Попробуйте позже.</p>         
+            <!-- <p class="text-danger" v-if="tooManyAttemptsAmount">Большое количество попыток войти в систему. Попробуйте позже.</p>          -->
 
         </form> 
    

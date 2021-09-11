@@ -43,6 +43,7 @@ export default {
                 const loading = ref(false)
                 const searchWord = ref()
                 const chosen = ref()
+                
 
 
 
@@ -82,11 +83,19 @@ export default {
 
                 watch(()=>props.search,()=>{
                     searchWord.value = props.search
-                    if(searchWord.value&&searchFilms.value ){
-                        searchFilms.value = searchFilms.value.filter(session=>{if(session.sessionFilmName.includes(searchWord.value ))return session})
+                    if(searchWord.value&&chosen.value ){
+                        searchFilms.value = sessions.value.filter(session=>{if(session.sessionFilmName.toLowerCase().includes(searchWord.value.toLowerCase() ))return session})
+                        searchFilms.value =  searchFilms.value.filter(session=>{
+                                        if(session.cityName===chosen.value){
+                                            return session
+                                        }
+                                    })
+                    }
+                    else if(searchWord.value&&!chosen.value ){
+                         searchFilms.value = sessions.value.filter(session=>{if(session.sessionFilmName.toLowerCase().includes(searchWord.value.toLowerCase() ))return session})
                     }
                     else{
-                    searchFilms.value = sessions.value.filter(session=>{if(session.sessionFilmName.includes(searchWord.value ))return session})
+                    searchFilms.value = sessions.value.filter(session=>{if(session.sessionFilmName.toLowerCase().includes(searchWord.value.toLowerCase() ))return session})
 
                     }
                         cities.value = [... new Set( sessions.value.map(session=> session.cityName))]
@@ -98,13 +107,20 @@ export default {
 
                 const findCity = (ev)=>{
                         chosen.value = ev
-                        searchFilms.value = sessions.value.filter(session=>{
+                       
+                        if(searchWord.value ){
+                            searchFilms.value =  sessions.value.filter(session=>{if(session.sessionFilmName.includes(searchWord.value ))return session})
+                            searchFilms.value = searchFilms.value.filter(session=>{
                                         if(session.cityName===ev){
                                             return session
                                         }
                                     })
-                        if(searchWord.value ){
-                            searchFilms.value =  searchFilms.value.filter(session=>{if(session.sessionFilmName.includes(searchWord.value ))return session})
+                        }else{
+                            searchFilms.value = sessions.value.filter(session=>{
+                                        if(session.cityName===ev){
+                                            return session
+                                        }
+                                    })
                         }
                     }
 

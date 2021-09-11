@@ -1,5 +1,6 @@
 <template>
-    <div class="card" v-if="userOrders && sessions">
+    <app-loader v-if="!userOrders "></app-loader>
+    <div class="card" v-else-if="userOrders && sessions">
        <h2 >  Мои заказы </h2>
       <table class="table">
       <thead>
@@ -36,6 +37,9 @@
       </tbody>
     </table>
     </div>
+    <div v-else>
+        <p>У вас нет заказов!</p>
+    </div>
 </template>
 
 <script>
@@ -43,9 +47,12 @@ import { ref, onMounted, computed } from "vue";
 import { useStore } from 'vuex';
 import { date } from "../../Admin_Portal/use/date";
 import { currency } from "../../Admin_Portal/use/currency";
+import AppLoader from "../../Admin_Portal/ui/AppLoader.vue";
 
 export default{
-    
+    components:{
+      AppLoader,
+    },
 
      setup(){
          const store = useStore()
