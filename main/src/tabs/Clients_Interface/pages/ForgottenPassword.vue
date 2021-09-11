@@ -34,6 +34,7 @@
                     placeholder="Введите почту"
                     v-model="email"
                     @blur="eBlur"
+                    @keypress.enter="changePassword"
                 >
                 <small v-if="eError">{{eError}}</small>
         </div>
@@ -53,6 +54,8 @@
                     placeholder="Введите новый пароль"
                     v-model="newpassword"
                     @blur="pBlur"
+                    @keypress.enter="saveNewPassword"
+
                 >
                 <small v-if="pError">{{pError}}</small>
                 <br/>

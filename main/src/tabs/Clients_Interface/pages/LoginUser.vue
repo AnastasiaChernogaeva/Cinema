@@ -31,7 +31,7 @@
 
          
 
-            <button class="btn primary" type="submit" :disabled="isSubmitting || tooManyAttemptsAmount" >Войти</button>
+            <button class="btn primary" type="submit" :disabled="isSubmitting" >Войти</button>
             <button @click="forgottenPassword" class="btn danger">Забыли пароль?</button>    
             <p class="text-danger" v-if="tooManyAttemptsAmount">Большое количество попыток войти в систему. Попробуйте позже.</p>         
 
@@ -57,7 +57,7 @@ export default {
         const route = useRoute()
         const router = useRouter()
         const store = useStore()
-        console.log(route);
+        // console.log(route);
         if(route.query.message){
             const resER = error(route.query.message)
             const body_D = { value:resER, type:'warning',}

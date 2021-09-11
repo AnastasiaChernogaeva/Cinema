@@ -1,5 +1,5 @@
 <template>
-  <div class="card container" v-if="sessions.length!=0">
+  <div class="card container" v-if="sessions.length!=0" id="sessionsInfo">
 
       <div class="button-filter">
         <div  v-for="(city, idx) of cities" :key = "idx">
@@ -57,7 +57,10 @@ export default {
                 const foundNeededId = (word)=>{
                     if(cinemas.value){
                         let cinema = cinemas.value.find(cinema=>{if( cinema.cinemaName===word) return cinema})
+                        if(cinema)
                         return cinema.id
+                        else
+                        return
                     }
                 }
 
@@ -79,7 +82,7 @@ export default {
 
                 watch(()=>props.search,()=>{
                     searchWord.value = props.search
-                    if(searchWord.value ){
+                    if(searchWord.value&&searchFilms.value ){
                         searchFilms.value = searchFilms.value.filter(session=>{if(session.sessionFilmName.includes(searchWord.value ))return session})
                     }
                     else{
@@ -87,6 +90,7 @@ export default {
 
                     }
                         cities.value = [... new Set( sessions.value.map(session=> session.cityName))]
+                    document.getElementById('sessionsInfo').scrollIntoView()
                 })
 
                
@@ -129,6 +133,7 @@ export default {
 </script>
 
 <style scoped>
+
 .button-filter{
     margin-top: 2%;
     width: 100%;

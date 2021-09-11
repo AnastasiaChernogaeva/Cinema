@@ -7,7 +7,7 @@
                 <teleport to="body" v-else >
                 <app-modal @close="show = false">  
                 <div class="form-control search">
-                     <input type="text" placeholder="Введите название фильма" v-model="searchText" @click.stop>
+                     <input type="text" placeholder="Введите название фильма" v-model="searchText" @click.stop autofocus @keypress.enter="searchEngine">
                      <button class="btn primary" @click="searchEngine"><img src="../icons/2x/search.png" alt="search"></button>
                     </div>
                     </app-modal>

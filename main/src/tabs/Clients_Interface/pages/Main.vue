@@ -21,6 +21,10 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+/* *{
+
+    transition-duration: 5s;
+} */
 
 </style>
