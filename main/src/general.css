@@ -561,13 +561,14 @@ h3 {
 
 
 
-@media all and (min-width:340px) and (max-width:500px){
+@media all and (min-width:390px) and (max-width:500px){
     div.row>div.place{
-        width: 15px;
-        height: 15px;
-        margin: 5.08px;
+        width: 13px;
+        height: 0px;
+        margin: 4.08px;
     }
     img.hallPlaces {
+        left: 5%;
         width: 11px;
         height: 11px;
     }
@@ -575,3 +576,21 @@ h3 {
         font-size: 11px;
     }
 }
+
+@media all and (max-width:389px){
+    div.row>div.place{
+        width: 12px;
+        height: 0px;
+        margin: 3.85px;
+    }
+    img.hallPlaces {
+        left: 5%;
+        width: 11px;
+        height: 11px;
+    }
+    span.indx span{
+        font-size: 11px;
+    }
+}
+
+
