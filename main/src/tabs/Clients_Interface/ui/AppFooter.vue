@@ -98,13 +98,30 @@ ul li h3{
     font-size: 22px;
     text-align:center;
 }
+/* @media all and (max-width: 900px){
+    div.footer>div.card-title.container{
+         flex-direction: column;
+    }
+    div.footer>div.card-title.container p{
+        width:100%;
+        font-size: 14px;
+    } 
+} */
 @media all and (max-width: 900px){
     div.footer>div.card-title.container{
          flex-direction: column;
     }
     div.footer>div.card-title.container p{
         width:100%;
+        font-size: 14px;
+        position: relative;
+        left: -25px;
     } 
+}
+@media all and (max-width: 450px){
+    ul li h3{
+        font-size: 16px;
+    }
 }
 
 </style>

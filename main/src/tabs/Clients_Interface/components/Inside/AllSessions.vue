@@ -334,4 +334,35 @@ div.input-filter.form-control{
        z-index:35;
    }
 
+
+   @media all and (min-width:930px) and (max-width: 1230px){
+       div.input-filter.form-control[data-v-3a05b542] {
+            left: -27px;
+        }
+       hr{
+           left: -4%;
+       }
+   }
+   
+   @media all  and (max-width: 929px){
+       div.input-filter.form-control[data-v-3a05b542] {
+            left: -10px;
+        }
+       hr{
+           left: -4%;
+       }
+   }
+      @media all  and (max-width: 460px){
+      button.btn{
+          padding: 0.5rem .2rem;
+          letter-spacing: 0.035em;
+      }
+        div.session.container ul>li{
+              font-size: 8px;
+      }
+      h3 {
+            font-size: 0.75rem;
+    }
+   }
+       
 </style>

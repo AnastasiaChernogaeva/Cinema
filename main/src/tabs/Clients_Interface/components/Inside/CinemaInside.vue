@@ -155,4 +155,6 @@ export default {
     hr{
         clear:both;
     }
+
+
 </style>

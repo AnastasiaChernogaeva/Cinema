@@ -558,3 +558,20 @@ h3 {
 .question-title {
     font-weight: bold;
 }
+
+
+
+@media all and (min-width:340px) and (max-width:500px){
+    div.row>div.place{
+        width: 15px;
+        height: 15px;
+        margin: 5.08px;
+    }
+    img.hallPlaces {
+        width: 11px;
+        height: 11px;
+    }
+    span.indx span{
+        font-size: 11px;
+    }
+}

@@ -224,6 +224,11 @@ export default {
 </script>
 
 <style scoped>
+h2.title{
+        line-height:2.55em;
+
+}
+
     .title{
         /* background: #fff; */
         align-items: center;
@@ -311,11 +316,31 @@ export default {
    div.filmBlock.card{
     width:35%;
     } 
+    h2.title{
+            line-height: 1.85;
+    }
 }
-   @media all and (max-width: 599px){
+   @media all  and (max-width: 599px){
    div.filmBlock.card{
     width:85%;
     } 
+    /* h2.title{and (min-width:351px)
+        line-height: 2.25;
+        font-size: 29px;
+        letter-spacing: 2px;
+    } */
 }
+
+  @media all and (max-width: 599px){
+         /* div.filmBlock.card{
+            width:85%;
+        }  */
+    h2.title{
+    line-height: 2.95;
+    font-size: 23px;
+    letter-spacing: 0px;
+    }
+}
+
 
 </style>

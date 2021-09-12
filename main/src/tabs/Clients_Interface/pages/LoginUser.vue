@@ -78,6 +78,36 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
+h1{
+            padding-top: 3rem;
+}
+@media all and (max-width:1010px){
+    form.card{
+            padding-top: 4rem;
+    }
+}
+/* @media all and (max-width:440px){
+  h1{
+          font-size: 1.42rem;
+  }
+} */
+@media all and (min-width:275px) and (max-width:440px){
+  h1{
+          font-size: 1.42rem;
+  }
+  button.btn{
+          margin-bottom: 2%;
+  }
+}
+@media all  and (max-width:274px){
+  h1{
+          font-size: 1.02rem;
+  }
+  button.btn{
+          padding: 0.5rem 0.095rem;
+          margin-bottom: 2%;
+  }
+}
 
 </style>

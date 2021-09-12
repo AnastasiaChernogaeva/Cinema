@@ -63,8 +63,9 @@ export default {
 ul.navbar-menu{
     display: none;
 }
-div.navbar{
+div.container .navbar{
         justify-content: center;
+        text-align: center;
 }
 div table.table td {
     padding: .25rem .01rem;

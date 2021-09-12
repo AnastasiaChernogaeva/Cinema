@@ -279,4 +279,5 @@ export default {
     button{
         font-size:16px;
     }
+    
 </style>

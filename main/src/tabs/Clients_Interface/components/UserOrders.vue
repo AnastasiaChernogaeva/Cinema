@@ -116,4 +116,27 @@ export default{
     text-align: center;
     margin-bottom: 15%;
   }
+  @media all and (min-width:350px) and (max-width:650px) {
+    div table.table thead tr th {
+    padding: 0.05rem .01rem;
+    font-size: 10px;
+    }
+    div table.table td {
+    padding: .05rem 0.001rem;
+    font-size: 12px;
+  }
+  }
+    @media all  and (max-width:349px) {
+    h2.title{
+          font-size: 1.05rem;
+    }
+    div table.table thead tr th {
+    padding: 0.05rem .001rem;
+    font-size: 8px;
+    }
+    div table.table td {
+    padding: .05rem 0.001rem;
+    font-size: 8px;
+  }
+  }
 </style>
