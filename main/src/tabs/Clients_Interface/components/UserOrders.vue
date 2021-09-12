@@ -1,6 +1,7 @@
 <template>
-    <app-loader v-if="!userOrders "></app-loader>
-    <div class="card" v-else-if="userOrders && sessions">
+<div>
+    <span>Main</span>
+    <div class="card" v-if="userOrders.length!==0 && sessions">
        <h2 >  Мои заказы </h2>
       <table class="table">
       <thead>
@@ -37,13 +38,17 @@
       </tbody>
     </table>
     </div>
-    <div v-else>
-        <p>У вас нет заказов!</p>
+    <div v-else class="card container noOrders">
+        <h3>У вас нет заказов!<br>
+          <small><router-link to="/cinemaMain">Вернуться на главную</router-link></small>
+        </h3>
+          
     </div>
+  </div>
 </template>
 
 <script>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import { useStore } from 'vuex';
 import { date } from "../../Admin_Portal/use/date";
 import { currency } from "../../Admin_Portal/use/currency";
@@ -60,9 +65,11 @@ export default{
          const userId = ref()
          const userOrders = ref()
          const sessions = ref()
+         const loading = ref(false)
 
 
          onMounted(async()=>{
+           loading.value=true
              userEmail.value = store.getters['authClient/activeUserEmail']
              let clientToken = store.getters['authClient/token']
              if(userEmail.value && clientToken){
@@ -86,13 +93,16 @@ export default{
 
             sessions.value = computed(()=> store.getters['gettingInfo/sessions'])
 
+            watch(()=>[userOrders.value,sessions.value, userId.value], ()=>{return loading.value=!loading.value})
+
 
           return{
               userOrders:userOrders.value,
               sessions:sessions.value,
               userId:userId.value,
               currency,
-              date
+              date,
+              loading
 
           }
      }
@@ -100,6 +110,9 @@ export default{
         
 </script>
 
-<style>
-
+<style scoped>
+  .noOrders{
+    text-align: center;
+    margin-bottom: 15%;
+  }
 </style>

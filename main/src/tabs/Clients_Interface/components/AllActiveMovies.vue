@@ -3,8 +3,9 @@
  
       <div v-if="!loading" >
       <!-- <spanclass=>В прокате</spanclass="card"> -->
-          <h2 class="title card">Фильмы в прокате:</h2>
-      <hr>
+          <!-- <h2 class="title card">Фильмы в прокате:</h2> -->
+          <h2 class="title ">{{"Фильмы в прокате:".toUpperCase()}}</h2>
+
       <!-- <div v-if="films.length<=5"> -->
         <div class="filmBlock card" v-for="(film, idx) of fFilms" :key="idx" @mouseenter="clearTimer" @mouseleave="startTimer">
             <router-link v-slot="{navigate}" custom :to="{name:'cfilm', params:{idf:film.id}}">
@@ -59,7 +60,7 @@
 </template>
 
 <script>
-import {onMounted, ref, computed, onUpdated} from "vue"
+import {onMounted, ref, computed, onUpdated, watch} from "vue"
 import { useStore } from 'vuex'
 // import AppLoader from '../../Admin_Portal/ui/AppLoader.vue'
 
@@ -67,7 +68,8 @@ export default {
     components:{
         //  AppLoader,
     },
-    setup(){
+    // emit:['isLoaded'],
+    setup(_,{emit}){
         const store = useStore()
         const maxL = ref(5)
         const filmsAll = ref([])
@@ -149,6 +151,8 @@ export default {
 
               }
               loading.value=false
+            //   emit('isLoaded')
+
           }  ,2500)
           }
           else{
@@ -156,7 +160,15 @@ export default {
           }
         }
 
-        setTimeout(timerFilms, 500)
+        watch(()=>films.value, ()=>{
+            if(!timer.value){
+                timerFilms()
+            }
+
+        } 
+)
+
+        // setTimeout(timerFilms, 400)
 
         const clearTimer = ()=>{
             clearInterval(timer.value)
@@ -216,8 +228,14 @@ export default {
         /* background: #fff; */
         align-items: center;
         text-align: center;
-        display:block;
+        /* display:flex; */
+        /* justify-content: center; */
         height: 4rem;
+        color:white;
+        font-size:32px;
+        letter-spacing:5px;
+        
+        /* font-style:oblique; */
     }
     .arrow{
         font-size: 20px;

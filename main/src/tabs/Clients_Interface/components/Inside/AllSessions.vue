@@ -8,6 +8,18 @@
             </button>
         </div>
     </div>
+    <hr>
+      <!-- <div class="button-filter">
+        <div  v-for="(genre, idx) of genres" :key = "idx">
+            <button :class="['btn',{'primary':chosenGenre===genre}]" @click="findGenre(genre)">
+                {{genre}}
+            </button>
+        </div>
+    </div> -->
+       <div class="input-filter form-control">
+        <input type="text" v-model="genre" placeholder="Введите жанр" @change="genreSearch">
+    </div>
+    <hr>
      <h1>Сеансы&nbsp;{{searchWord?`по поиску "${searchWord}"`:null}}:</h1>
 
 
@@ -34,6 +46,7 @@ import AppLoader from '../../../Admin_Portal/ui/AppLoader.vue'
 
 export default {
     props:['search'],
+    // emit:['isLoaded'],
     components:{
          AppLoader,
     },
@@ -43,6 +56,9 @@ export default {
                 const loading = ref(false)
                 const searchWord = ref()
                 const chosen = ref()
+                const genre = ref()
+                // const chosenGenre = ref()
+
                 
 
 
@@ -51,6 +67,7 @@ export default {
                             loading.value = true 
                             await store.dispatch('gettingInfo/loadAll',['cinemas','films','sessions'])
                             loading.value = false
+
                         },  
                 
                 )
@@ -68,6 +85,8 @@ export default {
 
 
                 const cities = ref([])
+                // const genres = ref([])
+
                 const sessions = computed(()=> store.getters['gettingInfo/sessions'])
                 const cinemas = computed(()=> store.getters['gettingInfo/cinemas'])
                 const films = computed(()=> store.getters['gettingInfo/films'])
@@ -78,6 +97,41 @@ export default {
                         }
 
                 }) 
+                // watch(()=>films.value,()=>{
+                //         if(films.value){
+                //             genres.value = [... new Set( films.value.map(film=> {
+                //                  if(film.genre.includes(',')&&film.genre.includes('/'))
+                //                 return film.genre.split(',').map(genre=>genre.split('/')).flat()
+                //                 if(film.genre.includes(','))
+                //                 return film.genre.split(',')
+                //                 else if(film.genre.includes('/'))
+                //                 return film.genre.split('/')
+                //                 else if(film.genre!=='-')
+                //                     return film.genre
+                //                 })
+                //                 .flat())]
+                //         }
+                //         console.log(new Set(genres.value));
+
+                // }) 
+                // const genreFilms = ref()
+                const genreSearch=()=>{
+                    if(films.value&&genre.value){
+                       let filmsGenreWeNeed = films.value.filter(film=> {
+                            if(film.genre.toLowerCase().includes(genre.value.toLowerCase()))
+                            return film
+                        }).map(film=>film.filmName.toLowerCase())
+
+                        sessions.value && (searchFilms.value = sessions.value.filter(session=>{
+                            if(filmsGenreWeNeed.includes(session.sessionFilmName.toLowerCase()))
+                            return session
+                        }))
+                        console.log(searchFilms.value);
+                    }
+                    else{
+                        searchFilms.value = sessions.value
+                    }
+                }
 
                 const searchFilms = ref()
 
@@ -103,6 +157,44 @@ export default {
                 })
 
                
+                // const findGenre = (ev)=>{
+                //         chosenGenre.value = ev
+                       
+                //         if(searchWord.value&&chosen.value ){
+                //             searchFilms.value =  sessions.value.filter(session=>{if(session.sessionFilmName.includes(searchWord.value ))return session})
+                //             searchFilms.value = searchFilms.value.filter(session=>{
+                //                         if(session.cityName===chosen.value){
+                //                             return session
+                //                         }
+                //                     })
+                //         }else if(searchWord.value ){
+                //             searchFilms.value =  sessions.value.filter(session=>{if(session.sessionFilmName.includes(searchWord.value ))return session})
+                //             searchFilms.value = searchFilms.value.filter(session=>{
+                //                         if(session.cityName===chosen.value){
+                //                             return session
+                //                         }
+                //                     })
+                //         }else if(chosen.value ){
+                //             searchFilms.value = searchFilms.value.filter(session=>{
+                //                         if(session.cityName===chosen.value){
+                //                             return session
+                //                         }
+                //                     })
+                //         }
+                //             let filmsGenres= films.value.filter(film=>{
+                //                         if(film.genre===ev){
+                //                             return film
+                //                         }
+                //                     })
+                //             for (let i=0; i<filmsGenres.length; i++){
+                //                 searchFilms.value = searchFilms.value.filter(session=>{
+                //                     if(session.sessionFilmName===filmsGenres[i].filmName){
+                //                         return session
+                //                     }
+                //                 })
+                //             }
+                        
+                //     }
 
 
                 const findCity = (ev)=>{
@@ -143,18 +235,32 @@ export default {
             findCity,
             chosen,
             cities,
+            genreSearch,
+            genre
         }
         
     }}
 </script>
 
 <style scoped>
-
+hr{
+    position: relative;
+    left:-10%;
+}
 .button-filter{
     margin-top: 2%;
-    width: 100%;
+    /* width: 100%; */
+    width: 90%;
     display: inline-flex;
     justify-content: flex-end;
+}
+div.input-filter.form-control{
+    margin-top: 2%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    left:-10%;
 }
 .session{
     display:flex;
