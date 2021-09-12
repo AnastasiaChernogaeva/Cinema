@@ -9,10 +9,18 @@
         </div>
     </div>
     <hr>
+      <!-- <div class="button-filter">
+        <div  v-for="(genre, idx) of genres" :key = "idx">
+            <button :class="['btn',{'primary':chosenGenre===genre}]" @click="findGenre(genre)">
+                {{genre}}
+            </button>
+        </div>
+    </div> -->
        <div class="input-filter form-control ">
         <input type="text" v-model="genre" placeholder="Введите жанр" @keypress.enter="genreSearch">
+<!-- '         <button :class="['btn', {'primary':isGenreSearch===false},{'danger':isGenreSearch===true},]" @click="genreSearch"><img :src="isGenreSearch?`../../icons/2x/close.png`:`../../icons/2x/search.png`" alt="search"></button> -->
   <button class="btn primary" @click="genreSearch"><img src="../../icons/2x/search.png" alt="search"></button>
-
+'
     </div>
     <hr>
      <h1>Сеансы&nbsp;{{searchWord?`по поиску "${searchWord}"`:null}}:</h1>
@@ -24,9 +32,9 @@
               <ul>
                   <li><b>город:</b>&nbsp;{{session.cityName}}</li>
                   <li>
-                         <router-link class="insideIfo" v-slot="{navigate}"  :to="{name:'ccinema', params:{idc:foundNeededId(session.chosenCinemaName)}}">
+                         <router-link class="insideIfo" v-slot="{navigate}" custom :to="{name:'ccinema', params:{idc:foundNeededId(session.chosenCinemaName)}}">
                       <b>кинотеатр:</b>&nbsp;<span @click="navigate">{{session.chosenCinemaName}}</span></router-link></li>
-                  <li><router-link class="insideIfo" v-slot="{navigate}"  :to="{name:'csession', params:{ids:session.id}}"><b>время показа:</b>&nbsp;<span @click="navigate">{{session.startSessionTime}}</span></router-link></li>
+                  <li><router-link class="insideIfo" v-slot="{navigate}" custom :to="{name:'csession', params:{ids:session.id}}"><b>время показа:</b>&nbsp;<span @click="navigate">{{session.startSessionTime}}</span></router-link></li>
               </ul>
               
      </div>
@@ -41,6 +49,7 @@ import AppLoader from '../../../Admin_Portal/ui/AppLoader.vue'
 
 export default {
     props:['search'],
+    // emit:['isLoaded'],
     components:{
          AppLoader,
     },
@@ -51,6 +60,7 @@ export default {
                 const searchWord = ref()
                 const chosen = ref()
                 const genre = ref('')
+                // const chosenGenre = ref()
 
                 
 
@@ -78,6 +88,7 @@ export default {
 
 
                 const cities = ref([])
+                // const genres = ref([])
 
                 const sessions = computed(()=> store.getters['gettingInfo/sessions'])
                 const cinemas = computed(()=> store.getters['gettingInfo/cinemas'])
@@ -89,6 +100,24 @@ export default {
                         }
 
                 }) 
+                // watch(()=>films.value,()=>{
+                //         if(films.value){
+                //             genres.value = [... new Set( films.value.map(film=> {
+                //                  if(film.genre.includes(',')&&film.genre.includes('/'))
+                //                 return film.genre.split(',').map(genre=>genre.split('/')).flat()
+                //                 if(film.genre.includes(','))
+                //                 return film.genre.split(',')
+                //                 else if(film.genre.includes('/'))
+                //                 return film.genre.split('/')
+                //                 else if(film.genre!=='-')
+                //                     return film.genre
+                //                 })
+                //                 .flat())]
+                //         }
+                //         console.log(new Set(genres.value));
+
+                // }) 
+                // const genreFilms = ref()
 
 
                   const checkFilter=()=>{
@@ -121,13 +150,11 @@ export default {
 
 
                 const filmsGenreWeNeed = ref()
+                // const isGenreSearch =ref(false)
 
                 const genreSearch=()=>{
-                    if(genre.value==''){
-                        checkFilter()
-                        // console.log(searchFilms.value);
-                        
-                    }
+                    // isGenreSearch.value = true
+                    // if(isGenreSearch.value === false){
                      if(films.value&&genre.value&&genre.value!==''){
                          filmsGenreWeNeed.value = films.value.filter(film=> {
                             if(film.genre.toLowerCase().includes(genre.value.toLowerCase()))
@@ -142,8 +169,12 @@ export default {
                             if(filmsGenreWeNeed.value.includes(session.sessionFilmName.toLowerCase()))
                             return session
                         }))
-                        console.log(searchFilms.value);
                     }
+                    // }
+                    // else if(isGenreSearch.value === true){
+                    //         genre.value = null
+                    //         checkFilter()
+                    // }
                     }
 
                 const searchFilms = ref()
@@ -151,10 +182,73 @@ export default {
                 watch(()=>props.search,()=>{
                     searchWord.value = props.search
                             checkFilter()
+                    // if(searchWord.value&&chosen.value ){
+                    //     searchFilms.value = sessions.value.filter(session=>{if(session.sessionFilmName.toLowerCase().includes(searchWord.value.toLowerCase() ))return session})
+                    //     searchFilms.value =  searchFilms.value.filter(session=>{
+                    //                     if(session.cityName===chosen.value){
+                    //                         return session
+                    //                     }
+                    //                 })
+                    // }
+                    // else if(searchWord.value&&!chosen.value ){
+                    //      searchFilms.value = sessions.value.filter(session=>{if(session.sessionFilmName.toLowerCase().includes(searchWord.value.toLowerCase() ))return session})
+                    // }
+                    
+                    // else if(!searchWord.value&&chosen.value ){
+                    //      searchFilms.value =  searchFilms.value.filter(session=>{
+                    //                     if(session.cityName===chosen.value){
+                    //                         return session
+                    //                     }
+                    //                 })
+                    // }
+
+                    // else{
+                    // searchFilms.value = sessions.value.filter(session=>{if(session.sessionFilmName.toLowerCase().includes(searchWord.value.toLowerCase() ))return session})
+
+                    // }
                         cities.value = [... new Set( sessions.value.map(session=> session.cityName))]
                     document.getElementById('sessionsInfo').scrollIntoView()
                 })
 
+               
+                // const findGenre = (ev)=>{
+                //         chosenGenre.value = ev
+                       
+                //         if(searchWord.value&&chosen.value ){
+                //             searchFilms.value =  sessions.value.filter(session=>{if(session.sessionFilmName.includes(searchWord.value ))return session})
+                //             searchFilms.value = searchFilms.value.filter(session=>{
+                //                         if(session.cityName===chosen.value){
+                //                             return session
+                //                         }
+                //                     })
+                //         }else if(searchWord.value ){
+                //             searchFilms.value =  sessions.value.filter(session=>{if(session.sessionFilmName.includes(searchWord.value ))return session})
+                //             searchFilms.value = searchFilms.value.filter(session=>{
+                //                         if(session.cityName===chosen.value){
+                //                             return session
+                //                         }
+                //                     })
+                //         }else if(chosen.value ){
+                //             searchFilms.value = searchFilms.value.filter(session=>{
+                //                         if(session.cityName===chosen.value){
+                //                             return session
+                //                         }
+                //                     })
+                //         }
+                //             let filmsGenres= films.value.filter(film=>{
+                //                         if(film.genre===ev){
+                //                             return film
+                //                         }
+                //                     })
+                //             for (let i=0; i<filmsGenres.length; i++){
+                //                 searchFilms.value = searchFilms.value.filter(session=>{
+                //                     if(session.sessionFilmName===filmsGenres[i].filmName){
+                //                         return session
+                //                     }
+                //                 })
+                //             }
+                        
+                //     }
 
 
                 const findCity = (ev)=>{
@@ -232,6 +326,7 @@ hr{
 }
 .button-filter{
     margin-top: 2%;
+    /* width: 100%; */
     width: 90%;
     display: inline-flex;
     justify-content: flex-end;
@@ -241,6 +336,8 @@ hr{
     font-size: 19px;
 }
 div.input-filter button.btn {
+    /* width: 2%; */
+    /* height: 3%; */
     border-radius: 35%;
     margin-left: 2%;
     padding: revert;
@@ -296,10 +393,17 @@ div.input-filter.form-control{
        left: 30px;
     }
    .filmBlock{
+       /* width:25%;
+       height:auto;
+       display: inline-block; */
+    /* margin-bottom: 8px;
+    position: relative;
+    display: block; */
     width: 20%;
     height: 300px;
     text-align: center;
     display: inline-flex;
+    /* border: chocolate 3px solid; */
     justify-content: space-around;
    }
       
@@ -307,6 +411,11 @@ div.input-filter.form-control{
         width: 200px;
         height: auto;
         z-index:15;
+
+    /* width: 100%;
+    height: auto;
+    vertical-align: bottom;
+    border-radius: 4px; */
    } 
    .infoAbout{
        display: none;
@@ -316,6 +425,9 @@ div.input-filter.form-control{
        cursor: pointer;
        z-index:25;
    }
+   /* .filmBlock:hover .arrow{
+       display:none;
+   } */
    .filmBlock:hover .infoAbout{
        display: block;
        width: 200px;
