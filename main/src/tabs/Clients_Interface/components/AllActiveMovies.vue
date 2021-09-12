@@ -307,12 +307,12 @@ export default {
        background:rgba(0, 0, 0, 0.719);
        z-index:35;
    }
-   @media all and (max-width: 1010px) and(min-width:531px){
+   @media all and (min-width:600px) and (max-width: 1010px){
    div.filmBlock.card{
     width:35%;
     } 
 }
-   @media all and (max-width: 530px){
+   @media all and (max-width: 599px){
    div.filmBlock.card{
     width:85%;
     } 

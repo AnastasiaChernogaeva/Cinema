@@ -109,4 +109,8 @@ export default {
     width: 27px;
     text-align: center;
 }
+
+
+
+
 </style>
