@@ -1,6 +1,7 @@
 <template>
 <div>
     <span>Main</span>
+    <!-- <app-loader v-if="!userOrders&&sessions"></app-loader> -->
     <div class="card" v-if="userOrders.length!==0 && sessions">
        <h2 >  Мои заказы </h2>
       <table class="table">

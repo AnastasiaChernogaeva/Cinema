@@ -94,7 +94,7 @@ export default {
                   const checkFilter=()=>{
                    if( sessions.value ){
                      if(searchWord.value && chosen.value){
-                            searchFilms.value =  sessions.value.filter(session=>{if(session.sessionFilmName.includes(searchWord.value ))return session})
+                            searchFilms.value =  sessions.value.filter(session=>{if(session.sessionFilmName.toLowerCase().includes(searchWord.value.toLowerCase() ))return session})
                             searchFilms.value = searchFilms.value.filter(session=>{
                                         if(session.cityName===chosen.value){
                                             return session
@@ -104,18 +104,19 @@ export default {
                     }
                     else if(chosen.value&&!searchWord.value){
                             searchFilms.value = sessions.value.filter(session=>{
-                                        if(session.cityName===chosen.value){
+                                        if(session.cityName.toLowerCase()===chosen.value.toLowerCase()){
                                             return session
                                         }
                                     })
                         }
                     else if(searchWord.value&&!chosen.value){
-                            searchFilms.value =  sessions.value.filter(session=>{if(session.sessionFilmName.includes(searchWord.value ))return session})
+                            searchFilms.value =  sessions.value.filter(session=>{if(session.sessionFilmName.toLowerCase().includes(searchWord.value.toLowerCase() ))return session})
                         }
                         else{
                             searchFilms.value=sessions.value
                         }
                    }
+                   return searchFilms.value
                 }
 
 
@@ -151,6 +152,12 @@ export default {
                 watch(()=>props.search,()=>{
                     searchWord.value = props.search
                             checkFilter()
+                        
+                        if(props.search!==''&&genre.value&&genre.value!==''){
+                            searchFilms.value = searchFilms.value.filter(session=>{
+                            if(filmsGenreWeNeed.value.includes(session.sessionFilmName.toLowerCase()))
+                            return session})
+                        }
                         cities.value = [... new Set( sessions.value.map(session=> session.cityName))]
                     document.getElementById('sessionsInfo').scrollIntoView()
                 })
@@ -160,9 +167,9 @@ export default {
                 const findCity = (ev)=>{
                         chosen.value = ev
                            if(searchWord.value&&genre.value ){
-                            searchFilms.value =  sessions.value.filter(session=>{if(session.sessionFilmName.includes(searchWord.value ))return session})
+                            searchFilms.value =  sessions.value.filter(session=>{if(session.sessionFilmName.toLowerCase().includes(searchWord.value.toLowerCase() ))return session})
                             searchFilms.value = searchFilms.value.filter(session=>{
-                                        if(session.cityName===ev){
+                                        if(session.cityName.toLowerCase()===ev.toLowerCase()){
                                             return session
                                         }
                                     })
@@ -171,16 +178,16 @@ export default {
                             return session})
                         
                         }else if(searchWord.value&&!genre.value ){
-                            searchFilms.value =  sessions.value.filter(session=>{if(session.sessionFilmName.includes(searchWord.value ))return session})
+                            searchFilms.value =  sessions.value.filter(session=>{if(session.sessionFilmName.toLowerCase().includes(searchWord.value.toLowerCase() ))return session})
                             searchFilms.value = searchFilms.value.filter(session=>{
-                                        if(session.cityName===ev){
+                                        if(session.cityName.toLowerCase()===ev.toLowerCase()){
                                             return session
                                         }
                                     })
                         
                         }else if(!searchWord.value&&genre.value ){
                             searchFilms.value = sessions.value.filter(session=>{
-                                        if(session.cityName===ev){
+                                        if(session.cityName.toLowerCase()===ev.toLowerCase()){
                                             return session
                                         }
                                     })
@@ -191,7 +198,7 @@ export default {
                         }                   
                         else{
                             searchFilms.value = sessions.value.filter(session=>{
-                                        if(session.cityName===ev){
+                                        if(session.cityName.toLowerCase()===ev.toLowerCase()){
                                             return session
                                         }
                                     })
