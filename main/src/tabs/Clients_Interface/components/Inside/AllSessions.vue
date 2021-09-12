@@ -143,7 +143,7 @@ export default {
                             if(filmsGenreWeNeed.value.includes(session.sessionFilmName.toLowerCase()))
                             return session
                         }))
-                        console.log(searchFilms.value);
+                        // console.log(searchFilms.value);
                     }
                     }
 
