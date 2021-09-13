@@ -72,6 +72,12 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
+@media all and (max-width:270px){
+    h1 {
+    font-size: 1.2rem;
+    }
+}
+
 
 </style>

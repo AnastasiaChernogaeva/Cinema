@@ -559,9 +559,14 @@ h3 {
     font-weight: bold;
 }
 
+.sessionsTake{
+    position: relative;
+    left: 15%;
+}
 
 
-@media all and (min-width:390px) and (max-width:500px){
+
+@media all and (min-width:378px) and (max-width:500px){
     div.row>div.place{
         width: 13px;
         height: 0px;
@@ -577,20 +582,90 @@ h3 {
     }
 }
 
-@media all and (max-width:389px){
+@media all and (min-width:315px) and (max-width:377px){
     div.row>div.place{
         width: 12px;
         height: 0px;
         margin: 3.85px;
+        /* width: 13px;
+        height: 0px;
+        margin: 4.08px; */
     }
-    img.hallPlaces {
-        left: 5%;
-        width: 11px;
-        height: 11px;
+    .place img.hallPlaces {
+        width: 21px;
+        height: 21px;
+        /* left: 1%; */
+        left:0%;
     }
     span.indx span{
         font-size: 11px;
     }
+    div.card div.row>div.small{
+        width: 10px;
+    }
+    .chosenSpan span{
+        top: 2%;
+        left: 15%;
+    }
+    .session{
+        font-size: 14px;
+    }
+    h3{
+        font-size: 1.035rem;
+    }
+    tr {
+        display: flex;
+        flex-direction: column;
+    }
 }
 
+@media all and (max-width:314px){
+    div.row>div.place{
+        width: 15px;
+    }
+    .place img.hallPlaces {
+        width: 21px;
+        height: 21px;
+        /* left: 1%; */
+        left:0%;
+    }
+    span.indx span{
+        font-size: 11px;
+    }
+    div.card div.row>div.small{
+        width: 9px;
+    }
+    .hall .card {
+        padding-left: 0.01rem;
+        position: relative;
+        left: -15%;
+    }
+    h3 {
+        font-size: 1.035rem;
+    }
+    .chosenSpan span{
+        top: 2%;
+        left: 15%;
+    }
+    div.bookTicket button {
+        font-size: 10px;
+    }
+    div.session.container{
+        font-size: 12px;
+        left: 22%;
+    }
+    /* div.session ul li{
+        font-size: 12px;
+    } */
+    h3{
+        font-size: 1.035rem;
+    }
+    h3 span {
+        margin: 3%;
+    }
+    tr {
+        display: flex;
+        flex-direction: column;
+    }
+}
 

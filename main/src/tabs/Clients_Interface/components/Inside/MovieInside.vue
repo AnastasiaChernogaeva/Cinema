@@ -28,9 +28,9 @@
 
       
       <hr/>
-      <div v-if="sessions.length!=0">
+      <div class="sessionsTake" v-if="sessions.length!=0">
        <h2>Сеансы:</h2>
-
+<hr>
      <h3>
              <b>{{film.filmName}}</b><br>
           <span v-if="film.startTime"><small>Даты показа: {{date(film.startTime)}} - {{date(film.finishTime)}}</small></span>
@@ -181,5 +181,14 @@ export default {
     }
     hr{
         clear:both;
+    }
+    .sessionsTake hr{
+    position: relative;
+    left: -3.5%;
+    width: 80%;    }
+    h2{
+        
+    border-bottom: 0px solid #eaecef;
+
     }
 </style>

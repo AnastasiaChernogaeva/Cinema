@@ -112,11 +112,11 @@ export default {
 
 <style scoped>
 h1{
-            padding-top: 3rem;
+            padding-top: 1rem;
 }
 @media all and (max-width:1010px){
     form.card{
-            padding-top: 4rem;
+            padding-top: 2rem;
     }
 }
 @media all and (min-width:275px) and (max-width:440px){
