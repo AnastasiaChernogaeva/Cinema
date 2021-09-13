@@ -239,7 +239,7 @@ export default {
  <style >
  
 @media all and (max-width:1010px){
-   .card {
+   div.card {
     padding-top:8rem;
 }
 }

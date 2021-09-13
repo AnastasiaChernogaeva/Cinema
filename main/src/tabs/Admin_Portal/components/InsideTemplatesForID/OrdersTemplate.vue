@@ -85,6 +85,11 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
+@media all and (max-width:1010px){
+   div.card {
+    padding-top:8rem;
+}
+}
 </style>
