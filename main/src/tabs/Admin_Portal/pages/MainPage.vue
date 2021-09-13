@@ -235,3 +235,12 @@ export default {
   },
 }
  </script>
+
+ <style >
+ 
+@media all and (max-width:1010px){
+   .card {
+    padding-top:8rem;
+}
+}
+ </style>

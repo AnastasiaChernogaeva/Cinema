@@ -57,6 +57,12 @@ export default {
 }
 </script>
 
-<style>
+<style scopde>
+@media all and (min-width:805px) and (max-width:1010px){
+    .table td {
+    padding: 0.5rem .1rem;
+}
+}
+
 
 </style>

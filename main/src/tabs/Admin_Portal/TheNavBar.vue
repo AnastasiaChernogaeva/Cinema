@@ -45,6 +45,26 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
+
+@media all and (max-width:1200px){
+    div.with-nav nav.navbar{
+        flex-direction: column;
+    }
+
+    .navbar h3{
+        line-height: 1.05;
+    }
+    ul.navbar-menu{
+        flex-direction: row;
+    }
+
+    .navbar-menu li{
+        font-size: 13px;
+        margin-right: 2rem;
+    }
+
+}
 
 </style>

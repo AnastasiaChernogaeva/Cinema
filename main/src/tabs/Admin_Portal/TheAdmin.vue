@@ -31,3 +31,16 @@ export default{
 }
         
 </script>
+<style scoped>
+@media all and (max-width:1200px){
+div.card.portal {
+    padding: 3.45rem;
+    width: 100%;
+    z-index: 15;
+    position: fixed;
+    }
+  /* small .admin{
+        /* display: none; */
+    /*} */
+}
+</style>

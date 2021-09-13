@@ -563,8 +563,26 @@ h3 {
     position: relative;
     left: 15%;
 }
+/* 
+@media all and (max-width:880px){
+    small .admin{
+        display: none;
+    }
+    .navbar h3{
+        line-height: 1.05;
+    }
+    div.navbar ul.navbar-menu{
+        flex-direction: row;
+    }
+    div.card.portal {
+        padding: 4rem;
+    }
+    .navbar-menu li{
+        font-size: 13px;
+        margin-right: 2rem;
+    }
 
-
+} */
 
 @media all and (min-width:378px) and (max-width:500px){
     div.row>div.place{
@@ -579,6 +597,7 @@ h3 {
     }
     span.indx span{
         font-size: 11px;
+    
     }
 }
 
@@ -617,6 +636,7 @@ h3 {
         display: flex;
         flex-direction: column;
     }
+      
 }
 
 @media all and (max-width:314px){
