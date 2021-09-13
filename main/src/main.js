@@ -5,6 +5,10 @@ import  router from "./router/index";
 import App from './App.vue'
 import './general.css'
 
+import firebase from 'firebase/app'
+import Storage from 'firebase/storage'
+
+
 
 // Get a reference to the storage service, which is used to create references in your storage bucket
 
