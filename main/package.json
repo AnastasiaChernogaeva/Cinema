@@ -10,7 +10,7 @@
     "@google-cloud/storage": "^5.14.0",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
-    "firebase": "^9.0.1",
+    "firebase": "^8.6.1",
     "vee-validate": "^4.4.9",
     "vue": "^3.0.0",
     "vue-router": "^4.0.11",

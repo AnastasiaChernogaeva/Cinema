@@ -45,16 +45,17 @@
                 <small v-if="ftimeError">{{ftimeError}}</small>
       </div>
 
-  <div :class="['form-control', {'invalid':mpError},]"> 
+  <div :class="['form-control', {'invalid':mpError}, 'poster']"> 
                 <label for="movieposter">Афиша</label>
                 <input
-                    type="text"
+                    type="file"
                     id="movieposter"
-                    v-model="movieposter" @blur="mpBlur"
+                     @change="onFileChoose"
                     
                    
                 >
                 <small v-if="mpError">{{mpError}}</small>
+
   </div>
 <!--    @change="gettingFile"-->
     <div :class="['form-control', {'invalid':gError},]"> 
@@ -86,19 +87,15 @@ export default {
 
         const store = useStore()
         const submit = async values =>{
-            await store.dispatch('requests/create', {'value':values, 'rType':'films',});
-            emit('added')
+            if(values.movieposter!=''){
+                 await store.dispatch('requests/create', {'value':values, 'rType':'films',});
+                 emit('added')
+            }
+           
             
             
         }
 
-//         const gettingFile=(EO)=>{
-//   var files = e.target.files || e.dataTransfer.files;
-//   if (!files.length)
-//     return;
-//   this.createImage(files[0]);
-
-//         }
 
         return{
             ...useFilmsForms(submit)
@@ -110,5 +107,8 @@ export default {
 </script>
 
 <style>
-
+input#movieposter {
+    border: none;
+    background: transparent;
+}
 </style>

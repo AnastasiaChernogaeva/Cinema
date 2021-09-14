@@ -1,8 +1,10 @@
-import { computed, watch } from "vue";
+import { computed, watch, ref } from "vue";
 import * as yup from 'yup';
 import { useField, useForm } from "vee-validate";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import firebase from 'firebase/app'
+import 'firebase/storage'
 
 
 export function useFilmsForms(func){
@@ -31,17 +33,26 @@ export function useFilmsForms(func){
         .trim()
         .required('Это обязательное поле! Пожалуйста, введите окончание показа.'))
 
-    const {value:movieposter, errorMessage:mpError, handleBlur:mpBlur} = useField('movieposter', yup
-        .string()
-        .trim()
-        .required('Это обязательное поле! Пожалуйста, введите url картинки.'))
+    const {value:movieposter, errorMessage:mpError,handleBlur:mpBlur } = useField('movieposter', yup.string().required('Выберите изображение')
+        )
 
     const {value:genre, errorMessage:gError, handleBlur:gBlur} = useField('genre', yup
         .string()
         .trim()
         .required('Это обязательное поле! Пожалуйста, введите жанр фильма.'))
 
-        
+    // const movieposter = ref()
+    const onFileChoose = async (e) => {
+        const file = e.target.files[0]
+        const storageRef = firebase.storage().ref()
+        const fileRef = storageRef.child(file.name)
+        await fileRef.put(file)
+        let imageUrl = await fileRef.getDownloadURL() 
+        movieposter.value = `${imageUrl}`
+        mpBlur()
+        console.log(movieposter.value);
+    }
+       
         const onSubmit = handleSubmit(func)
 
 
@@ -50,9 +61,12 @@ export function useFilmsForms(func){
             startTime, stimeError, stimeBlur,
             filmDescription, descError, descBlur,
             filmName, fnError, fnBlur,
-            movieposter, mpError, mpBlur,
+            movieposter, 
+            mpError,
+            //  mpBlur,
             genre, gError, gBlur,
-            onSubmit,isSubmitting
+            onSubmit,isSubmitting,
+            onFileChoose
         }
 
 };

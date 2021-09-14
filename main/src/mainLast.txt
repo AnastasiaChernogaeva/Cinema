@@ -8,18 +8,11 @@ import './general.css'
 // import firebase from 'firebase/app'
 // import 'firebase/database';
 // import 'firebase/storage'
-// import firebase from 'firebase/compat/app';
-// import 'firebase/compat/auth';
-// import 'firebase/compat/firestore';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
 
 // import storage from 'firebase/storage'
-import firebase from 'firebase/app'
-// import 'firebase/auth'
-// import 'firebase/database'
-import 'firebase/storage'
-
-
-
 
 const firebaseConfig = {
     apiKey: "AIzaSyD7dWwQcB0EA9irJBYRWMAP4cQsGpsH_Vc",
