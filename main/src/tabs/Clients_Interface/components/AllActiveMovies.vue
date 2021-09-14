@@ -6,7 +6,7 @@
           <!-- <h2 class="title card">Фильмы в прокате:</h2> -->
           <h2 class="title ">{{"Фильмы в прокате:".toUpperCase()}}</h2>
 
-      <!-- <div v-if="films.length<=5"> -->
+      <!-- <div v-if="fFilms"> -->
         <div class="filmBlock card" v-for="(film, idx) of fFilms" :key="idx" @mouseenter="clearTimer" @mouseleave="startTimer">
             <router-link v-slot="{navigate}" custom :to="{name:'cfilm', params:{idf:film.id}}">
             <img :src="film.movieposter" :alt="film.filmName" @click="navigate">
@@ -20,7 +20,7 @@
              </router-link> 
          </div>
 
-<!--  <div  >-->
+      <!-- </div> -->
 
 
 
@@ -160,86 +160,119 @@ export default {
         //       fFilms.value = films.value
         //   }
         // }
+        const circleNumber = ref(0)
 
-        function timerFilms(){
+          function timerFilms(){
   
             if(films.value.length>6){
-
-            let n = films.value.length/6
-            let n_s=[]
-            for (let i=1; i<=Math.ceil(n); i++){
-                n_s.push(i);
+         timer.value = setInterval(()=>{
+            if(circleNumber.value===0 && films.value.length!==0){
+                fFilms.value = []
             }
-            let circleNumber = 0
 
+            let numOfCircles = films.value.length/6
+            let coefficient = circleNumber.value*6
 
-        timer.value = setInterval(()=>{  
-                if(count.value===0 && fFilms.value.length!=0){
-                    fFilms.value=[]
+            if(Math.ceil(numOfCircles)!==circleNumber.value+1){
+                 circleNumber.value++
+                 
+                 fFilms.value=films.value.filter((film, id)=>{if(id>=coefficient&&id<coefficient+6) return film})
+                                    console.log('not the last one',fFilms.value);
+ 
+            }
+            else{
+                console.log('last circle');
+                if(films.value.length%6===0){
+                    fFilms.value=films.value.filter((film, id)=>{if(id>=coefficient&&id<coefficient+6) return film})
+
                 }
-               if(fFilms.value.length===0){
-                   circleNumber++
-                   const index = n_s.indexOf(circleNumber);
-                   n_s.splice(index, 1);
-                   count.value++
-                   fFilms.value=films.value.filter((film, id)=>{if(id<6) return film})
-              }
-              else if(fFilms.value.length!=0){
+                else{
 
-                let coefficient = circleNumber*6
-                
-                circleNumber++
-                const index = n_s.indexOf(circleNumber);
-                n_s.splice(index, 1);
-                if(n%6===0){
-                if(n_s.length!==1)
-                        count.value++
-                else
-                      count.value=0
-                  fFilms.value=films.value.filter((film, id)=>{if(id>=coefficient&&id<=coefficient+6) return film})
-
-                }else{
-                    if(n_s.length!==1){
-                        count.value++
-                                         fFilms.value=films.value.filter((film, id)=>{if(id>=coefficient&&id<=coefficient+6) return film})
-                    }
-                    else{
-                        fFilms.value=films.value.filter((film, id)=>{if(id>=coefficient&&id< films.value.length) return film})
-                      let amountToAdd=6-( films.value.length - fFilms.value.length);
-                      for( let i=0; i<amountToAdd; i++){
-                           fFilms.value.push(films.value[i])
+                    let filmsHere=films.value.filter((film, id)=>{if(id>=coefficient&&id<films.value.length) return film})
+                    let add = 6-(films.value.length-circleNumber.value*6)
+                    for( let i=0; i<add; i++){
+                           filmsHere.push(films.value[i])
                       }
-                      count.value=0
-                    }
+                    fFilms.value = filmsHere;
+
                 }
+
+                circleNumber.value = 0
+            }
+                          loading.value=false
+
+                }  ,2500)
+            }
+            else{
+                fFilms.value = films.value
+            }
+        }
+
+
+        // function timerFilms(){
+  
+        //     if(films.value.length>6){
+
+        //     let n = films.value.length/6
+        //     let n_s=[]
+        //     for (let i=1; i<=Math.ceil(n); i++){
+        //         n_s.push(i);
+        //     }
+        //     let circleNumber = 0
+
+
+        // timer.value = setInterval(()=>{  
+        //         if(count.value===0 && fFilms.value.length!=0){
+        //             fFilms.value=[]
+        //         }
+        //        if(fFilms.value.length===0){
+        //            circleNumber++
+        //            const index = n_s.indexOf(circleNumber);
+        //            n_s.splice(index, 1);
+        //            count.value++
+        //            fFilms.value=films.value.filter((film, id)=>{if(id<6) return film})
+        //       }
+        //       else if(fFilms.value.length!=0){
+
+        //         let coefficient = circleNumber*6
+                
+        //         circleNumber++
+        //         const index = n_s.indexOf(circleNumber);
+        //         n_s.splice(index, 1);
+        //         if(n%6===0){
+        //         if(n_s.length!==1)
+        //                 count.value++
+        //         else
+        //               count.value=0
+        //           fFilms.value=films.value.filter((film, id)=>{if(id>=coefficient&&id<=coefficient+6) return film})
+
+        //         }else{
+        //             if(n_s.length!==1){
+        //                 count.value++
+        //                                  fFilms.value=films.value.filter((film, id)=>{if(id>=coefficient&&id<=coefficient+6) return film})
+        //             }
+        //             else{
+        //                 fFilms.value=films.value.filter((film, id)=>{if(id>=coefficient&&id< films.value.length) return film})
+        //               let amountToAdd=6-( films.value.length - fFilms.value.length);
+        //               for( let i=0; i<amountToAdd; i++){
+        //                    fFilms.value.push(films.value[i])
+        //               }
+        //               count.value=0
+        //             }
+        //         }
   
 
-                // if(n_s.length===1)
-                //   count.value=0
 
-                //   fFilms.value=films.value.filter((film, id)=>{if(id>=6) return film})
-                //   if(fFilms.value.length!==6){
-                //       let amountToAdd= 6 - fFilms.value.length;
-                //     //   console.log('amountToAdd',amountToAdd);
-                //       for( let i=0; i<amountToAdd; i++){
-                //         //   console.log('film',films.value[i]);
-                //            fFilms.value.push(films.value[i])
-                //       }
+        //       }
+        //       loading.value=false
+        //     //   emit('isLoaded')
 
-                //     //  console.log('Добавили фильмы,котрых не хватает.',fFilms.value);
-                //   }
-                  
-
-              }
-              loading.value=false
-            //   emit('isLoaded')
-
-          }  ,2500)
-          }
-          else{
-              fFilms.value = films.value
-          }
-        }
+        //   }  ,2500)
+        //   }
+        //   else{
+        //       fFilms.value = films.value
+        //   }
+        // }
 
         watch(()=>films.value, ()=>{
             if(!timer.value){
