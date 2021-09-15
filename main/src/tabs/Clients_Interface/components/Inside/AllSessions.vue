@@ -279,6 +279,8 @@ div.input-filter.form-control{
 }
 .card{
     padding-left:10%;
+    padding-top: 2.5%;
+
 }
     li{
         list-style-type: none;   

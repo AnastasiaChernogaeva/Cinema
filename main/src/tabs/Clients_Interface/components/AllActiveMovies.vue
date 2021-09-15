@@ -199,12 +199,14 @@ export default {
 
                 circleNumber.value = 0
             }
-                          loading.value=false
+             loading.value=false
 
                 }  ,2500)
             }
             else{
                 fFilms.value = films.value
+                loading.value=false
+
             }
         }
 
