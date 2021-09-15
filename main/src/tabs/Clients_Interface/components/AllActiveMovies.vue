@@ -177,11 +177,10 @@ export default {
                  circleNumber.value++
                  
                  fFilms.value=films.value.filter((film, id)=>{if(id>=coefficient&&id<coefficient+6) return film})
-                                    console.log('not the last one',fFilms.value);
+                                   
  
             }
             else{
-                console.log('last circle');
                 if(films.value.length%6===0){
                     fFilms.value=films.value.filter((film, id)=>{if(id>=coefficient&&id<coefficient+6) return film})
 

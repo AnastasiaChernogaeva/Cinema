@@ -22,6 +22,7 @@ export default {
             danger: 'Ошибка!',
             warning: 'Внимание!'
         }
+        console.log('inside the message');
         const message =  computed(()=> store.getters['clients/message'])
         const title = computed(()=>message.value?TITLE_MAP[message.value.type]:null)
 

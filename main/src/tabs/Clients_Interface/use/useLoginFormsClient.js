@@ -3,6 +3,7 @@ import * as yup from 'yup';
 import { useField, useForm } from "vee-validate";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import {error} from '../../Admin_Portal/utils/error'
 
 export function useLoginFormsClient(){
 
@@ -27,23 +28,31 @@ export function useLoginFormsClient(){
 
         const onSubmit = handleSubmit(async (values) =>{
             try{
-                // console.log(values);
                 await  store.dispatch('gettingInfo/load', {rType:'users'})
                 const user = computed(()=>store.getters['gettingInfo/users'].find(user=>{
                     if(user.email === values.email && (user.nPassword === values.password||user.password === values.password)){
                         return user
                     }}))
-                // let ourUser = users.value.find(user=>{
-                //     if(user.email === values.email && (user.nPassword === values.password||user.password === values.password)){
-                //         return user
-                //     }
-                // })
-                   let hhInfoUser = {email:values.email, password:user.value.password}
+                // if(user == undefined){
+                //     // throw new Error({code: 400, message: "EMAIL_NOT_FOUND",})
+                //    await  store.dispatch('authClient/login', values)
+
+                // }
+                // else{
+                    let hhInfoUser = {email:values.email, password:user.value.password}
                    await  store.dispatch('authClient/login', user.value.nPassword?hhInfoUser:values)
                    router.push('/cinemaMain') 
+                // }
+
+                   
                 
                 
-            } catch(error){}
+            } catch(e){
+                // const resER = error(e.message)
+                // const body_D = {value:resER, type:'danger',}
+                // dispatch('clients/setMess', body_D , {root:true,})
+                // throw new Error(e)
+            }
         })
 
         watch(tooManyAttemptsAmount, valAtt=>{
