@@ -23,6 +23,17 @@
              <li v-if="auth===true">
                 <a href="#" @click.prevent="logout">Выйти</a>
             </li>
+            <li id="search">
+                <a href="#" @click.prevent="search" v-if="!show">Поиск</a> 
+                <teleport to="body" v-else >
+                <app-modal @close="show = false">  
+                <div class="form-control search">
+                     <input type="text" placeholder="Введите название фильма" v-model="searchText" @click.stop autofocus @keypress.enter.stop="searchEngine">
+                     <button class="btn primary" @click="searchEngine"><img src="../icons/2x/search.png" alt="search"></button>
+                    </div>
+                    </app-modal>
+                </teleport>
+            </li>
             <li>
                 <a href="#Top"><em>Вверх!</em></a>
             </li>
@@ -56,18 +67,42 @@
 
 <script>
 import { useStore } from 'vuex';
-import { computed} from "vue";
+import { computed, ref} from "vue";
+import AppModal from '../ui/AppModal.vue'
 
 export default {
-     setup(){
+    components:{
+        AppModal,
+    },
+    emits:['timeToSearchFilmSession'],
+     setup(_, {emit}){
         const store = useStore()
         const auth = computed(()=>store.getters['authClient/isAuthenticated'])
  
 
 
+        const searchText = ref()
+        const show = ref(false)
+
+        const search = ()=>{
+            show.value = true
+            searchText.value = ''
+        }
+
+        const searchEngine = ()=>{
+            // console.log('searchText', searchText.value);
+            emit('timeToSearchFilmSession', searchText.value)
+            show.value = false
+        }
+
+          
 
         return{
             auth,
+            show,
+            searchText,
+            search,
+            searchEngine
         }
     }
 
@@ -75,6 +110,14 @@ export default {
 </script>
 
 <style scoped>
+#search{
+    display:none;
+}
+@media all and (max-width:700px){
+   li#search{
+    display:flex;
+} 
+}
 .footer{
     border-top:white 3px solid;
     color:white;
@@ -123,5 +166,29 @@ ul li h3{
         font-size: 16px;
     }
 }
+
+.form-control.search input {
+    font-size: 19px;
+}
+.search{
+    text-align: center;
+    position: relative;
+    display: inline-flex;
+}
+.search button.btn {
+    /* width: 2%; */
+    /* height: 3%; */
+    border-radius: 35%;
+    margin-left: 2%;
+    padding: revert;
+}
+.btn img {
+    height: 27px;
+    width: 27px;
+    text-align: center;
+}
+
+
+
 
 </style>
