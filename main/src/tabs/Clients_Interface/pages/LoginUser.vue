@@ -57,7 +57,7 @@ export default {
         const route = useRoute()
         const router = useRouter()
         const store = useStore()
-        console.log(route.query.message);
+        // console.log(route.query.message);
         if(route.query.message){
             const resER = error(route.query.message)
             const body_D = { value:resER, type:'warning',}

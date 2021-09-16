@@ -105,9 +105,9 @@ export default {
 
       const sessions = computed(()=> store.getters['gettingInfo/sessions']
       .filter(session=>{
-        console.log(film.value.filmName);
+        // console.log(film.value.filmName);
         if(session.sessionFilmName===film.value.filmName){
-        console.log(session);
+        // console.log(session);
         return session
         }
         }))

@@ -153,7 +153,7 @@ export default {
 
             if(dateChosen.value){
                 let ordersWeNeed = ordersM.value.filter(order=>order.date===dateChosen.value)
-                console.log('orderWeNeed',ordersWeNeed);
+                // console.log('orderWeNeed',ordersWeNeed);
                 if(ordersWeNeed!==undefined){
                     occupiedPlaces.value = ordersWeNeed.map(order=>order.places)
                     // console.log(occupiedPlaces.value);

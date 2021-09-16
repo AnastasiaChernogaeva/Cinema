@@ -1,7 +1,7 @@
 <template> 
 <!-- <app-lo v-if="isReady==0"></app-lo v-ader> else-->
 <div>
-    <span name="Top">Main</span>
+    <!-- <span name="Top">Main</span> -->
     <all-active-movies ></all-active-movies>
     <all-sessions :search="search" ></all-sessions>
     <!-- <app-footer></app-footer> -->

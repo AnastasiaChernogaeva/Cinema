@@ -8,7 +8,7 @@
      
 </div> 
 <div class="content"><router-view :search="text"></router-view></div>
-   <app-footer></app-footer>
+   <app-footer @timeToSearchFilmSession="search"></app-footer>
 </div>
 </template>
 
