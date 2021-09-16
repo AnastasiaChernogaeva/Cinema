@@ -33,16 +33,16 @@ export function useLoginFormsClient(){
                     if(user.email === values.email && (user.nPassword === values.password||user.password === values.password)){
                         return user
                     }}))
-                // if(user == undefined){
-                //     // throw new Error({code: 400, message: "EMAIL_NOT_FOUND",})
-                //    await  store.dispatch('authClient/login', values)
+                if(user.value == undefined){
+                //    throw new Error({code: 400, message: "EMAIL_NOT_FOUND",})
+                   await  store.dispatch('authClient/login', values)
 
-                // }
-                // else{
-                    let hhInfoUser = {email:values.email, password:user.value.password}
+                }
+                else{
+                   let hhInfoUser = {email:values.email, password:user.value.password}
                    await  store.dispatch('authClient/login', user.value.nPassword?hhInfoUser:values)
                    router.push('/cinemaMain') 
-                // }
+                }
 
                    
                 

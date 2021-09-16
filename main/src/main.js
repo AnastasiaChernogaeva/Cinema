@@ -32,7 +32,7 @@ const firebaseConfig = {
   };
 
   firebase.initializeApp(firebaseConfig)
-  console.log(firebase);
+  // console.log(firebase);
 // console.log(firebase.storage());
 
 

@@ -1,7 +1,7 @@
 <template>
 <div>
     <span>Main</span>
-    <!-- <app-loader v-if="!userOrders&&sessions"></app-loader> -->
+    <!-- <app-loader v-if="loading"></app-loader> -->
     <div class="card" v-if="userOrders.length!==0 && sessions">
        <h2 >  Мои заказы </h2>
       <table class="table">
@@ -94,7 +94,7 @@ export default{
 
             sessions.value = computed(()=> store.getters['gettingInfo/sessions'])
 
-            watch(()=>[userOrders.value,sessions.value, userId.value], ()=>{return loading.value=!loading.value})
+            watch(()=>[userOrders.value,sessions.value, userId.value], ()=>{return loading.value=false})
 
 
           return{
