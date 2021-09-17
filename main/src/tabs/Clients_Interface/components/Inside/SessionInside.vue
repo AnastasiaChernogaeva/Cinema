@@ -23,7 +23,7 @@
 
       <hr/>
       <button class="btn" @click="findOut" v-if="!info" :disabled="!dateChosen">Выбрать места</button>
-      <hall class="hall" v-if="info" :info="info={'val':{...info}, id:session.hallnumber,}"  :book="isBooked" 
+       <hall class="hall" v-if="info" :info="info={'val':{...info}, id:session.hallnumber,}"  :book="isBooked" 
       @choosePlace="bookPlace" :occupiedPlaces="occupiedPlaces"></hall> 
       <div v-if="info && bookTickets">
       <div :class="[{'bookTicket':bookTickets}, ]" v-if="bookTickets.length!=0">
@@ -173,6 +173,7 @@ export default {
                            return cinema
                        }
                        })
+              
                        info.value = cinema.value.val[session.value.hallnumber]
                }
 

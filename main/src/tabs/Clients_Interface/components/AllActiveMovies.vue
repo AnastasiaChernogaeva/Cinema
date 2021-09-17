@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import {onMounted, ref, computed, watch} from "vue"
+import {onMounted, ref, computed, watch, onBeforeUnmount} from "vue"
 import { useStore } from 'vuex'
 // import AppLoader from '../../Admin_Portal/ui/AppLoader.vue'
 
@@ -293,6 +293,7 @@ export default {
             timerFilms();
         }
  
+ onBeforeUnmount(()=>clearTimer())
                 
          
      
