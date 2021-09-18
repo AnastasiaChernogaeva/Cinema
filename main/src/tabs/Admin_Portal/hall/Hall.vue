@@ -2,8 +2,8 @@
 <div class="container">
   <div class="card " >
       <h3>Зал №{{id}}</h3>
-      <row v-for="(row, idx) of info.rows " :key="idx" :places="info.places" :simplePl="info.simplePl" :vipPl="info.vipPl" :couplePl="info.couplePl" :rId="idx+1" @choosePlace="choosePlace" :book="book" @buyPlaces="buyPlaces"
-      :occupiedPlaces="occupiedPlaces && Array.from(occupiedPlaces).flat(2).filter(info=>info.row===idx+1)"></row>
+       <row v-for="(row, idx) of info.rows " :key="idx" :places="info.places" :simplePl="info.simplePl" :vipPl="info.vipPl" :couplePl="info.couplePl" :rId="idx+1" @choosePlace="choosePlace" :book="book" @buyPlaces="buyPlaces"
+      :occupiedPlaces="occupiedPlaces && Array.from(occupiedPlaces).flat(2).filter(info=>info.row===idx+1)"></row> 
       <!-- .filter(occupiedRow=>occupiedRow.filter(occupyPlaces=>occupyPlaces.row===idx+1) -->
   </div>
 </div>

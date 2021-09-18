@@ -23,8 +23,11 @@
 
       <hr/>
       <button class="btn" @click="findOut" v-if="!info" :disabled="!dateChosen">Выбрать места</button>
-       <hall class="hall" v-if="info" :info="info={'val':{...info}, id:session.hallnumber,}"  :book="isBooked" 
-      @choosePlace="bookPlace" :occupiedPlaces="occupiedPlaces"></hall> 
+       <!-- <hall class="hall" v-if="info" :info="info={'val':{...info}, id:session.hallnumber,}"  :book="isBooked" :occupiedPlaces="occupiedPlaces" @choosePlace="bookPlace" ></hall>  -->
+
+              <hall class="hall" v-if="info" :info="info"  :book="isBooked" :occupiedPlaces="occupiedPlaces" @choosePlace="bookPlace" ></hall>  
+
+
       <div v-if="info && bookTickets">
       <div :class="[{'bookTicket':bookTickets}, ]" v-if="bookTickets.length!=0">
           <h2>Забронировать билеты</h2>
@@ -174,7 +177,8 @@ export default {
                        }
                        })
               
-                       info.value = cinema.value.val[session.value.hallnumber]
+                       info.value ={'val':{...cinema.value.val[session.value.hallnumber]}, 'id':session.value.hallnumber, } 
+                    //    console.log(session.value.hallnumber)
                }
 
 
