@@ -19,6 +19,7 @@
           <input
                 type="number"
                 id="places"
+                max=15
                 v-model="places"
                 @blur="placesBlur"
         >
@@ -58,6 +59,60 @@
                 {{row}}</label>
             </div>
         </div>
+
+
+<!-- <hr/>
+        
+   <div class="form-checkbox" >
+
+            <span class="label">Выберите номера рядов с обычными местами</span> -->
+            <!-- <button class="btn" @click="checkedAllSimple=!checkedAllSimple">Выбрать все</button> :checked="checkedAllSimple"-->
+
+            <!-- <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
+                <label><input type="checkbox" name="simplePl" value="simplePl" @click="ifThisPlaceAdded(row)"  />{{row}}</label>
+            </div>
+        </div>
+
+        <div class="form-checkbox" >
+
+            <span class="label">Выберите номера рядов с VIP местами</span> -->
+            <!-- <button class="btn" @click="checkedAllVip=!checkedAllVip">Выбрать все</button> :checked="checkedAllVip"-->
+<!-- 
+
+            <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
+                <label><input type="checkbox" name="vipPl" value="vipPl" @click="ifThisPlaceAdded(row)"  />{{row}}</label>
+            </div>
+        </div>
+
+        <div class="form-checkbox" >
+
+            <span class="label">Выберите номера рядов с местами для двоих
+                 </span> -->
+           
+<!-- <button class="btn" @click="checkedAllCouple=!checkedAllCouple">Выбрать все</button> :checked="checkedAllCouple"-->
+
+            <!-- <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
+                <label><input type="checkbox" name="couplePl" value="couplePl" @click="ifThisPlaceAdded(row)"  />
+                {{row}}</label>
+            </div>
+        </div>
+
+
+
+
+
+ -->
+
+
+
+
+
+
+
+
+
+
+
 
         <button class="btn" type="submit" :disabled="isSubmitting">Сохранить</button>
     </form>
@@ -126,6 +181,19 @@ export default {
 
         const onSubmit = handleSubmit(save)
 
+        
+
+        // const ifThisPlaceAdded = (row)=>{
+            
+        //     console.log(simplePl.value.includes(row))
+        //     console.log(vipPl.value.includes(row))
+        //     console.log(couplePl.value.includes(row))
+            
+
+
+
+        // }
+
         // rowsArr.value=rows.map(row=>row)
 
 
@@ -141,8 +209,9 @@ export default {
             info,
             isReadyHall,
             checkedAllCouple, checkedAllVip, checkedAllSimple,
-            isSubmitting,onSubmit
+            isSubmitting,onSubmit,
             // chooseAll
+            // ifThisPlaceAdded
         }
     }
 }
