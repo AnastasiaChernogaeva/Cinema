@@ -359,12 +359,27 @@ div.input-filter.form-control{
           padding: 0.5rem .2rem;
           letter-spacing: 0.035em;
       }
-        div.session.container ul>li{
+        div.session.container{
+            flex-direction: column; 
+         }
+         .button-filter{
+             flex-direction: column;
+         }
+         .button-filter div{
+             margin-bottom: 2%;
+         }
+         button.btn{
+             font-size: 12px;
+         }
+         h1{
+             font-size:1rem;
+         }
+        /* div.session.container ul>li{
               font-size: 8px;
-      }
-      h3 {
+      } */
+      /* h3 {
             font-size: 0.75rem;
-    }
+    } */
    }
        
 </style>

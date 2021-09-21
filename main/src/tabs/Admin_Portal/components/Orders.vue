@@ -43,11 +43,10 @@
 </template>
 
 <script>
-import { ref, watch } from "vue";
+import { ref, watch, onMounted, computed,  } from "vue";
 import {date,} from '../use/date'
 import { currency  } from "../use/currency";
 import AppStatus from "../ui/AppStatus.vue";
-import { onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
@@ -71,20 +70,21 @@ export default {
                 if(newValue!==oldValue){
                   let arrOrdersKey = Object.keys(props.orders)
                     for (let index = 0; index < arrOrdersKey.length; index++) {
-                      total.value.push(newValue[index].sum)
+                      // total.value.push(newValue[index].sum)
+                      total.value+=newValue[index].sum
+
                       
                     }
                     // console.log(total.value);
                 } else{
                 }})
 
-let arrOrdersKey = Object.keys(props.orders)
+                  let arrOrdersKey = Object.keys(props.orders)
                     for (let index = 0; index < arrOrdersKey.length; index++) {
                       total.value+=props.orders[index].sum
                       
                     }
-
-
+  
 
     return{
       total,
