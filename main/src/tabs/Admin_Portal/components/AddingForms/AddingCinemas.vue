@@ -40,7 +40,7 @@
       </div>
    </div>
 
-    <button class="btn primary" type="submit" :disabled="isSubmitting || tooManyAttemptsAmount" >Добавить</button>      
+    <button class="btn primary" type="submit" :disabled="isSubmitting" >Добавить</button>      
 
    </form> 
 </template>
