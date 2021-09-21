@@ -41,8 +41,8 @@
               <ul>
                   <li><b>город:</b>&nbsp;{{session.cityName}}</li>
             
-                  <li><router-link class="insideIfo" v-slot="{navigate}" custom :to="{name:'ccinema', params:{idc:cinemas.find(cinema=>cinema.cinemaName===session.chosenCinemaName).id}}"><b>кинотеатр:</b>&nbsp;<span @click="navigate">{{session.chosenCinemaName}}</span></router-link></li>
-                  <li><router-link class="insideIfo" v-slot="{navigate}" custom :to="{name:'csession', params:{ids:session.id}}"><b>время показа:</b>&nbsp;<span @click="navigate">{{session.startSessionTime}}</span></router-link></li>
+                  <li><router-link class="insideIfo" v-slot="{navigate}"  :to="{name:'ccinema', params:{idc:cinemas.find(cinema=>cinema.cinemaName===session.chosenCinemaName).id}}"><b>кинотеатр:</b>&nbsp;<span @click="navigate">{{session.chosenCinemaName}}</span></router-link></li>
+                  <li><router-link class="insideIfo" v-slot="{navigate}"  :to="{name:'csession', params:{ids:session.id}}"><b>время показа:</b>&nbsp;<span @click="navigate">{{session.startSessionTime}}</span></router-link></li>
               </ul>
               
      </div>

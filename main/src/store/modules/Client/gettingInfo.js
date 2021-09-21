@@ -30,10 +30,10 @@ export default {
                 //  commit('addRequest',{...payload, id:data.name});
                  // console.log({data})
                      const body_D = {value:'Добавление прошло успешно', type:'primary',}
-                     dispatch('client/setMess', body_D , {root:true,})
+                     dispatch('clients/setMess', body_D , {root:true,})
             }catch(e){
              const body_D = {value:e.message, type:'danger',}
-             dispatch('client/setMess', body_D , {root:true,})
+             dispatch('clients/setMess', body_D , {root:true,})
             }
          },
         
@@ -84,7 +84,13 @@ export default {
                         key = kkey
                     }
                 })
-                const {data:inData} =  await axios.post(`/${payload.rType}.json`, {...payload.info, uid:key, })
+                if(key===undefined){
+                    commit('authClient/logout', null, {root:true,})
+                }
+                else{
+                    const {data:inData} =  await axios.post(`/${payload.rType}.json`, {...payload.info, uid:key, })
+                }
+                
                 // console.log(inData);
                 // await store.dispatch('gettingInfo/load', {rType:'orders'})
                 // commit('addRequestsMeaning',{rType:payload.rType, info:{...payload.info, uid:key, },});

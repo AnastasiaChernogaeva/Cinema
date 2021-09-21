@@ -202,6 +202,7 @@ export default {
                      }
                     isBooked.value = true
                     boughtTickets.value = bookTickets.value
+                    console.log('tickets',boughtTickets.value)
                 
 
                     await store.dispatch('gettingInfo/buyTickets',{

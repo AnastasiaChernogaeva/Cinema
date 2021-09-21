@@ -1,5 +1,5 @@
 <template>
-    <div class="row" v-if="$route.path.split('/')[1]==='cinema'"  >
+    <div class="row" v-if="$route.path.split('/')[1]==='cinema'&&!$route.path.split('/')[2].includes('ccinema')"  >
         <div class="small">{{rId}}</div>
         <div class="place" v-for="(place,idx) in places" :key="idx" @click="choosePlace(idx+1, rId)" >
     <span class="indx" 
@@ -63,7 +63,7 @@ export default {
             'book',
             'occupiedPlaces'
     ],
-    emits:['choosePlace'],
+    emits:['choosePlace', 'buyPlaces'],
     setup(props, {emit}){
         const route = useRoute()
         const store = useStore()
