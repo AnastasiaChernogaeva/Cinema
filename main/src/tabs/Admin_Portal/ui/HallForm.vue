@@ -65,7 +65,7 @@
             <!-- <button class="btn" @click="checkedAllSimple=!checkedAllSimple">Выбрать все</button> :checked="checkedAllSimple"   :key="changeSimpleView!==0&&idx===?changeSimpleView:0"-->
 
             <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
-                <label><input type="checkbox" name="simplePl" :value="simplePl" @click="ifThisPlaceAdded(row, 'simple')"  :key="changeSimpleView" />{{row}}</label>
+                <label><input type="checkbox" name="simplePl" :value="simplePl" @click="ifThisPlaceAdded(row, 'simple', idx+1)"  :key="idx+1===changeSimpleView?(changeSimpleView*-1):idx" />{{row}}</label>
             </div>
         </div>
 
@@ -76,7 +76,7 @@
 
 
             <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
-                <label><input type="checkbox" name="vipPl" :value="vipPl" @click="ifThisPlaceAdded(row, 'vip')" :key="changeVIPView" />{{row}}</label>
+                <label><input type="checkbox" name="vipPl" :value="vipPl" @click="ifThisPlaceAdded(row, 'vip', idx+1)" :key="idx+1===changeVIPView?(changeVIPView*-1):idx" />{{row}}</label>
             </div>
         </div>
 
@@ -88,7 +88,7 @@
 <!-- <button class="btn" @click="checkedAllCouple=!checkedAllCouple">Выбрать все</button> :checked="checkedAllCouple"-->
 
             <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
-                <label><input type="checkbox" name="couplePl" :value="couplePl" @click="ifThisPlaceAdded(row, 'couple')" :key="changeCoupleView" />
+                <label><input type="checkbox" name="couplePl" :value="couplePl" @click="ifThisPlaceAdded(row, 'couple', idx+1)" :key="idx+1===changeCoupleView?(changeCoupleView*-1):idx" />
                 {{row}}</label>
             </div>
         </div>
@@ -181,19 +181,19 @@ export default {
         const changeCoupleView = ref(0)
         const changeVIPView = ref(0)
 
-        const ifThisPlaceAdded = (row, placeType,)=>{
+        const ifThisPlaceAdded = (row, placeType, idx)=>{
             switch(placeType){
 
                 case 'simple':
                     if(couplePl.value.includes(row)){
                         let ind = couplePl.value.findIndex(elem=>elem==row)
                         couplePl.value.splice(ind,1)
-                        changeCoupleView.value--
+                        changeCoupleView.value=idx
                     }
                     else if(vipPl.value.includes(row)){
                         let ind = vipPl.value.findIndex(elem=>elem==row)
                         vipPl.value.splice(ind,1)
-                        changeVIPView.value--
+                        changeVIPView.value=idx
 
                     }
                     // changeSimpleView.value++
@@ -205,12 +205,12 @@ export default {
                     if(couplePl.value.includes(row)){
                         let ind = couplePl.value.findIndex(elem=>elem==row)
                         couplePl.value.splice(ind,1)
-                        changeCoupleView.value--
+                        changeCoupleView.value=idx
                     }
                     else if(simplePl.value.includes(row)){
                         let ind = simplePl.value.findIndex(elem=>elem==row)
                         simplePl.value.splice(ind,1)
-                        changeSimpleView.value--
+                        changeSimpleView.value=idx
 
                     }
                     vipPl.value.push(row)
@@ -222,13 +222,13 @@ export default {
                     if(vipPl.value.includes(row)){
                         let ind = vipPl.value.findIndex(elem=>elem==row)
                         vipPl.value.splice(ind,1)
-                        changeVIPView.value--
+                        changeVIPView.value=idx
 
                     }
                     else if(simplePl.value.includes(row)){
                         let ind = simplePl.value.findIndex(elem=>elem==row)
                         simplePl.value.splice(ind,1)
-                        changeSimpleView.value--
+                        changeSimpleView.value=idx
                     }
                     couplePl.value.push(row)
                     // changeCoupleView.value++
