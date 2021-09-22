@@ -26,83 +26,42 @@
          <small v-if="placesError">{{placesError}}</small>
 
     </div>
-        <!-- <div class="form-checkbox" >
-
-            <span class="label">Выберите номера рядов с обычными местами</span>
-
-            <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
-                <label><input type="checkbox" name="simplePl" v-model="simplePl" :value="row" />{{row}}</label>
-            </div>
-        </div>
-
-        <div class="form-checkbox" >
-
-            <span class="label">Выберите номера рядов с VIP местами</span>
-
-
-            <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
-                <label><input type="checkbox" name="vipPl" v-model="vipPl" :value="row" />{{row}}</label>
-            </div>
-        </div>
-
-        <div class="form-checkbox" >
-
-            <span class="label">Выберите номера рядов с местами для двоих
-                 </span>
-
-            <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
-                <label><input type="checkbox" name="couplePl" v-model="couplePl" :value="row" />
-                {{row}}</label>
-            </div>
-        </div> -->
-
-
- <hr/>
         
    <div class="form-checkbox" >
 
             <span class="label">Выберите номера рядов с обычными местами</span> 
-            <!-- <button class="btn" @click="checkedAllSimple=!checkedAllSimple">Выбрать все</button> :checked="checkedAllSimple"   :key="changeSimpleView!==0&&idx===?changeSimpleView:0"-->
+            <input type="button" class="btn" @click="checkAllPLaces('simple')" value="Выбрать все"/> 
+
 
             <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
-                <label><input type="checkbox" name="simplePl" :value="simplePl" @click="ifThisPlaceAdded(row, 'simple', idx+1)"  :key="idx+1===changeSimpleView?(changeSimpleView*-1):idx" />{{row}}</label>
+                <label><input type="checkbox" name="simplePl" :value="simplePl" @click="ifThisPlaceAdded(row, 'simple', idx+1)"  :key="idx+1===changeSimpleView?(changeSimpleView*-1):idx"  :checked="checkedAllSimple===true"/>{{row}}</label>
             </div>
         </div>
 
         <div class="form-checkbox" >
 
             <span class="label">Выберите номера рядов с VIP местами</span>
-            <!-- <button class="btn" @click="checkedAllVip=!checkedAllVip">Выбрать все</button> :checked="checkedAllVip"-->
+            <input type="button" class="btn" @click="checkAllPLaces('vip')" value="Выбрать все"/> 
+
 
 
             <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
-                <label><input type="checkbox" name="vipPl" :value="vipPl" @click="ifThisPlaceAdded(row, 'vip', idx+1)" :key="idx+1===changeVIPView?(changeVIPView*-1):idx" />{{row}}</label>
+                <label><input type="checkbox" name="vipPl" :value="vipPl" @click="ifThisPlaceAdded(row, 'vip', idx+1)" :key="idx+1===changeVIPView?(changeVIPView*-1):idx" :checked="checkedAllVip===true" />{{row}}</label>
             </div>
         </div>
 
-        <div class="form-checkbox" >
+        <div class="form-checkbox"  >
 
-            <span class="label">Выберите номера рядов с местами для двоих
-                 </span>
+            <span class="label">Выберите номера рядов с местами для двоих </span>
            
-<!-- <button class="btn" @click="checkedAllCouple=!checkedAllCouple">Выбрать все</button> :checked="checkedAllCouple"-->
+            <input type="button" class="btn" @click="checkAllPLaces('couple')" value="Выбрать все"/> 
+
 
             <div class="checkbox" v-for="(row, idx) in rows" :key="idx">
-                <label><input type="checkbox" name="couplePl" :value="couplePl" @click="ifThisPlaceAdded(row, 'couple', idx+1)" :key="idx+1===changeCoupleView?(changeCoupleView*-1):idx" />
+                <label><input type="checkbox" name="couplePl" :value="couplePl" @click="ifThisPlaceAdded(row, 'couple', idx+1)" :key="idx+1===changeCoupleView?(changeCoupleView*-1):idx" :checked="checkedAllCouple===true" />
                 {{row}}</label>
             </div>
         </div>
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -132,18 +91,21 @@ export default {
     props:['id'],
     emits:['hall'],
     setup( props, {emit},){
-        // const rows = ref()
-        // const places = ref()
         const simplePl = ref([])
         const vipPl = ref([])
         const couplePl = ref([])
+
         const info =  reactive ({})
+
         const open = ref(false)
         const isReadyHall = ref(false)
+
         const checkedAllCouple = ref(false)
         const checkedAllVip = ref(false)
         const checkedAllSimple = ref(false)
-        // const rowsArr = ref([])
+
+     
+
 
 
 
@@ -170,7 +132,6 @@ export default {
                 },                
                 id:props.id,
             }
-            // console.log(info.value);
             isReadyHall.value = true
             emit('hall',info)
         }
@@ -196,7 +157,6 @@ export default {
                         changeVIPView.value=idx
 
                     }
-                    // changeSimpleView.value++
                     simplePl.value.push(row)
                 break;
 
@@ -214,7 +174,6 @@ export default {
 
                     }
                     vipPl.value.push(row)
-                    // changeVIPView.value++
                 break;  
 
 
@@ -231,30 +190,85 @@ export default {
                         changeSimpleView.value=idx
                     }
                     couplePl.value.push(row)
-                    // changeCoupleView.value++
                 break;
 
             }
 
-
-
-
-
-            // console.log(simplePl.value.includes(row))
-            // console.log(vipPl.value.includes(row))
-            // console.log(couplePl.value.includes(row))
-            
-
-
-
         }
 
-        // rowsArr.value=rows.map(row=>row)
+
+        const checkAllPLaces = (placeType) =>{
+                switch(placeType){
+
+                case 'simple':
+                    if(couplePl.value.length!=0){
+                        couplePl.value=[]
+                        checkedAllCouple.value=!checkedAllCouple.value
+                    }
+                    else if(vipPl.value.length!=0){
+                        vipPl.value=[]
+                        checkedAllVip.value=!checkedAllVip.value
+                    }
+                    if(simplePl.value.length!=0){
+                        simplePl.value=[]
+                    }
+                    else{
+                         for (let i=1; i<=rows.value; i++){
+                        simplePl.value.push(i)
+                    }
+                    }
+                   checkedAllSimple.value=!checkedAllSimple.value
+                break;
+
+
+                case 'vip':
+                    if(couplePl.value.length!=0){
+                        couplePl.value=[]
+                        checkedAllCouple.value=!checkedAllCouple.value
+                    }
+                    else if(simplePl.value.length!=0){
+                        simplePl.value=[]
+                        checkedAllSimple.value=!checkedAllSimple.value
+                    }
+                    if(vipPl.value.length!=0){
+                        vipPl.value=[]
+                    }
+                    else{
+                     for (let i=1; i<=rows.value; i++){
+                        vipPl.value.push(i)
+                    }
+                    }
+                    checkedAllVip.value=!checkedAllVip.value
+                break;  
+
+
+                case 'couple':
+                    if(vipPl.value.length!=0){
+                        vipPl.value=[]
+                        checkedAllVip.value=!checkedAllVip.value
+                    }
+                    else if(simplePl.value.length!=0){
+                        simplePl.value=[]
+                        checkedAllSimple.value=!checkedAllSimple.value
+                    }
+                    if(couplePl.value.length!=0){
+                        couplePl.value=[]
+                    }
+                    else{
+                    for (let i=1; i<=rows.value; i++){
+                        couplePl.value.push(i)
+                    }
+                    }
+                    checkedAllCouple.value=!checkedAllCouple.value
+                break;
+
+            }
+        }
+
 
 
         return{
             rowsError, rowsBlur,
-            // save,
             rows,
             places, placesBlur, placesError,
             simplePl,
@@ -265,11 +279,11 @@ export default {
             isReadyHall,
             checkedAllCouple, checkedAllVip, checkedAllSimple,
             isSubmitting,onSubmit,
-            // chooseAll
             ifThisPlaceAdded,
             changeSimpleView,
             changeCoupleView,
             changeVIPView,
+            checkAllPLaces,
         }
     }
 }
