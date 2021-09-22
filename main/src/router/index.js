@@ -196,6 +196,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next)=>{
+    try{
     if(/^\/admin/.test(to.path)){
         const requireAuthAdmin = to.meta.authAdmin
         if(requireAuthAdmin && store.getters['authAdmin/isAuthenticated']){
@@ -218,7 +219,10 @@ router.beforeEach((to, from, next)=>{
         }
        
     }
-    
+    }
+    catch(e){
+        console.log(e);
+    }
    
 })
 
